@@ -30,6 +30,7 @@ public class lecturerController implements lecturerControllerLocal {
     EntityManager em;
     
     Lecturer lecturer;
+    Student student;
     
     @Override
     public Lecturer createLecturer(String username, String password, String name, String email,
@@ -70,4 +71,6 @@ public class lecturerController implements lecturerControllerLocal {
         }
         return true;
     }
+    
+    
 }

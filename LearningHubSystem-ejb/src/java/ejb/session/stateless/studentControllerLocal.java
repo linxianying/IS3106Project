@@ -20,4 +20,8 @@ public interface studentControllerLocal {
     boolean addNewStudent(String name, String password, String email, 
             String faculty, String department, String telephone, String username);
     Student findStudent(String username);
+    
+    boolean updateStudentTelephone(String username, String telephone);
+    boolean updateStudentPassword(String username, String password);
+    boolean updateStudentEmail(String username, String email);
 }

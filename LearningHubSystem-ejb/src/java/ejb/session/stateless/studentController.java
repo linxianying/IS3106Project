@@ -69,5 +69,45 @@ public class studentController implements studentControllerLocal {
         return true;
     }
     
+    @Override
+    public boolean updateStudentEmail(String username, String email) {
+        
+        student = findStudent(username);
+        
+        if (student==null) {
+            System.out.println("Error: No student is found");
+            return false;
+        }
+        student.setEmail(email);
+        em.merge(student);
+        return true;
+    }
     
+    @Override
+    public boolean updateStudentPassword(String username, String password) {
+        
+        student = findStudent(username);
+        
+        if (student==null) {
+            System.out.println("Error: No student is found");
+            return false;
+        }
+        student.setPassword(password);
+        em.merge(student);
+        return true;
+    }
+    
+    @Override
+    public boolean updateStudentTelephone(String username, String telephone) {
+        
+        student = findStudent(username);
+        
+        if (student==null) {
+            System.out.println("Error: No student is found");
+            return false;
+        }
+        student.setTelephone(telephone);
+        em.merge(student);
+        return true;
+    }
 }
