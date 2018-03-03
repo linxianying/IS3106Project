@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Student;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +14,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface studentControllerLocal {
-    
+
+    Student createStudent(String name, String password, String email, 
+            String faculty, String department, String telephone, String username);
+    boolean addNewStudent(String name, String password, String email, 
+            String faculty, String department, String telephone, String username);
+    Student findStudent(String username);
 }
