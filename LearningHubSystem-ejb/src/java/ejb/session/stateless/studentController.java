@@ -5,7 +5,12 @@
  */
 package ejb.session.stateless;
 
+import entity.Lecturer;
+import entity.Administrator;
+import entity.Announcement;
+import entity.Module;
 import entity.Student;
+import entity.TeachingAssistant;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

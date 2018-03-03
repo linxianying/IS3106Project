@@ -65,7 +65,8 @@ public class Lecturer implements Serializable {
         this.isPremium = false;
     }
 
-    public Lecturer(String username, String password, String name, String email, String faculty, String department, String telephone) {
+    public Lecturer(String username, String password, String name, String email,
+            String faculty, String department, String telephone) {
         this.username = username;
         this.password = password;
         this.name = name;

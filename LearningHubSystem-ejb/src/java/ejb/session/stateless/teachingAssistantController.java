@@ -6,7 +6,12 @@
 package ejb.session.stateless;
 
 import javax.ejb.Stateless;
-
+import entity.Lecturer;
+import entity.Administrator;
+import entity.Announcement;
+import entity.Module;
+import entity.Student;
+import entity.TeachingAssistant;
 /**
  *
  * @author mango
