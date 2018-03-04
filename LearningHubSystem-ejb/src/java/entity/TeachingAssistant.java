@@ -60,7 +60,8 @@ public class TeachingAssistant implements Serializable {
         this.isPremium = false;
     }
 
-    public TeachingAssistant(String username, String password, String name, String email, String faculty, String telephone, String department) {
+    public TeachingAssistant(String username, String password, String name, 
+            String email, String faculty, String telephone, String department) {
         this.username = username;
         this.password = password;
         this.name = name;
