@@ -27,8 +27,8 @@ import javax.persistence.Temporal;
 public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @Column(length = 32, nullable = false, unique = true)
     private String moduleName;
@@ -74,11 +74,11 @@ public class Module implements Serializable {
         this.examDate = examDate;
     }
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

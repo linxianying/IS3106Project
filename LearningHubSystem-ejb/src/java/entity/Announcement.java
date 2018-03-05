@@ -24,8 +24,8 @@ import javax.persistence.Temporal;
 public class Announcement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @Column(length = 64, nullable = false)
     private String name;
@@ -54,11 +54,11 @@ public class Announcement implements Serializable {
         this.module = module;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

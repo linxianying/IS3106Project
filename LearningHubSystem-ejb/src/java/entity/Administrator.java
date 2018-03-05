@@ -20,8 +20,8 @@ import javax.persistence.Id;
 public class Administrator implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @Column(length = 32, nullable = false)
     private String name;
@@ -56,11 +56,11 @@ public class Administrator implements Serializable {
         this.isPremium = false;
     }
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
