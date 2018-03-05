@@ -7,14 +7,15 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Learning Hub System Login Page</title>
+        <h:outputStylesheet name="./css/newcss.css" />
     </h:head>
     <h:body>
-        <form>
+        <form class="form-labels-on-top">
             <div class="form-row">
                 <label>
                     <span>Username</span>
                     <p:inputText styleClass="textInput" id="username" value="#{loginBean.username}" 
-                         required="true" requiredMessage="Please enter your username!" 
+                         required="true" requiredMessage="Please enter your username" 
                          placeholder="Username"
                          validatorMessage="Username must be between 6-12 letters/numbers.">
                     <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
@@ -25,7 +26,7 @@
                 <label>
                     <span>Password</span>
                     <p:password styleClass="textInput" id="password" value="#{loginBean.password}" 
-                    required="true" requiredMessage="Please enter your password!" 
+                    required="true" requiredMessage="Please enter your password" 
                     placeholder="Password"/>
                 </label>
             </div>
