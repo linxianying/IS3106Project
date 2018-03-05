@@ -13,7 +13,7 @@ and open the template in the editor.
     max-width: 475px;
     margin: 0 auto;
     padding: 55px;
-    height: 800px;
+    height: 100%;
 
     background-color:  #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
