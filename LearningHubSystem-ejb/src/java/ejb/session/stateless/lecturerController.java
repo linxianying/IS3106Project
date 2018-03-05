@@ -6,71 +6,155 @@
 package ejb.session.stateless;
 
 import entity.Lecturer;
-import entity.Administrator;
-import entity.Announcement;
-import entity.Module;
-import entity.Student;
-import entity.TeachingAssistant;
+import java.util.ArrayList;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.LecturerExistException;
+import util.exception.LecturerNotFoundException;
 
 /**
  *
  * @author mango
  */
 @Stateless
+@Local(lecturerControllerLocal.class)
+
 public class lecturerController implements lecturerControllerLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    @PersistenceContext
-    EntityManager em;
+    @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
+    private EntityManager em;
+
     
-    Lecturer lecturer;
-    Student student;
     
     @Override
-    public Lecturer createLecturer(String username, String password, String name, String email,
-            String faculty, String department, String telephone) {
-        lecturer = new Lecturer(username, password, name, email,faculty, department, telephone);
+    public ArrayList<Lecturer> retrieveAllLecturers() {
+        Query query = em.createQuery("SELECT l FROM Lecturer l");
+        return (ArrayList<Lecturer>) query.getResultList();
+        
+    }
+    
+    
+    
+    @Override
+    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException {
+
+        ArrayList<Lecturer> lecturerList = retrieveAllLecturers();
+        for (Lecturer lec : lecturerList) {
+            if (lecturer.getUsername().equals(lec.getUsername()))
+            {
+                throw new LecturerExistException("Lecturer Account Already Exist.\n");
+            }
+        }
         em.persist(lecturer);
         em.flush();
+        
         return lecturer;
     }
     
-    @Override
-    public Lecturer findLecturer(String username){
-        lecturer = null;
-        try{
-            Query q = em.createQuery("SELECT s FROM Lecturer s WHERE s.username=:username");
-            q.setParameter("username", username);
-            lecturer = (Lecturer) q.getSingleResult();
-            System.out.println("Lecturer " + username + " found.");
-        }
-        catch(NoResultException e){
-            System.out.println("Lecturer " + username + " does not exist.");
-            lecturer = null;
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return lecturer;
-    }
+   
+    
     
     @Override
-    public boolean addNewLecturer(String username, String password, String name, String email,
-            String faculty, String department, String telephone){
-        lecturer = findLecturer(username);
-        if(lecturer==null){
-            lecturer = createLecturer(username, password, name, email,faculty, department, telephone);
-            System.out.println("Lecturer with id " + lecturer.getId() +" is created successfully.");
-            return true;
+    public Lecturer retrieveLecturerById(Long lecturerId) throws LecturerNotFoundException {
+        Lecturer lec = em.find(Lecturer.class, lecturerId);
+        
+        if (lec != null) {
+            return lec;
+        } else {
+            throw new LecturerNotFoundException("Lecturer with specified ID not found");
         }
-        return true;
     }
     
     
+    
+    
+    @Override
+    public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException {
+        Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.username=:inUsername");
+        query.setParameter("inUsername", username);
+        Lecturer lec = (Lecturer) query.getSingleResult();
+        
+        if (lec != null) {
+            return lec;
+        } else {
+            throw new LecturerNotFoundException("Lecturer with specified username not found");
+        }
+    }
+    
+    
+    
+    
+    @Override
+    public Lecturer retrieveLecturerByEmail(String email) throws LecturerNotFoundException {
+        Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.email=:inEmail");
+        query.setParameter("inEmail", email);
+        Lecturer lec = (Lecturer) query.getSingleResult();
+        
+        if (lec != null) {
+            return lec;
+        } else {
+            throw new LecturerNotFoundException("Lecturer with specified email not found");
+        }
+    }
+    
+    
+    
+    @Override
+    public Lecturer retrieveLecturerByPhoneNum(String phoneNum) throws LecturerNotFoundException {
+        Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.telephone:inTelephone");
+        query.setParameter("inTelephone", phoneNum);
+        Lecturer lec = (Lecturer) query.getSingleResult();
+        
+        if (lec != null) {
+            return lec;
+        } else {
+            throw new LecturerNotFoundException("Lecturer with specified telephone number not found");
+        }
+    }
+    
+
+
+
+    @Override
+    public Lecturer lecturerLogin(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException {
+        try {
+            Lecturer lecturer = retrieveLecturerByUsername(username);
+            
+            if (lecturer.getPassword().equals(password)) {
+                lecturer.getModules().size();
+                lecturer.getAnnouncements().size();
+                return lecturer;
+            } else {
+                throw new InvalidLoginCredentialException("Account does not exist or invalid password!");
+            }
+        } catch (LecturerNotFoundException ex) {
+            throw new InvalidLoginCredentialException("Account does not exist or invalid password!");
+        }
+    }
+    
+    
+    
+    @Override
+    public void changePassword(String newPassword, Long lecturerId) throws LecturerNotFoundException {
+        Lecturer lec = retrieveLecturerById(lecturerId);
+        
+        lec.setPassword(newPassword);
+        
+        
+        updateLecturer(lec);
+        
+    }
+    
+  
+    
+    @Override
+    public void updateLecturer(Lecturer lec) {
+        em.merge(lec);
+    }
+
+   
 }

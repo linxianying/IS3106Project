@@ -6,7 +6,11 @@
 package ejb.session.stateless;
 
 import entity.Lecturer;
+import java.util.ArrayList;
 import javax.ejb.Local;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.LecturerExistException;
+import util.exception.LecturerNotFoundException;
 
 /**
  *
@@ -14,9 +18,23 @@ import javax.ejb.Local;
  */
 @Local
 public interface lecturerControllerLocal {
-    Lecturer findLecturer(String username);
-    Lecturer createLecturer(String username, String password, String name, String email,
-            String faculty, String department, String telephone);
-    boolean addNewLecturer(String username, String password, String name, String email,
-            String faculty, String department, String telephone);
+
+    public ArrayList<Lecturer> retrieveAllLecturers();
+
+    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException;
+
+    public Lecturer retrieveLecturerById(Long lecturerId) throws LecturerNotFoundException;
+
+    public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException;
+
+    public Lecturer retrieveLecturerByEmail(String email) throws LecturerNotFoundException;
+
+    public Lecturer retrieveLecturerByPhoneNum(String phoneNum) throws LecturerNotFoundException;
+
+    public Lecturer lecturerLogin(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException;
+
+    public void updateLecturer(Lecturer lec);
+
+    public void changePassword(String newPassword, Long lecturerId) throws LecturerNotFoundException;
+    
 }
