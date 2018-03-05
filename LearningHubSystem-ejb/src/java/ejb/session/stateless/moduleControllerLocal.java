@@ -5,7 +5,14 @@
  */
 package ejb.session.stateless;
 
+import entity.Lecturer;
+import entity.Module;
+import entity.Student;
+import entity.TeachingAssistant;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 
 /**
  *
@@ -13,5 +20,15 @@ import javax.ejb.Local;
  */
 @Local
 public interface moduleControllerLocal {
-    
+    public List<Module> retrieveAllModules();
+
+    Module createNewModule(Module newModule) throws ModuleExistException;
+
+    Module retrieveModuleByModuleCode(String moduleCode) throws ModuleNotFoundException;
+
+    Module addLecturer(String moduleCode, Lecturer lecturer) throws ModuleNotFoundException;
+
+    Module addTA(TeachingAssistant TA, String moduleCode) throws ModuleNotFoundException;
+
+    Module addStudent(Student student, String moduleCode) throws ModuleNotFoundException;
 }

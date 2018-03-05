@@ -5,7 +5,14 @@
  */
 package ejb.session.stateless;
 
+import entity.Administrator;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.AdminExistException;
+import util.exception.AdminNotFoundException;
+import util.exception.GeneralException;
+import util.exception.InvalidLoginCredentialException;
+import util.exception.PasswordChangeException;
 
 /**
  *
@@ -13,5 +20,18 @@ import javax.ejb.Local;
  */
 @Local
 public interface administratorControllerLocal {
+
+    Administrator createNewAmin(Administrator admin) throws AdminExistException;
+
+    List<Administrator> retrieveAllAdmins();
+
+    Administrator retrieveAdminByUsername(String username) throws AdminNotFoundException;
+
+    Administrator retrieveAdminById(Long id) throws AdminNotFoundException;
     
+    Administrator adminLogin(String username, String password) throws InvalidLoginCredentialException, AdminNotFoundException;
+    
+    void changePassword(String currentPassword, String newPassword, Long adminId) throws AdminNotFoundException, PasswordChangeException;
+    
+    Administrator updateAdmin(Administrator admin) throws AdminExistException, GeneralException;
 }

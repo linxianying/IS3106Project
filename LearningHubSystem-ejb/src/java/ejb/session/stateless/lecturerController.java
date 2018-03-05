@@ -11,10 +11,13 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.LecturerExistException;
 import util.exception.LecturerNotFoundException;
+import util.exception.PasswordChangeException;
 
 /**
  *
@@ -29,15 +32,12 @@ public class lecturerController implements lecturerControllerLocal {
     private EntityManager em;
 
     
-    
     @Override
     public ArrayList<Lecturer> retrieveAllLecturers() {
         Query query = em.createQuery("SELECT l FROM Lecturer l");
         return (ArrayList<Lecturer>) query.getResultList();
         
     }
-    
-    
     
     @Override
     public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException {
@@ -139,21 +139,39 @@ public class lecturerController implements lecturerControllerLocal {
     
     
     @Override
-    public void changePassword(String newPassword, Long lecturerId) throws LecturerNotFoundException {
-        Lecturer lec = retrieveLecturerById(lecturerId);
+    public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException {
+        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        }
         
-        lec.setPassword(newPassword);
-        
-        
-        updateLecturer(lec);
-        
+        try{
+            Lecturer lec = retrieveLecturerById(lecturerId);
+            if(currentPassword.equals(lec.getPassword())){
+                lec.setPassword(newPassword);
+                em.merge(lec);
+            }
+            else{
+                throw new PasswordChangeException("Password change Failed: Current password is wrong");
+            }
+        }
+        catch(LecturerNotFoundException ex){
+            throw new LecturerNotFoundException("Lecturer with ID " + lecturerId + "does not exist.");
+        }  
     }
     
-  
-    
     @Override
-    public void updateLecturer(Lecturer lec) {
-        em.merge(lec);
+    public Lecturer updateLecturer(Lecturer lec) throws LecturerExistException, GeneralException{
+        try {
+            return em.merge(lec);
+        } catch (PersistenceException ex) {
+            if (ex.getCause() != null
+                    && ex.getCause().getCause() != null
+                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
+                throw new LecturerExistException("Lecturer with same username/phone number/email already exist");
+            } else {
+                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
+            }
+        }
     }
 
    

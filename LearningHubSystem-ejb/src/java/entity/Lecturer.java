@@ -6,8 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,10 +54,10 @@ public class Lecturer implements Serializable {
     
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Lecturer_Module")
-    private Collection<Module> modules;
+    private List<Module> modules;
     
     @OneToMany(cascade={CascadeType.ALL},mappedBy="lecturer")
-    private Collection<Announcement> announcements;
+    private List<Announcement> announcements;
 
     //default constructor
     public Lecturer() {
@@ -150,19 +149,19 @@ public class Lecturer implements Serializable {
         this.isPremium = isPremium;
     }
 
-    public Collection<Module> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
 
-    public void setModules(Collection<Module> modules) {
+    public void setModules(List<Module> modules) {
         this.modules = modules;
     }
 
-    public Collection<Announcement> getAnnouncements() {
+    public List<Announcement> getAnnouncements() {
         return announcements;
     }
 
-    public void setAnnouncements(Collection<Announcement> announcements) {
+    public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
     }
     

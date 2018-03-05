@@ -6,9 +6,8 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,16 +49,16 @@ public class Module implements Serializable {
     private Date examDate;
     
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="modules")
-    private Collection<Lecturer> lecturers;
+    private List<Lecturer> lecturers;
     
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="modules")
-    private Collection<TeachingAssistant> TAs;
+    private List<TeachingAssistant> TAs;
     
     @ManyToMany(cascade={CascadeType.ALL}, mappedBy="modules")
-    private Collection<Student> stduents;
+    private List<Student> stduents;
     
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy="module")
-    private Collection<Announcement> announcements;
+    private List<Announcement> announcements;
 
     public Module() {
     }
@@ -130,35 +129,35 @@ public class Module implements Serializable {
         this.examDate = examDate;
     }
 
-    public Collection<Lecturer> getLecturers() {
+    public List<Lecturer> getLecturers() {
         return lecturers;
     }
 
-    public void setLecturers(Collection<Lecturer> lecturers) {
+    public void setLecturers(List<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 
-    public Collection<TeachingAssistant> getTAs() {
+    public List<TeachingAssistant> getTAs() {
         return TAs;
     }
 
-    public void setTAs(Collection<TeachingAssistant> TAs) {
+    public void setTAs(List<TeachingAssistant> TAs) {
         this.TAs = TAs;
     }
 
-    public Collection<Student> getStduents() {
+    public List<Student> getStduents() {
         return stduents;
     }
 
-    public void setStduents(Collection<Student> stduents) {
+    public void setStduents(List<Student> stduents) {
         this.stduents = stduents;
     }
 
-    public Collection<Announcement> getAnnouncements() {
+    public List<Announcement> getAnnouncements() {
         return announcements;
     }
 
-    public void setAnnouncements(Collection<Announcement> announcements) {
+    public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
     }
 

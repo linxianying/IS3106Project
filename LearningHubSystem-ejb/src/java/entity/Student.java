@@ -6,8 +6,8 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,7 +54,7 @@ public class Student implements Serializable {
 
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
-    private Collection<Module> modules;
+    private List<Module> modules;
 
     public Student() {
         this.isPremium = false;
@@ -145,11 +145,11 @@ public class Student implements Serializable {
         this.isPremium = isPremium;
     }
 
-    public Collection<Module> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
 
-    public void setModules(Collection<Module> modules) {
+    public void setModules(List<Module> modules) {
         this.modules = modules;
     }
 

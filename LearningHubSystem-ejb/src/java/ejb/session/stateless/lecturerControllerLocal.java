@@ -8,9 +8,11 @@ package ejb.session.stateless;
 import entity.Lecturer;
 import java.util.ArrayList;
 import javax.ejb.Local;
+import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.LecturerExistException;
 import util.exception.LecturerNotFoundException;
+import util.exception.PasswordChangeException;
 
 /**
  *
@@ -33,8 +35,8 @@ public interface lecturerControllerLocal {
 
     public Lecturer lecturerLogin(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException;
 
-    public void updateLecturer(Lecturer lec);
+    public Lecturer updateLecturer(Lecturer lec) throws LecturerExistException, GeneralException;
 
-    public void changePassword(String newPassword, Long lecturerId) throws LecturerNotFoundException;
+    public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException;
     
 }
