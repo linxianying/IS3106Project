@@ -5,9 +5,13 @@
  */
 package ejb.session.singleton;
 
-import ejb.session.stateless.administratorControllerLocal;
+import entity.Administrator;
+import entity.Lecturer;
+import entity.Module;
+import entity.Student;
+import entity.TeachingAssistant;
+import java.sql.Timestamp;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
@@ -22,28 +26,84 @@ import javax.persistence.PersistenceContext;
 @LocalBean
 @Startup
 public class dataInitialization {
-
-    @EJB(name = "administratorControllerLocal")
-    private administratorControllerLocal administratorControllerLocal;
-
+    
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
-
-    public dataInitialization(){
+    
+    public dataInitialization() {
         
     }
     
     @PostConstruct
-    public void postConstruct(){
-        //check whther there is admin staff, if not, initialize one 
-//        try{
-//            administratorControllerLocal.retrieveAdminByUsername("");
-//        } catch (adminNotFoundException ex) {
-//            initializaData();
-//        }
+    public void postConstruct() {
+        
+        if (em.find(Administrator.class, 1l) == null) {
+            loadAdminData();
+        }
+        if (em.find(Module.class, 1l) == null) {
+            loadModuleData();
+        }
+        if (em.find(Lecturer.class, 1l) == null) {
+            loadLecturerData();
+        }
+        if (em.find(Student.class, 1l) == null) {
+            loadStudentData();
+        }
+        if (em.find(TeachingAssistant.class, 1l) == null) {
+            loadTAData();
+        }
     }
     
-    private void initializaData(){
+   
+    private void loadAdminData() {
+        Administrator newAdmin = new Administrator("administrator", "admin@soc.nus", "12345678", "admin", "password");
+        em.persist(newAdmin);
+    }
+    
+    private void loadLecturerData() {
+        Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
+        em.persist(newLecturer1);
+        Lecturer newLecturer2 = new Lecturer("lecturer2", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
+        em.persist(newLecturer2);
+        Lecturer newLecturer3 = new Lecturer("lecturer3", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");
+        em.persist(newLecturer3);
+        Lecturer newLecturer4 = new Lecturer("lecturer4", "password4", "tsc", "tsc@sci.nus", "Science", "Physics", "45678901");
+        em.persist(newLecturer4);
         
     }
+    
+    private void loadStudentData() {
+        Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wyh");
+        em.persist(student1);
+        Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gzp");
+        em.persist(student2);
+        Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "lxy");
+        em.persist(student3);
+        Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xh");
+        em.persist(student4);
+    }
+    
+    private void loadModuleData() {
+        Timestamp timestamp=new Timestamp(2018, 5, 3, 9, 0, 0, 0);
+        Module newModule1 = new Module("Database Systems", "CS2102", 4, 177, "The aim of this module is to introduce the fundamental concepts and techniques necessary for the understanding and practice of design and implementation of database applications and of the management of data with relational database management systems. The module covers practical and theoretical aspects of design with entity-relationship model, theory of functional dependencies and normalisation by decomposition in second, third and Boyce-Codd normal forms. The module covers practical and theoretical aspects of programming with SQL data definition and manipulation sublanguages, relational tuple calculus, relational domain calculus and relational algebra.", timestamp);
+        em.persist(newModule1);
+        Timestamp timestamp2=new Timestamp(2018, 4, 30, 13, 0, 0, 0);
+        Module newModule2 = new Module("Enterprise Systems Interface Design and Development", "IS3106", 4, 60, "This module aims to train students to be conversant in front-end development for Enterprise Systems. It complements IS2103 which focuses on backend development aspects for Enterprise Systems. Topics covered include: web development scripting languages, web templating design and component design, integrating with backend application, and basic mobile application development.", timestamp2);
+        em.persist(newModule2);
+        Timestamp timestamp3=new Timestamp(2018, 4, 30, 13, 0, 0, 0);
+        Module newModule3 = new Module("Regression Analysis", "ST3131", 4, 232, "This module focuses on data analysis using multiple regression models. Topics include simple linear regression, multiple regression, model building and regression diagnostics. One and two factor analysis of variance, analysis of covariance, linear model as special case of generalized linear model. This module is targeted at students who are interested in Statistics and are able to meet the pre-requisites.", timestamp3);
+        em.persist(newModule3);
+        
+    }
+    
+    private void loadTAData() {
+        TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA1", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
+        em.persist(teachingAssistant1);
+        TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA2", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
+        em.persist(teachingAssistant2);
+        TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA3", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
+        em.persist(teachingAssistant3);
+        
+    }
+    
 }
