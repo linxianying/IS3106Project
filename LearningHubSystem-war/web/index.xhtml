@@ -9,16 +9,21 @@
         <title>Learning Hub System Index Page</title>
     </h:head>
     <h:body>
+        <p:button value="LOGIN AS STUDENT" outcome="loginStudent?faces-redirect=true"/>
+
+        <br></br>
+        <p:button value="LOGIN AS PROFESSOR" outcome="loginProf?faces-redirect=true"/>
         
-        <a href="loginStudent.xhtml">LOGIN AS STUDENT</a>
         <br></br>
-        <a href="loginProf.xhtml">LOGIN AS PROFESSOR</a>
+        <p:button value="LOGIN AS ADMINISTRATOR" outcome="loginAdmin?faces-redirect=true"/>
+        
         <br></br>
-        <a href="loginAdmin.xhtml">LOGIN AS ADMINISTRATOR</a>
+        <p:button value="LOGIN AS TEACHING ASSISTANT" outcome="loginTA?faces-redirect=true"/>
+        
+        
         <br></br>
-        <a href="loginTA.xhtml">LOGIN AS TEACHING ASSISTANT</a>
-        <br></br>
-        <a href="register.xhtml">SIGN UP AS STUDENT</a>
+        <p:button value="SIGN UP AS STUDENT" outcome="register?faces-redirect=true"/>
+        
         <br></br>
     </h:body>
 </html>
