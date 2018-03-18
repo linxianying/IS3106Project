@@ -31,38 +31,22 @@ import org.primefaces.model.ScheduleModel;
  */
 @ManagedBean(name="scheduleManagedBean")
 @ViewScoped
-public class ScheduleManagedBean {
+public class scheduleManagedBean {
 
     /**
      * Creates a new instance of ScheduleManagedBean
      */
-    public ScheduleManagedBean() {
+    public scheduleManagedBean() {
     }
     private ScheduleModel eventModel;
-     
-    private ScheduleModel lazyEventModel;
+   
  
     private ScheduleEvent event = new DefaultScheduleEvent();
  
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
-        eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Birthday Party", today1Pm(), today6Pm()));
-        eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));
-        eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));
-         
-        lazyEventModel = new LazyScheduleModel() {
-             
-            @Override
-            public void loadEvents(Date start, Date end) {
-                Date random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 1", random, random));
-                 
-                random = getRandomDate(start);
-                addEvent(new DefaultScheduleEvent("Lazy Event 2", random, random));
-            }   
-        };
+        //eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
     }
      
     public Date getRandomDate(Date base) {
@@ -82,10 +66,6 @@ public class ScheduleManagedBean {
      
     public ScheduleModel getEventModel() {
         return eventModel;
-    }
-     
-    public ScheduleModel getLazyEventModel() {
-        return lazyEventModel;
     }
  
     private Calendar today() {
@@ -112,58 +92,7 @@ public class ScheduleManagedBean {
          
         return t.getTime();
     }
-     
-    private Date today1Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 1);
-         
-        return t.getTime();
-    }
-     
-    private Date theDayAfter3Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);     
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 3);
-         
-        return t.getTime();
-    }
- 
-    private Date today6Pm() {
-        Calendar t = (Calendar) today().clone(); 
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 6);
-         
-        return t.getTime();
-    }
-     
-    private Date nextDay9Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 9);
-         
-        return t.getTime();
-    }
-     
-    private Date nextDay11Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 11);
-         
-        return t.getTime();
-    }
-     
-    private Date fourDaysLater3pm() {
-        Calendar t = (Calendar) today().clone(); 
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
-        t.set(Calendar.HOUR, 3);
-         
-        return t.getTime();
-    }
+
      
     public ScheduleEvent getEvent() {
         return event;
