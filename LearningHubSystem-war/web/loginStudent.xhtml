@@ -10,33 +10,36 @@
         <h:outputStylesheet name="./css/newcss.css" />
     </h:head>
     <h:body>
-        <form class="form-labels-on-top">
+        <h:form class="form-labels-on-top">
+            <p:growl id="growl" showDetail="true" sticky="true" /> 
             <div class="form-row">
                 <label>
                     <span>Username</span>
-                    <p:inputText styleClass="textInput" id="username" value="#{loginManagedBean.username}" 
-                         required="true" requiredMessage="Please enter your username" 
-                         placeholder="Username"
-                         validatorMessage="Username must be between 6-12 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
+                    <p:inputText styleClass="textInput" id="username" 
+                                 value="#{loginManagedBean.username}" 
+                                 required="true" requiredMessage="Please enter your username" 
+                                 placeholder="Username"
+                                 validatorMessage="Username must be between 4-12 letters/numbers.">
+                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
                     </p:inputText>
                 </label>
             </div>
             <div class="form-row">
                 <label>
                     <span>Password</span>
-                    <p:password styleClass="textInput" id="password" value="#{loginManagedBean.password}" 
-                    required="true" requiredMessage="Please enter your password" 
-                    placeholder="Password"/>
+                    <p:password styleClass="textInput" id="password" 
+                                value="#{loginManagedBean.password}" 
+                                required="true" requiredMessage="Please enter your password" 
+                                placeholder="Password"/>
                 </label>
             </div>
             <div class="form-row">
-                <h:commandButton value="LOGIN" actionListener="#{loginManagedBean.doLogin}" />
+                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.login}" update="growl"/>
             </div>
             <div class="form-row">
-                <h:button value="SIGN UP" outcome="register?faces-redirect=true"/>
+                <p:button value="SIGN UP" outcome="register?faces-redirect=true"/>
             </div>
-        </form>
+        </h:form>
     </h:body>
 </html>
 
