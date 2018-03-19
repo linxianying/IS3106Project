@@ -5,11 +5,17 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.studentControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
 import entity.Student;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import util.exception.StudentExistException;
 
 /**
  *
@@ -19,12 +25,10 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class registerManagedBean {
 
-    /**
-     * Creates a new instance of registerManagedBean
-     */
-    private Student student;    
-    private Lecturer lecturer;
-    private Administrator admin;
+    @EJB(name = "studentControllerLocal")
+    private studentControllerLocal studentControllerLocal;
+
+    private Student newStudent;    
          
     private String username;
     private String password;
@@ -37,30 +41,15 @@ public class registerManagedBean {
     private String name;
     
     public registerManagedBean() {
+        newStudent = new Student();
     }
 
     public Student getStudent() {
-        return student;
+        return newStudent;
     }
 
     public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Lecturer getLecturer() {
-        return lecturer;
-    }
-
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
-    }
-
-    public Administrator getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Administrator admin) {
-        this.admin = admin;
+        this.newStudent = student;
     }
 
     public String getUsername() {
@@ -135,4 +124,18 @@ public class registerManagedBean {
         this.name = name;
     }
     
+    
+    public void doSignUp(ActionEvent event){
+        try{
+            System.err.println("*********** doSignUp");
+            newStudent = new Student(name, password, email, faculty, department, telephone, username);
+            Student stu = studentControllerLocal.createStudent(newStudent);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  )", null));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("loginStudent.xhtml");
+        }
+        catch(Exception ex){
+            System.err.println(ex);
+            System.out.println("Student with the same Username has already exists!");
+        }
+    }
 }

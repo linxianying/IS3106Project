@@ -13,11 +13,14 @@ import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import util.exception.GeneralException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -33,12 +36,25 @@ public class studentController implements studentControllerLocal {
     Student student;
     
     @Override
-    public Student createStudent(String name, String password, String email, 
-            String faculty, String department, String telephone, String username) {
-        student = new Student(name, password, email, faculty, department, telephone, username);
-        em.persist(student);
-        em.flush();
-        return student;
+    public Student createStudent(Student studentEntity){
+//        try{
+//            em.persist(student);
+//            em.flush();
+//            em.refresh(student);
+//
+//            return student;
+//        } catch (PersistenceException ex) {
+//            if (ex.getCause() != null
+//                    && ex.getCause().getCause() != null
+//                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
+//                throw new StudentExistException("Student Account Already Exist.\n");
+//            } else {
+//                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
+//            }
+//        }
+        
+        em.persist(studentEntity);
+        return studentEntity;
     }
 
     @Override
@@ -62,23 +78,10 @@ public class studentController implements studentControllerLocal {
     }
     
     @Override
-    public ArrayList<Student> retrieveAllStudent() {
+    public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
-        return (ArrayList<Student>) query.getResultList();
+        return (List<Student>) query.getResultList();
         
-    }
-    
-    @Override
-    public boolean addNewStudent(String name, String password, String email, 
-            String faculty, String department, String telephone, String username) throws StudentExistException, StudentNotFoundException{
-        student = findStudent(username);
-        if(student==null){
-            student = createStudent(name, password, email, faculty, department, telephone, username);
-            System.out.println("Student with id " + student.getId() +" is created successfully.");
-            return true;
-        }else{
-                throw new StudentExistException ("Student Already Exist.\n");        
-        }
     }
     
     @Override

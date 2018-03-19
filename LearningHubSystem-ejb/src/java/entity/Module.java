@@ -29,7 +29,7 @@ public class Module implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 32, nullable = false, unique = true)
+    @Column(length = 64, nullable = false, unique = true)
     private String moduleName;
     
     @Column(length = 32, nullable = false, unique = true)
@@ -41,7 +41,7 @@ public class Module implements Serializable {
     @Column(nullable = false)
     private int classSize;
     
-    @Column(length = 128, nullable = false)
+    @Column(length = 1024, nullable = false)
     private String description;
     
     @Column(nullable = false)

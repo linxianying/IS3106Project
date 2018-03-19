@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -30,7 +31,7 @@ import org.primefaces.model.ScheduleModel;
  * @author lin
  */
 @ManagedBean(name="scheduleManagedBean")
-@ViewScoped
+@SessionScoped
 public class scheduleManagedBean {
 
     /**
