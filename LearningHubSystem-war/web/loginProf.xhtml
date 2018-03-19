@@ -1,12 +1,46 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Learning Hub System Professor Login Page</title>
+        <h:outputStylesheet name="./css/newcss.css" />
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:form class="form-labels-on-top">
+            <p:messages showDetail="true" autoUpdate="true" closable="true" />
+            <p:growl id="growl" showDetail="true" sticky="true" /> 
+            <div class="form-row">
+                <label>
+                    <span>Username</span>
+                    <p:inputText styleClass="textInput" id="username" 
+                                 value="#{loginManagedBean.username}" 
+                                 required="true" requiredMessage="Please enter your username" 
+                                 placeholder="Username"
+                                 validatorMessage="Username must be between 3-12 letters/numbers.">
+                    <f:validateRegex pattern="^[a-zA-Z0-9]{3,12}$" />
+                    </p:inputText>
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    <span>Password</span>
+                    <p:password styleClass="textInput" id="password" 
+                                value="#{loginManagedBean.password}" 
+                                required="true" requiredMessage="Please enter your password" 
+                                placeholder="Password"/>
+                </label>
+            </div>
+            <div class="form-row">
+                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginLecturer}" update="growl"/>
+            </div>
+            <div class="form-row">
+                <p:button value="SIGN UP" outcome="register?faces-redirect=true"/>
+            </div>
+        </h:form>
     </h:body>
 </html>
 

@@ -56,16 +56,21 @@ public class administratorController implements administratorControllerLocal {
 
     @Override
     public Administrator retrieveAdminByUsername(String username) throws AdminNotFoundException{
-        Query query = em.createQuery("SELECT a FROM Administrator a WHERE a.username=:username");
-        query.setParameter("username", username);
-        
+        Administrator admin = null;
         try{
-            Administrator admin = (Administrator) query.getSingleResult();
-            return admin;
+            Query query = em.createQuery("SELECT a FROM Administrator a WHERE a.username=:username");
+            query.setParameter("username", username);
+            admin = (Administrator) query.getSingleResult();
+            System.out.println("Admin " + username + " found.");
+
         }
         catch(NoResultException ex){
             throw new AdminNotFoundException("Admin: " + username + "dose not exist.");
         }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return admin;
     }
 
     @Override

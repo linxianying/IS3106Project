@@ -69,6 +69,8 @@ public class dataInitialization {
         em.persist(newLecturer3);
         Lecturer newLecturer4 = new Lecturer("lecturer4", "password4", "tsc", "tsc@sci.nus", "Science", "Physics", "45678901");
         em.persist(newLecturer4);
+        Lecturer newLecturer5 = new Lecturer("lecturer5", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
+        em.persist(newLecturer5);
         
     }
     

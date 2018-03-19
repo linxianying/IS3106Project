@@ -5,6 +5,8 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.administratorControllerLocal;
+import ejb.session.stateless.lecturerControllerLocal;
 import ejb.session.stateless.studentControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
@@ -16,6 +18,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import util.exception.AdminNotFoundException;
+import util.exception.LecturerNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -41,6 +45,10 @@ public class loginManagedBean {
     
     @EJB
     studentControllerLocal scl;
+    @EJB
+    lecturerControllerLocal lcl;
+    @EJB
+    administratorControllerLocal acl;
     
     public loginManagedBean() {
     }
@@ -65,6 +73,58 @@ public class loginManagedBean {
         
         }else{
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Student '" + username + "' does not exists.", "Please sign up first");
+            fc.addMessage(null, fm);
+            username = "";
+            password = "";
+        }
+    }
+    
+    public void loginLecturer() throws IOException, LecturerNotFoundException{
+        
+        fm = new FacesMessage();
+        fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+        if(lcl.retrieveLecturerByUsername(username)!=null){
+            lecturer = lcl.retrieveLecturerByUsername(username);
+            if(lecturer.getPassword().equals(password)){
+                session.setAttribute("user", lecturer);
+                session.setAttribute("username", username);
+                fc.getExternalContext().redirect("lecturerDashboard.xhtml");
+            }else{
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "The password is wrong", "Please check again");
+                fc.addMessage(null, fm);
+                username = "";
+                password = "";
+            }
+        
+        }else{
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lecturer '" + username + "' does not exists.", "Please appeal first");
+            fc.addMessage(null, fm);
+            username = "";
+            password = "";
+        }
+    }
+    
+    public void loginAdmin() throws IOException, AdminNotFoundException{
+        
+        fm = new FacesMessage();
+        fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+        admin = acl.retrieveAdminByUsername(username);
+        if(admin!=null){
+            if(admin.getPassword().equals(password)){
+                session.setAttribute("user", admin);
+                session.setAttribute("username", username);
+                fc.getExternalContext().redirect("adminDashboard.xhtml");
+            }else{
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "The password is wrong", "Please check again");
+                fc.addMessage(null, fm);
+                username = "";
+                password = "";
+            }
+        
+        }else{
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Admin '" + username + "' does not exists.", "Please appeal first");
             fc.addMessage(null, fm);
             username = "";
             password = "";
@@ -133,6 +193,22 @@ public class loginManagedBean {
 
     public void setScl(studentControllerLocal scl) {
         this.scl = scl;
+    }
+
+    public lecturerControllerLocal getLcl() {
+        return lcl;
+    }
+
+    public void setLcl(lecturerControllerLocal lcl) {
+        this.lcl = lcl;
+    }
+
+    public administratorControllerLocal getAcl() {
+        return acl;
+    }
+
+    public void setAcl(administratorControllerLocal acl) {
+        this.acl = acl;
     }
 
 

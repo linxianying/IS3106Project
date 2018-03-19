@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
@@ -30,6 +31,7 @@ public class lecturerController implements lecturerControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
+    Lecturer lecturer;
 
     
     @Override
@@ -74,15 +76,32 @@ public class lecturerController implements lecturerControllerLocal {
     
     @Override
     public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException {
-        Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.username=:inUsername");
-        query.setParameter("inUsername", username);
-        Lecturer lec = (Lecturer) query.getSingleResult();
+        //Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.username=:username");
+        //query.setParameter("username", username);
+        //Lecturer lec = (Lecturer) query.getSingleResult();
         
-        if (lec != null) {
-            return lec;
-        } else {
-            throw new LecturerNotFoundException("Lecturer with specified username not found");
+        //if (lec != null) {
+        //    return lec;
+        //} else {
+        //    throw new LecturerNotFoundException("Lecturer with specified username not found");
+        //}
+        
+        lecturer = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM Lecturer s WHERE s.username=:username");
+            q.setParameter("username", username);
+            lecturer = (Lecturer) q.getSingleResult();
+            System.out.println("Lecturer " + username + " found.");
         }
+        catch(NoResultException e){
+            System.out.println("Lecturer " + username + " does not exist.");
+            lecturer = null;
+            throw new LecturerNotFoundException("Lecturer with specified ID not found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return lecturer;
     }
     
     
