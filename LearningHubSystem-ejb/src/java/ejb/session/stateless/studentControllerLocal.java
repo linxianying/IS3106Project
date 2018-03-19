@@ -7,7 +7,9 @@ package ejb.session.stateless;
 
 import entity.Student;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.GeneralException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -18,12 +20,12 @@ import util.exception.StudentNotFoundException;
 @Local
 public interface studentControllerLocal {
 
-    Student createStudent(Student student) throws StudentExistException;  
+    Student createStudent(Student student) throws StudentExistException, GeneralException;  
     Student findStudent(String username) throws StudentNotFoundException;
     
     boolean updateStudentTelephone(String username, String telephone) throws StudentNotFoundException;
     boolean updateStudentPassword(String username, String password) throws StudentNotFoundException;
     boolean updateStudentEmail(String username, String email) throws StudentNotFoundException;
 
-    public ArrayList<Student> retrieveAllStudents();
+    public List<Student> retrieveAllStudents();
 }

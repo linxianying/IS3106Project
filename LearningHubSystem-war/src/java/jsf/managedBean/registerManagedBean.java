@@ -130,11 +130,16 @@ public class registerManagedBean {
             System.err.println("*********** doSignUp");
             newStudent = new Student(name, password, email, faculty, department, telephone, username);
             Student stu = studentControllerLocal.createStudent(newStudent);
+<<<<<<< HEAD
             //newStudent = new Student();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID: " + stu.getId() + ")", null));
+=======
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  )", null));
+>>>>>>> 0f8faae82e4db916258cf396a3d56f616620447f
             FacesContext.getCurrentInstance().getExternalContext().redirect("loginStudent.xhtml");
         }
         catch(Exception ex){
+            System.err.println(ex);
             System.out.println("Student with the same Username has already exists!");
         }
     }
