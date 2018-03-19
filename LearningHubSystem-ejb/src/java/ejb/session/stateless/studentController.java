@@ -13,11 +13,14 @@ import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import util.exception.GeneralException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -33,18 +36,25 @@ public class studentController implements studentControllerLocal {
     Student student;
     
     @Override
-    public Student createStudent(Student student) throws StudentExistException{
-        ArrayList<Student> studentList = retrieveAllStudents();
-        for (Student stu : studentList) {
-            if (stu.getUsername().equals(student.getUsername()))
-            {
-                throw new StudentExistException("Student Account Already Exist.\n");
-            }
-        }
-        em.persist(student);
-        em.flush();
+    public Student createStudent(Student studentEntity){
+//        try{
+//            em.persist(student);
+//            em.flush();
+//            em.refresh(student);
+//
+//            return student;
+//        } catch (PersistenceException ex) {
+//            if (ex.getCause() != null
+//                    && ex.getCause().getCause() != null
+//                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
+//                throw new StudentExistException("Student Account Already Exist.\n");
+//            } else {
+//                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
+//            }
+//        }
         
-        return student;
+        em.persist(studentEntity);
+        return studentEntity;
     }
 
     @Override
@@ -68,9 +78,9 @@ public class studentController implements studentControllerLocal {
     }
     
     @Override
-    public ArrayList<Student> retrieveAllStudents() {
+    public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
-        return (ArrayList<Student>) query.getResultList();
+        return (List<Student>) query.getResultList();
         
     }
     
