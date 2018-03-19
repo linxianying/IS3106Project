@@ -10,8 +10,8 @@
         <h:outputStylesheet name="./css/newcss.css" />
     </h:head>
     <h:body>
-        <form class="form-labels-on-top">
-            <div class="form-row">
+        <h:form class="form-labels-on-top">
+            
                 <label>
                     <span>Username</span>
                     <p:inputText styleClass="textInput" id="username" value="#{registerManagedBean.username}" 
@@ -21,7 +21,7 @@
                     <f:validateRegex pattern="^[a-zA-Z0-9]{6,12}$" />
                     </p:inputText>
                 </label>
-            </div>
+            </h>
             <div class="form-row">
                 <label>
                     <span>Name</span>
@@ -75,25 +75,11 @@
                     placeholder="Password"/>
                 </label>
             </div>
-            <!--
+          
             <div class="form-row">
-                <label>
-                    <span>Password</span>
-                    <p:password styleClass="textInput" id="password2" value="#{registerManagedBean.password}" 
-                    required="true" requiredMessage="Please enter your password" 
-                    placeholder="Password"/>
-                </label>
+                <h:commandButton value="SIGN UP" actionListener="#{registerManagedBean.doSignUp}"/>
             </div>
-            -->
-            <div class="form-row">
-                <h:commandButton value="SIGN UP" actionListener="#{registerManagedBean.doSignUp}" />
-            </div>
-            <!--
-            <div class="form-row">
-                <h:button value="LOGIN" outcome="login?faces-redirect=true"/>
-            </div>
-            -->
-        </form>
+        </h:form>
     </h:body>
 </html>
 

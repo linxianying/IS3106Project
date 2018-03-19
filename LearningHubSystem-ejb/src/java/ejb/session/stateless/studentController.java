@@ -33,11 +33,17 @@ public class studentController implements studentControllerLocal {
     Student student;
     
     @Override
-    public Student createStudent(String name, String password, String email, 
-            String faculty, String department, String telephone, String username) {
-        student = new Student(name, password, email, faculty, department, telephone, username);
+    public Student createStudent(Student student) throws StudentExistException{
+        ArrayList<Student> studentList = retrieveAllStudents();
+        for (Student stu : studentList) {
+            if (stu.getUsername().equals(student.getUsername()))
+            {
+                throw new StudentExistException("Student Account Already Exist.\n");
+            }
+        }
         em.persist(student);
         em.flush();
+        
         return student;
     }
 
@@ -62,23 +68,10 @@ public class studentController implements studentControllerLocal {
     }
     
     @Override
-    public ArrayList<Student> retrieveAllStudent() {
+    public ArrayList<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
         return (ArrayList<Student>) query.getResultList();
         
-    }
-    
-    @Override
-    public boolean addNewStudent(String name, String password, String email, 
-            String faculty, String department, String telephone, String username) throws StudentExistException, StudentNotFoundException{
-        student = findStudent(username);
-        if(student==null){
-            student = createStudent(name, password, email, faculty, department, telephone, username);
-            System.out.println("Student with id " + student.getId() +" is created successfully.");
-            return true;
-        }else{
-                throw new StudentExistException ("Student Already Exist.\n");        
-        }
     }
     
     @Override
