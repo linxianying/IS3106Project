@@ -36,25 +36,22 @@ public class studentController implements studentControllerLocal {
     Student student;
     
     @Override
-    public Student createStudent(Student studentEntity){
-//        try{
-//            em.persist(student);
-//            em.flush();
-//            em.refresh(student);
-//
-//            return student;
-//        } catch (PersistenceException ex) {
-//            if (ex.getCause() != null
-//                    && ex.getCause().getCause() != null
-//                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
-//                throw new StudentExistException("Student Account Already Exist.\n");
-//            } else {
-//                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
-//            }
-//        }
-        
-        em.persist(studentEntity);
-        return studentEntity;
+    public Student createStudent(Student studentEntity) throws StudentExistException,GeneralException {
+        try{
+            em.persist(studentEntity);
+            em.flush();
+            em.refresh(studentEntity);
+
+            return studentEntity;
+        } catch (PersistenceException ex) {
+            if (ex.getCause() != null
+                    && ex.getCause().getCause() != null
+                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
+                throw new StudentExistException("Student Account Already Exist.\n");
+            } else {
+                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
+            }
+        }
     }
 
     @Override

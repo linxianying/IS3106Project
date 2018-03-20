@@ -127,10 +127,9 @@ public class registerManagedBean {
     
     public void doSignUp(ActionEvent event){
         try{
-            System.err.println("*********** doSignUp");
             newStudent = new Student(name, password, email, faculty, department, telephone, username);
             Student stu = studentControllerLocal.createStudent(newStudent);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  )", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  " + stu.getId()+ ")", null));
             FacesContext.getCurrentInstance().getExternalContext().redirect("loginStudent.xhtml");
         }
         catch(Exception ex){
