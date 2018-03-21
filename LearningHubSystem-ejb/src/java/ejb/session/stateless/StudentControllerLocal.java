@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -18,14 +19,16 @@ import util.exception.StudentNotFoundException;
  * @author mango
  */
 @Local
-public interface studentControllerLocal {
+public interface StudentControllerLocal {
 
     Student createStudent(Student student) throws StudentExistException, GeneralException;  
-    Student findStudent(String username) throws StudentNotFoundException;
+    Student retrieveStudentByUsername(String username) throws StudentNotFoundException;
     
     boolean updateStudentTelephone(String username, String telephone) throws StudentNotFoundException;
     boolean updateStudentPassword(String username, String password) throws StudentNotFoundException;
     boolean updateStudentEmail(String username, String email) throws StudentNotFoundException;
 
     public List<Student> retrieveAllStudents();
+
+    Student login(String username, String password)throws InvalidLoginCredentialException;
 }

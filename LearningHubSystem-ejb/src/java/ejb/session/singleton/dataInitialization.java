@@ -75,13 +75,13 @@ public class dataInitialization {
     }
     
     private void loadStudentData() {
-        Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wyh");
+        Student student1 = new Student("wangyinhan", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wyh");
         em.persist(student1);
-        Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gzp");
+        Student student2 = new Student("gongzipeng", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gzp");
         em.persist(student2);
-        Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "lxy");
+        Student student3 = new Student("linxianying", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "lxy");
         em.persist(student3);
-        Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xh");
+        Student student4 = new Student("xuhong", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xh");
         em.persist(student4);
     }
     

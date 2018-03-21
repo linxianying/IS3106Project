@@ -5,7 +5,6 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.studentControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
 import entity.Student;
@@ -16,6 +15,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import util.exception.StudentExistException;
+import ejb.session.stateless.StudentControllerLocal;
 
 /**
  *
@@ -26,7 +26,7 @@ import util.exception.StudentExistException;
 public class registerManagedBean {
 
     @EJB(name = "studentControllerLocal")
-    private studentControllerLocal studentControllerLocal;
+    private StudentControllerLocal studentControllerLocal;
 
     private Student newStudent;    
          

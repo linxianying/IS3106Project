@@ -19,7 +19,7 @@ import util.exception.ModuleNotFoundException;
  * @author mango
  */
 @Local
-public interface moduleControllerLocal {
+public interface ModuleControllerLocal {
     public List<Module> retrieveAllModules();
 
     Module createNewModule(Module newModule) throws ModuleExistException;

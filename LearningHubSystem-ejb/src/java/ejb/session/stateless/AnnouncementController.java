@@ -22,9 +22,9 @@ import util.exception.AnnouncementNotFoundException;
  * @author mango
  */
 @Stateless
-@Local (announcementControllerLocal.class)
+@Local (AnnouncementControllerLocal.class)
 
-public class announcementController implements announcementControllerLocal {
+public class AnnouncementController implements AnnouncementControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;

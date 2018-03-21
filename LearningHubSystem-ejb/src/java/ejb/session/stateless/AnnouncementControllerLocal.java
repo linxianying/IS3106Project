@@ -19,7 +19,7 @@ import util.exception.AnnouncementNotFoundException;
  * @author mango
  */
 @Local
-public interface announcementControllerLocal {
+public interface AnnouncementControllerLocal {
     public ArrayList<Announcement> retrieveAllAnnouncement();
     
     public Announcement createNewAnnouncement(Announcement acm, Lecturer lec, Module mod) throws AnnouncementExistException;

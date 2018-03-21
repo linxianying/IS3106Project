@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Learning Hub System Login Page</title>
+        <title>Learning Hub System Administrator Login Page</title>
         <h:outputStylesheet library="css" name="newcss.css" />
     </h:head>
     <h:body>
@@ -19,8 +19,8 @@
                                  value="#{loginManagedBean.username}" 
                                  required="true" requiredMessage="Please enter your username" 
                                  placeholder="Username"
-                                 validatorMessage="Username must be between 4-12 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
+                                 validatorMessage="Username must be between 4-16 letters/numbers.">
+                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,16}$" />
                     </p:inputText>
                 </label>
             </div>
@@ -34,7 +34,7 @@
                 </label>
             </div>
             <div class="form-row">
-                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.login}" update="growl"/>
+                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginAdmin}" update="growl"/>
             </div>
             <div class="form-row">
                 <p:button value="SIGN UP" outcome="register?faces-redirect=true"/>

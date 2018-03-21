@@ -18,8 +18,8 @@ import util.exception.ModuleNotFoundException;
  * @author mango
  */
 @Stateless
-@Local(moduleControllerLocal.class)
-public class moduleController implements moduleControllerLocal {
+@Local(ModuleControllerLocal.class)
+public class ModuleController implements ModuleControllerLocal {
     
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;

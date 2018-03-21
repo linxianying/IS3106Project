@@ -25,9 +25,9 @@ import util.exception.PasswordChangeException;
  * @author mango
  */
 @Stateless
-@Local(lecturerControllerLocal.class)
+@Local(LecturerControllerLocal.class)
 
-public class lecturerController implements lecturerControllerLocal {
+public class LecturerController implements LecturerControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
@@ -56,9 +56,7 @@ public class lecturerController implements lecturerControllerLocal {
         
         return lecturer;
     }
-    
-   
-    
+
     
     @Override
     public Lecturer retrieveLecturerById(Long lecturerId) throws LecturerNotFoundException {
@@ -76,16 +74,6 @@ public class lecturerController implements lecturerControllerLocal {
     
     @Override
     public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException {
-        //Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.username=:username");
-        //query.setParameter("username", username);
-        //Lecturer lec = (Lecturer) query.getSingleResult();
-        
-        //if (lec != null) {
-        //    return lec;
-        //} else {
-        //    throw new LecturerNotFoundException("Lecturer with specified username not found");
-        //}
-        
         lecturer = null;
         try{
             Query q = em.createQuery("SELECT s FROM Lecturer s WHERE s.username=:username");
@@ -139,7 +127,7 @@ public class lecturerController implements lecturerControllerLocal {
 
 
     @Override
-    public Lecturer lecturerLogin(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException {
+    public Lecturer login(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException {
         try {
             Lecturer lecturer = retrieveLecturerByUsername(username);
             
@@ -191,7 +179,5 @@ public class lecturerController implements lecturerControllerLocal {
                 throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
             }
         }
-    }
-
-   
+    } 
 }
