@@ -62,7 +62,7 @@ public class loginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentStudent);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("studentDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
         {
@@ -70,14 +70,14 @@ public class loginManagedBean {
         }
     }
     
-    public void loginTA() throws TANotFoundException, IOException{ 
+    public void loginTA(ActionEvent event) throws TANotFoundException, IOException{ 
         try
         {
             TeachingAssistant currentTA = teachingAssistantControllerLocal.login(username, password);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentTA);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentTA", currentTA);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TADashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
         {
@@ -85,14 +85,14 @@ public class loginManagedBean {
         }
     }
     
-    public void loginLecturer() throws IOException, LecturerNotFoundException{
+    public void loginLecturer(ActionEvent event) throws IOException, LecturerNotFoundException{
         try
         {
             Lecturer currentLecturer = lecturerControllerLocal.login(username, password);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentLecturer);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentLecturer", currentLecturer);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
         {
@@ -100,14 +100,14 @@ public class loginManagedBean {
         }
     }
     
-    public void loginAdmin() throws IOException, AdminNotFoundException{
+    public void loginAdmin(ActionEvent event) throws IOException, AdminNotFoundException{
         try
         {
             Administrator currentAdmin = administratorControllerLocal.login(username, password);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentAdmin);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentAdmin", currentAdmin);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("adminDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
         {

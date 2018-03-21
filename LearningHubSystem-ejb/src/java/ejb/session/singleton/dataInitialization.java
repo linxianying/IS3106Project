@@ -75,13 +75,13 @@ public class dataInitialization {
     }
     
     private void loadStudentData() {
-        Student student1 = new Student("wangyinhan", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wyh");
+        Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wangyinhan");
         em.persist(student1);
-        Student student2 = new Student("gongzipeng", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gzp");
+        Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gongzipeng");
         em.persist(student2);
-        Student student3 = new Student("linxianying", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "lxy");
+        Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
         em.persist(student3);
-        Student student4 = new Student("xuhong", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xh");
+        Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
         em.persist(student4);
     }
     
@@ -102,11 +102,11 @@ public class dataInitialization {
     }
     
     private void loadTAData() {
-        TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA1", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
+        TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA111", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
         em.persist(teachingAssistant1);
-        TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA2", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
+        TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA222", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
         em.persist(teachingAssistant2);
-        TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA3", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
+        TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
         em.persist(teachingAssistant3);
         
     }

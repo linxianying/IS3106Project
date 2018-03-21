@@ -5,12 +5,13 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:p="http://primefaces.org/ui">
-   <h:head>
-        <title>Learning Hub System TA Login Page</title>
+    <h:head>
+        <title>Learning Hub System Lecturer Login Page</title>
         <h:outputStylesheet library="css" name="newcss.css" />
     </h:head>
     <h:body>
         <h:form class="form-labels-on-top">
+            <p:messages showDetail="true" autoUpdate="true" closable="true" />
             <p:growl id="growl" showDetail="true" sticky="true" /> 
             <div class="form-row">
                 <label>
@@ -19,8 +20,8 @@
                                  value="#{loginManagedBean.username}" 
                                  required="true" requiredMessage="Please enter your username" 
                                  placeholder="Username"
-                                 validatorMessage="Username must be between 4-16 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,16}$" />
+                                 validatorMessage="Username must be between 3-12 letters/numbers.">
+                    <f:validateRegex pattern="^[a-zA-Z0-9]{3,12}$" />
                     </p:inputText>
                 </label>
             </div>
@@ -34,7 +35,7 @@
                 </label>
             </div>
             <div class="form-row">
-                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginTA}" update="growl"/>
+                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginLecturer}" update="growl"/>
             </div>
         </h:form>
     </h:body>
