@@ -16,7 +16,7 @@
                 <label>
                     <span>Username</span>
                     <p:inputText styleClass="textInput" id="username" 
-                                 value="#{loginManagedBean.username}" 
+                                 value="#{login_logoutManagedBean.username}" 
                                  required="true" requiredMessage="Please enter your username" 
                                  placeholder="Username"
                                  validatorMessage="Username must be between 4-16 letters/numbers.">
@@ -28,13 +28,13 @@
                 <label>
                     <span>Password</span>
                     <p:password styleClass="textInput" id="password" 
-                                value="#{loginManagedBean.password}" 
+                                value="#{login_logoutManagedBean.password}" 
                                 required="true" requiredMessage="Please enter your password" 
                                 placeholder="Password"/>
                 </label>
             </div>
             <div class="form-row">
-                <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginStudent}" update="growl"/>
+                <p:commandButton value="LOGIN" actionListener="#{login_logoutManagedBean.loginStudent}" update="growl"/>
             </div>
             <div class="form-row">
                 <p:button value="SIGN UP" outcome="register?faces-redirect=true"/>
