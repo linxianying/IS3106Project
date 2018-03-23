@@ -9,7 +9,7 @@
         <title>Learning Hub System TA Login Page</title>
         <h:outputStylesheet library="css" name="newcss.css" />
     </h:head>
-    <h:body>
+    <h:panelGroup rendered="#{!sessionScope['isLogin']}">
         <h:form class="form-labels-on-top">
             <p:growl id="growl" showDetail="true" sticky="true" /> 
             <div class="form-row">
@@ -36,7 +36,15 @@
             <div class="form-row">
                 <p:commandButton value="LOGIN" actionListener="#{loginManagedBean.loginTA}" update="growl"/>
             </div>
-        </h:form>
+        </h:panelGroup>
+    
+    <h:panelGroup rendered="#{sessionScope['isLogin']}">
+
+        <h:outputText value="You are login as #{sessionScope['role']}" />
+        <br></br>
+        <h:outputText value="You must logout before login again" />
+
+    </h:panelGroup>
     </h:body>
 </html>
 

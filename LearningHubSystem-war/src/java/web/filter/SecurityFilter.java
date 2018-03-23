@@ -1,6 +1,9 @@
 package web.filter;
 
+import entity.Administrator;
+import entity.Lecturer;
 import entity.Student;
+import entity.TeachingAssistant;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -13,83 +16,117 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
 @WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"})
 
-public class SecurityFilter implements Filter
-{    
-    FilterConfig filterConfig;
-    
-    private static final String CONTEXT_ROOT = "/LearningHubSystem-war";
-    
-   
+public class SecurityFilter implements Filter {
 
-    public void init(FilterConfig filterConfig) throws ServletException
-    {
+    FilterConfig filterConfig;
+
+    private static final String CONTEXT_ROOT = "/LearningHubSystem-war";
+
+    public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
     }
 
-
-
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
-    {
-        HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse)response;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession httpSession = httpServletRequest.getSession(true);
         String requestServletPath = httpServletRequest.getServletPath();
 
-        if(httpSession.getAttribute("isLogin") == null)
-        {
+        if (httpSession.getAttribute("isLogin") == null) {
             httpSession.setAttribute("isLogin", false);
         }
 
-        Boolean isLogin = (Boolean)httpSession.getAttribute("isLogin");
+        Boolean isLogin = (Boolean) httpSession.getAttribute("isLogin");
 
-        System.err.println("********** requestServletPath: " + requestServletPath);
-        
-        if(!excludeLoginCheck(requestServletPath))
-        {
-            System.err.println("********* HERE 1");
-            
-            if(isLogin == true)
-            {
-                chain.doFilter(request, response);
-            }
-            else
-            {
+        if (!excludeLoginCheck(requestServletPath)) {
+
+            if (isLogin == true) {
+                String currentRole = (String)httpSession.getAttribute("role");
+
+                if (checkAccessRight(requestServletPath, currentRole)) {
+                    chain.doFilter(request, response);
+                } else {
+                    httpServletResponse.sendRedirect(CONTEXT_ROOT + "/error.xhtml");
+                }
+            } else {
                 httpServletResponse.sendRedirect(CONTEXT_ROOT + "/index.xhtml");
             }
-        }
-        else
-        {
-            System.err.println("********* HERE 2");
+        } else {
             chain.doFilter(request, response);
         }
     }
 
-
-
-    public void destroy()
-    {
+    public void destroy() {
 
     }
-    
-    private Boolean excludeLoginCheck(String path)
-    {
-        if( path.equals("/index.xhtml") ||
-            path.equals("/error.xhtml") ||
-            path.equals("/loginAdmin.xhtml")||
-            path.equals("/loginLecturer.xhtml")||
-            path.equals("/loginStudent.xhtml")||
-            path.equals("/loginTA.xhtml")||    
-            path.startsWith("/images") ||
-            path.startsWith("/javax.faces.resource"))
-        {
-            return true;
+
+    private Boolean checkAccessRight(String path, String currentRole) {
+        if (currentRole.equals("student")) {
+            if (path.equals("/announcement.xhtml")
+                || path.equals("/classAndGroups.xhtml")
+                || path.equals("/facilitators.xhtml")
+                || path.equals("/files.xhtml")
+                || path.equals("/moduleDetails.xhtml")
+                || path.equals("/studentDashboard.xhtml")
+                || path.equals("/studentModule.xhtml")
+                || path.equals("/studentSchedule.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (currentRole.equals("lecturer")) {
+            if (path.equals("/announcementLecturer.xhtml")
+                || path.equals("/classAndGroups.xhtml")
+                || path.equals("/facilitators.xhtml")
+                || path.equals("/fileLecturer.xhtml")
+                || path.equals("/lecturerDashboard.xhtml")
+                || path.equals("/lecturerModule.xhtml")
+                || path.equals("/lecturerSchedule.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else if (currentRole.equals("admin")) {
+            if (path.equals("/adminDashboard.xhtml")
+                || path.equals("/adminModuleManagement.xhtml")
+                || path.equals("/adminUsersManagement.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } else if (currentRole.equals("TA")) {
+            if (path.equals("/announcement.xhtml")
+                || path.equals("/classAndGroups.xhtml")
+                || path.equals("/facilitators.xhtml")
+                || path.equals("/file.xhtml")
+                || path.equals("/TADashboard.xhtml")
+                || path.equals("/TAModule.xhtml")
+                || path.equals("/TASchedule.xhtml")) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        else
-        {
+        
+        return false;
+    }
+
+    private Boolean excludeLoginCheck(String path) {
+        if (path.equals("/index.xhtml")
+                || path.equals("/error.xhtml")
+                || path.equals("/loginAdmin.xhtml")
+                || path.equals("/loginLecturer.xhtml")
+                || path.equals("/loginStudent.xhtml")
+                || path.equals("/loginTA.xhtml")
+                || path.equals("/register.xhtml")
+                || path.startsWith("/images")
+                || path.startsWith("/javax.faces.resource")) {
+            return true;
+        } else {
             return false;
         }
     }

@@ -62,6 +62,7 @@ public class loginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentStudent);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role","student");
             FacesContext.getCurrentInstance().getExternalContext().redirect("studentDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
@@ -77,6 +78,7 @@ public class loginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentTA", currentTA);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role","TA");
             FacesContext.getCurrentInstance().getExternalContext().redirect("TADashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
@@ -92,6 +94,7 @@ public class loginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentLecturer", currentLecturer);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role","lecturer");
             FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)
@@ -107,6 +110,7 @@ public class loginManagedBean {
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentAdmin", currentAdmin);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role","admin");
             FacesContext.getCurrentInstance().getExternalContext().redirect("adminDashboard.xhtml");            
         }
         catch(InvalidLoginCredentialException ex)

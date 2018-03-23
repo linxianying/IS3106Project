@@ -8,22 +8,30 @@
     <h:head>
         <title>Learning Hub System Index Page</title>
     </h:head>
-    <h:body>
+    <h:panelGroup rendered="#{!sessionScope['isLogin']}">
         <p:button value="LOGIN AS STUDENT" outcome="loginStudent"/>
 
         <br></br>
         <p:button value="LOGIN AS LECTURER" outcome="loginLecturer"/>
-        
+
         <br></br>
         <p:button value="LOGIN AS ADMINISTRATOR" outcome="loginAdmin"/>
-        
+
         <br></br>
         <p:button value="LOGIN AS TEACHING ASSISTANT" outcome="loginTA"/>
-        
+
         <br></br>
         <p:button value="SIGN UP AS STUDENT" outcome="register"/>
-        
+
         <br></br>
-    </h:body>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{sessionScope['isLogin']}">
+
+        <h:outputText value="You are login as #{sessionScope['role']}" />
+        <br></br>
+        <h:outputText value="You must logout before login again" />
+
+    </h:panelGroup>
 </html>
 
