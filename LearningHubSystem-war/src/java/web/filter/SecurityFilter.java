@@ -43,7 +43,7 @@ public class SecurityFilter implements Filter {
         if (!excludeLoginCheck(requestServletPath)) {
 
             if (isLogin == true) {
-                String currentRole = (String)httpSession.getAttribute("role");
+                String currentRole = (String) httpSession.getAttribute("role");
 
                 if (checkAccessRight(requestServletPath, currentRole)) {
                     chain.doFilter(request, response);
@@ -64,56 +64,60 @@ public class SecurityFilter implements Filter {
 
     private Boolean checkAccessRight(String path, String currentRole) {
         if (currentRole.equals("student")) {
-            if (path.equals("/announcement.xhtml")
-                || path.equals("/classAndGroups.xhtml")
-                || path.equals("/facilitators.xhtml")
-                || path.equals("/files.xhtml")
-                || path.equals("/moduleDetails.xhtml")
-                || path.equals("/studentDashboard.xhtml")
-                || path.equals("/studentModule.xhtml")
-                || path.equals("/studentSchedule.xhtml")) {
+            if (path.equals("/studentAnnouncement.xhtml")
+                    || path.equals("/studentClassAndGroups.xhtml")
+                    || path.equals("/studentFacilitators.xhtml")
+                    || path.equals("/studentFiles.xhtml")
+                    || path.equals("/studentModuleDetails.xhtml")
+                    || path.equals("/studentDashboard.xhtml")
+                    || path.equals("/studentModule.xhtml")
+                    || path.equals("/studentSchedule.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (currentRole.equals("lecturer")) {
-            if (path.equals("/announcementLecturer.xhtml")
-                || path.equals("/classAndGroups.xhtml")
-                || path.equals("/facilitators.xhtml")
-                || path.equals("/fileLecturer.xhtml")
-                || path.equals("/lecturerDashboard.xhtml")
-                || path.equals("/lecturerModule.xhtml")
-                || path.equals("/lecturerSchedule.xhtml")) {
+            if (path.equals("/lecturerAnnouncement.xhtml")
+                    || path.equals("/lecturerClassAndGroups.xhtml")
+                    || path.equals("/lecturerFacilitators.xhtml")
+                    || path.equals("/lecturerFiles.xhtml")
+                    || path.equals("/lecturerModuleDetails.xhtml")
+                    || path.equals("/lecturerDashboard.xhtml")
+                    || path.equals("/lecturerModule.xhtml")
+                    || path.equals("/lecturerSchedule.xhtml")) {
                 return true;
             } else {
                 return false;
             }
 
-        } else if (currentRole.equals("admin")) {
-            if (path.equals("/adminDashboard.xhtml")
-                || path.equals("/adminModuleManagement.xhtml")
-                || path.equals("/adminUsersManagement.xhtml")) {
+        } else if (currentRole.equals("TA")) {
+            if (path.equals("/TAAnnouncement.xhtml")
+                    || path.equals("/TAClassAndGroups.xhtml")
+                    || path.equals("/TAFacilitators.xhtml")
+                    || path.equals("/TAFiles.xhtml")
+                    || path.equals("/TAModuleDetails.xhtml")
+                    || path.equals("/TADashboard.xhtml")
+                    || path.equals("/TAModule.xhtml")
+                    || path.equals("/TASchedule.xhtml")) {
                 return true;
             } else {
                 return false;
             }
             
-        } else if (currentRole.equals("TA")) {
-            if (path.equals("/announcement.xhtml")
-                || path.equals("/classAndGroups.xhtml")
-                || path.equals("/facilitators.xhtml")
-                || path.equals("/file.xhtml")
-                || path.equals("/TADashboard.xhtml")
-                || path.equals("/TAModule.xhtml")
-                || path.equals("/TASchedule.xhtml")) {
+        }else if (currentRole.equals("admin")) {
+            if (path.equals("/adminDashboard.xhtml")
+                    || path.equals("/adminModuleManagement.xhtml")
+                    || path.equals("/adminUsersManagement.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         }
-        
-        return false;
-    }
+
+            return false;
+        }
+
+    
 
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")
