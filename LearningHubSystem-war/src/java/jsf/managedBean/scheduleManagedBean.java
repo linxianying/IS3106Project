@@ -8,21 +8,15 @@ package jsf.managedBean;
 import entity.Lecturer;
 import entity.Student;
 import entity.TimeEntry;
-import javax.faces.bean.ManagedBean;
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
@@ -32,7 +26,6 @@ import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
@@ -89,6 +82,19 @@ public class scheduleManagedBean {
             userType = "lecturer";
             lecturer = (Lecturer) session.getAttribute("lecturer");
             username = lecturer.getUsername();
+            timeEntries = lecturer.getTimeEntries();
+            TimeEntry t;
+            if(timeEntries!=null){
+                for (TimeEntry timeEntry : timeEntries) {
+                    t = (TimeEntry) timeEntry;
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
+                    dse.setDescription(t.getDetails());
+                    //System.out.println(t.getDetails());
+                    eventModel.addEvent(dse);
+                }
+            }else{
+                System.out.println("Empty timeEntries");
+            }
         }
         
     }
