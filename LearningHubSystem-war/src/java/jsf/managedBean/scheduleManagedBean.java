@@ -77,7 +77,7 @@ public class scheduleManagedBean {
             if(timeEntries!=null){
                 for (TimeEntry timeEntry : timeEntries) {
                     t = (TimeEntry) timeEntry;
-                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFrom()), toDate(t.getTo()), t);
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
                     dse.setDescription(t.getDetails());
                     //System.out.println(t.getDetails());
                     eventModel.addEvent(dse);

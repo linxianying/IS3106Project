@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
 import entity.Module;
@@ -12,12 +13,17 @@ import entity.Student;
 import entity.TeachingAssistant;
 import entity.TimeEntry;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.exception.GeneralException;
+import util.exception.TimeEntryExistException;
 
 /**
  *
@@ -30,6 +36,10 @@ public class dataInitialization {
     
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
+    
+    @EJB
+    TimeEntryControllerLocal tecl;
+    
     
     public dataInitialization() {
         
@@ -116,7 +126,18 @@ public class dataInitialization {
     }
     
     private void loadTEData() {
+        Student student1 = new Student("name", "123456", "name@soc.nus", "Computing", "IS", "123456", "namename");
+        em.persist(student1);
+        
         TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
+        try {
+            tecl.createTimeEntry(t1, student1);
+        } catch (TimeEntryExistException ex) {
+            Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+            Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         em.persist(t1);
         TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
         em.persist(t2);
