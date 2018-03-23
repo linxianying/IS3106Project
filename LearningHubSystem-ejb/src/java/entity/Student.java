@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -55,6 +57,9 @@ public class Student implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
     private List<Module> modules;
+    
+    @OneToMany(cascade={CascadeType.ALL})
+    private Collection<TimeEntry> timeEntries = new ArrayList<TimeEntry>();
 
     public Student() {
         this.isPremium = false;
@@ -160,6 +165,15 @@ public class Student implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
+
+    public Collection<TimeEntry> getTimeEntries() {
+        return timeEntries;
+    }
+
+    public void setTimeEntries(Collection<TimeEntry> timeEntries) {
+        this.timeEntries = timeEntries;
+    }
+
 
     @Override
     public boolean equals(Object object) {

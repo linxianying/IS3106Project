@@ -15,7 +15,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import util.exception.AdminNotFoundException;
 import util.exception.LecturerNotFoundException;
 import util.exception.StudentNotFoundException;
@@ -25,6 +24,7 @@ import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -50,6 +50,9 @@ public class loginManagedBean {
     private String username;
     private String password;
     
+    FacesContext context;
+    HttpSession session;
+    
    
     
     public loginManagedBean() {
@@ -59,6 +62,10 @@ public class loginManagedBean {
         try
         {
             Student currentStudent = studentControllerLocal.login(username, password);
+            context = FacesContext.getCurrentInstance();
+            session = (HttpSession) context.getExternalContext().getSession(true);
+            session.setAttribute("userType", "student");
+            session.setAttribute("student", currentStudent);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentStudent);
