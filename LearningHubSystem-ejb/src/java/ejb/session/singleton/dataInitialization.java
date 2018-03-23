@@ -10,6 +10,7 @@ import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import entity.TimeEntry;
 import java.sql.Timestamp;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -51,6 +52,9 @@ public class dataInitialization {
         }
         if (em.find(TeachingAssistant.class, 1l) == null) {
             loadTAData();
+        }
+        if (em.find(TimeEntry.class, 1l) == null) {
+            loadTEData();
         }
     }
     
@@ -108,6 +112,16 @@ public class dataInitialization {
         em.persist(teachingAssistant2);
         TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
         em.persist(teachingAssistant3);
+        
+    }
+    
+    private void loadTEData() {
+        TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
+        em.persist(t1);
+        TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
+        em.persist(t2);
+        TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
+        em.persist(t3);
         
     }
     

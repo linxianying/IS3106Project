@@ -28,10 +28,12 @@ public class TimeEntry implements Serializable {
     private String title;
     
     @Column(length = 128, nullable = false)
-    private String from;
+    private String fromDate;
+    //"yyyy-MM-dd HH:mm"
     
     @Column(length = 128, nullable = false)
-    private String to;
+    private String toDate;
+    //"yyyy-MM-dd HH:mm"
     
     @Column(length = 512, nullable = false)
     private String details;
@@ -42,8 +44,8 @@ public class TimeEntry implements Serializable {
     
     public TimeEntry(String title, String from, String to, String details) {
         this.title = title;
-        this.from = from;
-        this.to = to;
+        this.fromDate = from;
+        this.toDate = to;
         this.details = details;
     }
 
@@ -73,21 +75,23 @@ public class TimeEntry implements Serializable {
         this.details = details;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromDate() {
+        return fromDate;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public String getTo() {
-        return to;
+    public String getToDate() {
+        return toDate;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
+
+    
 
     @Override
     public int hashCode() {

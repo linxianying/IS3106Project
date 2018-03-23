@@ -26,7 +26,7 @@ import util.exception.TimeEntryNotFoundException;
 @Local
 public interface TimeEntryControllerLocal {
 
-    public TimeEntry createTimeEntry(TimeEntry timeEntry) throws TimeEntryExistException,GeneralException;
+    public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) throws TimeEntryExistException,GeneralException;
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException;
     public List<TimeEntry> retrieveAllTimeEntrys() ;
 

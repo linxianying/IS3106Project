@@ -9,6 +9,7 @@ package ejb.session.stateless;
 
 import entity.TimeEntry;
 import java.util.List;
+import entity.Student;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,11 +36,13 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     TimeEntry t;
     
     @Override
-    public TimeEntry createTimeEntry(TimeEntry timeEntry) throws TimeEntryExistException,GeneralException {
+    public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) throws TimeEntryExistException,GeneralException {
         try{
+            student.getTimeEntries().add(timeEntry);
+            em.persist(student);
             em.persist(timeEntry);
             em.flush(); 
-            em.refresh(timeEntry);
+            em.refresh(timeEntry); 
 
             return timeEntry;
         } catch (PersistenceException ex) {

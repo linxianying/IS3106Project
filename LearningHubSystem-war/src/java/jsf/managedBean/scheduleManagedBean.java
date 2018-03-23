@@ -5,10 +5,19 @@
  */
 package jsf.managedBean;
 
+import entity.Lecturer;
+import entity.Student;
+import entity.TimeEntry;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,6 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
  
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -37,17 +47,60 @@ public class scheduleManagedBean {
     /**
      * Creates a new instance of ScheduleManagedBean
      */
-    public scheduleManagedBean() {
-    }
+    private Student student;
+    private Lecturer lecturer;
+    private String userType;
+    private String username;
     private ScheduleModel eventModel;
-   
+    private Collection<TimeEntry> timeEntries;
+    FacesContext context;
+    HttpSession session;
+    
  
     private ScheduleEvent event = new DefaultScheduleEvent();
+    
+    public scheduleManagedBean() {
+    }
+    
  
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
-        //eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        if(session.getAttribute("userType").equals("student")){
+            userType = "student";
+            student = (Student) session.getAttribute("student");
+            username = student.getUsername();
+            timeEntries = student.getTimeEntries();
+            TimeEntry t;
+            if(timeEntries!=null){
+                for (TimeEntry timeEntry : timeEntries) {
+                    t = (TimeEntry) timeEntry;
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFrom()), toDate(t.getTo()), t);
+                    dse.setDescription(t.getDetails());
+                    //System.out.println(t.getDetails());
+                    eventModel.addEvent(dse);
+                }
+            }else{
+                System.out.println("Empty timeEntries");
+            }
+        }else{
+            userType = "lecturer";
+            lecturer = (Lecturer) session.getAttribute("lecturer");
+            username = lecturer.getUsername();
+        }
+        
+    }
+    
+    public Date toDate(String str){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(str);
+        } catch (ParseException ex) {
+            
+        }
+        return date;
     }
      
     public Date getRandomDate(Date base) {
@@ -75,25 +128,6 @@ public class scheduleManagedBean {
  
         return calendar;
     }
-     
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
-         
-        return t.getTime();
-    }
-     
-    private Date previousDay11Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 11);
-         
-        return t.getTime();
-    }
-
      
     public ScheduleEvent getEvent() {
         return event;
