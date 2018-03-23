@@ -55,6 +55,10 @@ public class Student implements Serializable {
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
     private List<Module> modules;
+    
+    @ManyToMany(cascade={CascadeType.PERSIST})
+    @JoinTable(name="Student_TimeEntry")
+    private List<TimeEntry> timeEntries;
 
     public Student() {
         this.isPremium = false;
@@ -159,6 +163,14 @@ public class Student implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public List<TimeEntry> getTimeEntries() {
+        return timeEntries;
+    }
+
+    public void setTimeEntries(List<TimeEntry> timeEntries) {
+        this.timeEntries = timeEntries;
     }
 
     @Override
