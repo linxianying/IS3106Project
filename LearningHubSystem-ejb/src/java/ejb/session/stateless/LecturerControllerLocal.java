@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Lecturer;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
@@ -21,9 +22,9 @@ import util.exception.PasswordChangeException;
 @Local
 public interface LecturerControllerLocal {
 
-    public ArrayList<Lecturer> retrieveAllLecturers();
+    public List<Lecturer> retrieveAllLecturers();
 
-    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException;
+    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException,GeneralException;
 
     public Lecturer retrieveLecturerById(Long lecturerId) throws LecturerNotFoundException;
 

@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Lecturer;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,26 +36,29 @@ public class LecturerController implements LecturerControllerLocal {
 
     
     @Override
-    public ArrayList<Lecturer> retrieveAllLecturers() {
+    public List<Lecturer> retrieveAllLecturers() {
         Query query = em.createQuery("SELECT l FROM Lecturer l");
-        return (ArrayList<Lecturer>) query.getResultList();
+        return (List<Lecturer>) query.getResultList();
         
     }
     
     @Override
-    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException {
+    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException,GeneralException {
+        try{
+            em.persist(lecturer);
+            em.flush();
+            em.refresh(lecturer);
 
-        ArrayList<Lecturer> lecturerList = retrieveAllLecturers();
-        for (Lecturer lec : lecturerList) {
-            if (lecturer.getUsername().equals(lec.getUsername()))
-            {
+            return lecturer;
+        } catch (PersistenceException ex) {
+            if (ex.getCause() != null
+                    && ex.getCause().getCause() != null
+                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
                 throw new LecturerExistException("Lecturer Account Already Exist.\n");
+            } else {
+                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
             }
         }
-        em.persist(lecturer);
-        em.flush();
-        
-        return lecturer;
     }
 
     

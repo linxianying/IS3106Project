@@ -12,6 +12,7 @@ import entity.Announcement;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -22,6 +23,7 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
+
 /**
  *
  * @author mango
@@ -32,12 +34,12 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
 
     @PersistenceContext
     EntityManager em;
-    
+
     TeachingAssistant teachingAssistant;
-    
+
     @Override
-    public TeachingAssistant createTeachingAssistant(TeachingAssistant ta)throws TAExistException,GeneralException {
-        try{
+    public TeachingAssistant createTeachingAssistant(TeachingAssistant ta) throws TAExistException, GeneralException {
+        try {
             em.persist(ta);
             em.flush();
             em.refresh(ta);
@@ -55,29 +57,33 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     }
 
     @Override
-    public TeachingAssistant retrieveTAByUsername(String username) throws TANotFoundException{
+    public List<TeachingAssistant> retrieveAllTAs() {
+        Query query = em.createQuery("SELECT t FROM TeachingAssistant t");
+        return (List<TeachingAssistant>) query.getResultList();
+    }
+
+    @Override
+    public TeachingAssistant retrieveTAByUsername(String username) throws TANotFoundException {
         teachingAssistant = null;
-        try{
+        try {
             Query q = em.createQuery("SELECT s FROM TeachingAssistant s WHERE s.username=:username");
             q.setParameter("username", username);
             teachingAssistant = (TeachingAssistant) q.getSingleResult();
             System.out.println("TeachingAssistant " + username + " found.");
-        }
-        catch(NoResultException e){
+        } catch (NoResultException e) {
             throw new TANotFoundException();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return teachingAssistant;
     }
-    
+
     @Override
-    public boolean updateTeachingAssistantEmail(String username, String email)throws TANotFoundException {
-        
+    public boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException {
+
         teachingAssistant = retrieveTAByUsername(username);
-        
-        if (teachingAssistant==null) {
+
+        if (teachingAssistant == null) {
             System.out.println("Error: No teaching assistant is found");
             return false;
         }
@@ -85,13 +91,13 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         em.merge(teachingAssistant);
         return true;
     }
-    
+
     @Override
-    public boolean updateTeachingAssistantPassword(String username, String password)throws TANotFoundException {
-        
+    public boolean updateTeachingAssistantPassword(String username, String password) throws TANotFoundException {
+
         teachingAssistant = retrieveTAByUsername(username);
-        
-        if (teachingAssistant==null) {
+
+        if (teachingAssistant == null) {
             System.out.println("Error: update teaching assistant's password failed");
             return false;
         }
@@ -99,13 +105,13 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         em.merge(teachingAssistant);
         return true;
     }
-    
+
     @Override
-    public boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException{
-        
+    public boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException {
+
         teachingAssistant = retrieveTAByUsername(username);
-        
-        if (teachingAssistant==null) {
+
+        if (teachingAssistant == null) {
             System.out.println("Error: update teaching assistant's telephone failed");
             return false;
         }
@@ -113,24 +119,18 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         em.merge(teachingAssistant);
         return true;
     }
-    
+
     @Override
-    public TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException{
-        try
-        {
+    public TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException {
+        try {
             TeachingAssistant ta = retrieveTAByUsername(username);
-           
-            if(ta.getPassword().equals(password))
-            {
+
+            if (ta.getPassword().equals(password)) {
                 return ta;
-            }
-            else
-            {
+            } else {
                 throw new InvalidLoginCredentialException("Invalid password!");
             }
-        }
-        catch(TANotFoundException ex)
-        {
+        } catch (TANotFoundException ex) {
             throw new InvalidLoginCredentialException("Username does not exist!");
         }
     }
