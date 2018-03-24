@@ -107,11 +107,11 @@ public class moduleController implements moduleControllerLocal {
             return module;
         }
         catch(ModuleNotFoundException ex){
-            throw new ModuleNotFoundException("Moudle: " + moduleCode + "dose not exist.");
+            throw new ModuleNotFoundException("Module: " + moduleCode + "does not exist.");
         }
     }
-
+    
    
     
-
+   
 }
