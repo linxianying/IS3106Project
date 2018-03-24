@@ -7,7 +7,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="./layout/studentLayout.xhtml" >
     <ui:define name="content">
+       
+        <p:stack icon="/resources/images/icon/stack.png" expanded="true">
+            <p:menuitem value="Announcements" icon="resources/images/icon/announcement.png" url="#"/>
+            <p:menuitem value="Facilitators" icon="resources/images/icon/facilitators.png" url="#"/>
+            <p:menuitem value="Class" icon="resources/images/icon/students.png" url="#"/>
+            <p:menuitem value="Folders" icon="resources/images/icon/folder.png" url="#"/>
+        </p:stack>
         
-<!--https://www.primefaces.org/showcase/ui/menu/stack.xhtml-->
     </ui:define>
 </ui:composition>

@@ -8,8 +8,8 @@ package ejb.session.stateless;
 import entity.Announcement;
 import entity.Lecturer;
 import entity.Module;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.AnnouncementExistException;
 import util.exception.AnnouncementNotFoundException;
@@ -20,7 +20,7 @@ import util.exception.AnnouncementNotFoundException;
  */
 @Local
 public interface AnnouncementControllerLocal {
-    public ArrayList<Announcement> retrieveAllAnnouncement();
+    public List<Announcement> retrieveAllAnnouncement();
     
     public Announcement createNewAnnouncement(Announcement acm, Lecturer lec, Module mod) throws AnnouncementExistException;
     
@@ -28,7 +28,7 @@ public interface AnnouncementControllerLocal {
     
     public Announcement retrieveAnnouncementByName(String name) throws AnnouncementNotFoundException;
     
-    public ArrayList<Announcement> retrieveAnnouncementsByModule(Module mod) throws AnnouncementNotFoundException;
+    public List<Announcement> retrieveAnnouncementsByModule(Module mod) throws AnnouncementNotFoundException;
     
-    public ArrayList<Announcement> retrieveAnnouncementsByDate(Date date) throws AnnouncementNotFoundException;
+    public List<Announcement> retrieveAnnouncementsByDate(Date date) throws AnnouncementNotFoundException;
 }

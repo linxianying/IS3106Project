@@ -9,8 +9,8 @@ import javax.ejb.Stateless;
 import entity.Announcement;
 import entity.Lecturer;
 import entity.Module;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,14 +29,10 @@ public class AnnouncementController implements AnnouncementControllerLocal {
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    
-    
     @Override
-    public ArrayList<Announcement> retrieveAllAnnouncement() {
+    public List<Announcement> retrieveAllAnnouncement() {
         Query query = em.createQuery("SELECT a FROM Announcement a");
-        return (ArrayList<Announcement>) query.getResultList();
+        return (List<Announcement>) query.getResultList();
         
     }
     
@@ -45,7 +41,7 @@ public class AnnouncementController implements AnnouncementControllerLocal {
     @Override
     public Announcement createNewAnnouncement(Announcement acm, Lecturer lec, Module mod) throws AnnouncementExistException {
 
-        ArrayList<Announcement> announcements = retrieveAllAnnouncement();
+        List<Announcement> announcements = retrieveAllAnnouncement();
         for (Announcement annoucement: announcements) {
             if (annoucement.getName().equals(acm.getName()))
             {
@@ -98,10 +94,10 @@ public class AnnouncementController implements AnnouncementControllerLocal {
     
     
     @Override
-    public ArrayList<Announcement> retrieveAnnouncementsByModule(Module mod) throws AnnouncementNotFoundException {
+    public List<Announcement> retrieveAnnouncementsByModule(Module mod) throws AnnouncementNotFoundException {
         Query query = em.createQuery("SELECT a FROM Announcement a WHERE a.module:=inModule");
         query.setParameter("inModule", mod);
-        ArrayList<Announcement> acms = (ArrayList<Announcement>) query.getResultList();
+        List<Announcement> acms = (List<Announcement>) query.getResultList();
         
         if (acms != null) {
             return acms;
@@ -111,10 +107,10 @@ public class AnnouncementController implements AnnouncementControllerLocal {
     }
     
     @Override
-    public ArrayList<Announcement> retrieveAnnouncementsByDate(Date date) throws AnnouncementNotFoundException {
+    public List<Announcement> retrieveAnnouncementsByDate(Date date) throws AnnouncementNotFoundException {
         Query query = em.createQuery("SELECT a FROM Announcement a WHERE a.date:=inDate");
         query.setParameter("inDate", date);
-        ArrayList<Announcement> acms = (ArrayList<Announcement>) query.getResultList();
+        List<Announcement> acms = (List<Announcement>) query.getResultList();
         
         if (acms != null) {
             return acms;
