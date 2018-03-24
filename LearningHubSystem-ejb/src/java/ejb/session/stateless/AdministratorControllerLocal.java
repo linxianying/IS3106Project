@@ -19,7 +19,7 @@ import util.exception.PasswordChangeException;
  * @author mango
  */
 @Local
-public interface administratorControllerLocal {
+public interface AdministratorControllerLocal {
 
     Administrator createNewAmin(Administrator admin) throws AdminExistException;
 
@@ -29,7 +29,7 @@ public interface administratorControllerLocal {
 
     Administrator retrieveAdminById(Long id) throws AdminNotFoundException;
     
-    Administrator adminLogin(String username, String password) throws InvalidLoginCredentialException, AdminNotFoundException;
+    Administrator login(String username, String password) throws InvalidLoginCredentialException, AdminNotFoundException;
     
     void changePassword(String currentPassword, String newPassword, Long adminId) throws AdminNotFoundException, PasswordChangeException;
     

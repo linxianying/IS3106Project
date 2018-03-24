@@ -7,16 +7,17 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Learning Hub System Register Page</title>
-        <h:outputStylesheet name="./css/newcss.css" />
+        <h:outputStylesheet library="css" name="newcss.css"  />
     </h:head>
     <h:body>
+        <h:outputText value="Register A New Student" />
         <h:form>
             <p:messages showDetail="true" autoUpdate="true" closable="true" />
         <div class="form-labels-on-top">
             <div class="form-row">
                 <label>
                     <span>Username</span>
-                    <p:inputText styleClass="textInput" id="username" value="#{registerManagedBean.username}" 
+                    <p:inputText styleClass="textInput" id="username" value="#{registerManagedBean.newStudent.username}" 
                          required="true" requiredMessage="Please enter your username" 
                          placeholder="Username"
                          validatorMessage="Username must be between 4-12 letters/numbers.">
@@ -27,7 +28,7 @@
             <div class="form-row">
                 <label>
                     <span>Name</span>
-                    <p:inputText styleClass="textInput" id="name" value="#{registerManagedBean.name}" 
+                    <p:inputText styleClass="textInput" id="name" value="#{registerManagedBean.newStudent.name}" 
                          required="true" requiredMessage="Please enter your name" 
                          placeholder="Name"
                     />
@@ -36,7 +37,7 @@
             <div class="form-row">
                 <label>
                     <span>Password</span>
-                    <p:password styleClass="textInput" id="password1" value="#{registerManagedBean.password}" 
+                    <p:password styleClass="textInput" id="password1" value="#{registerManagedBean.newStudent.password}" 
                     required="true" requiredMessage="Please enter your password" 
                     placeholder="Password"/>
                 </label>
@@ -44,7 +45,7 @@
             <div class="form-row">
                 <label>
                     <span>Email</span>
-                    <p:inputText styleClass="textInput" id="school" value="#{registerManagedBean.email}" 
+                    <p:inputText styleClass="textInput" id="school" value="#{registerManagedBean.newStudent.email}" 
                          required="true" requiredMessage="Please enter your email" 
                          placeholder="Email"
                     />
@@ -53,7 +54,7 @@
             <div class="form-row">
                 <label>
                     <span>Faculty</span>
-                    <p:inputText styleClass="textInput" id="faculty" value="#{registerManagedBean.faculty}" 
+                    <p:inputText styleClass="textInput" id="faculty" value="#{registerManagedBean.newStudent.faculty}" 
                          required="true" requiredMessage="Please enter your faculty" 
                          placeholder="Faculty"
                     />
@@ -62,7 +63,7 @@
             <div class="form-row">
                 <label>
                     <span>Department</span>
-                    <p:inputText styleClass="textInput" id="department" value="#{registerManagedBean.department}" 
+                    <p:inputText styleClass="textInput" id="department" value="#{registerManagedBean.newStudent.department}" 
                          required="true" requiredMessage="Please enter your department" 
                          placeholder="Department"
                     />
@@ -71,7 +72,7 @@
             <div class="form-row">
                 <label>
                     <span>Telephone</span>
-                    <p:inputText styleClass="textInput" id="telephone" value="#{registerManagedBean.telephone}" 
+                    <p:inputText styleClass="textInput" id="telephone" value="#{registerManagedBean.newStudent.telephone}" 
                          required="true" requiredMessage="Please enter your telephone" 
                          placeholder="Telephone"
                     />

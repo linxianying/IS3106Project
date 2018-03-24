@@ -5,26 +5,36 @@
  */
 package jsf.managedBean;
 
-import javax.faces.bean.ManagedBean;
-import java.io.Serializable;
+import ejb.session.stateless.TimeEntryControllerLocal;
+import entity.Lecturer;
+import entity.Student;
+import entity.TimeEntry;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
  
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
+import util.exception.GeneralException;
+import util.exception.TimeEntryExistException;
 
 /**
  *
@@ -37,17 +47,78 @@ public class scheduleManagedBean {
     /**
      * Creates a new instance of ScheduleManagedBean
      */
-    public scheduleManagedBean() {
-    }
+    private Student student;
+    private Lecturer lecturer;
+    private String userType;
+    private String username;
+    private String details;
     private ScheduleModel eventModel;
-   
+    private Collection<TimeEntry> timeEntries;
+    FacesContext context;
+    HttpSession session;
+    
  
     private ScheduleEvent event = new DefaultScheduleEvent();
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    
+    @EJB
+    TimeEntryControllerLocal tecl;
+    
+    public scheduleManagedBean() {
+    }
+    
  
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
-        //eventModel.addEvent(new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm()));
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        if(session.getAttribute("userType").equals("student")){
+            userType = "student";
+            student = (Student) session.getAttribute("student");
+            username = student.getUsername();
+            timeEntries = student.getTimeEntries();
+            TimeEntry t;
+            if(timeEntries!=null){
+                for (TimeEntry timeEntry : timeEntries) {
+                    t = (TimeEntry) timeEntry;
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
+                    dse.setDescription(t.getDetails());
+                    //System.out.println(t.getDetails());
+                    eventModel.addEvent(dse);
+                }
+            }else{
+                System.out.println("Empty timeEntries");
+            }
+        }else{
+            userType = "lecturer";
+            lecturer = (Lecturer) session.getAttribute("lecturer");
+            username = lecturer.getUsername();
+            timeEntries = lecturer.getTimeEntries();
+            TimeEntry t;
+            if(timeEntries!=null){
+                for (TimeEntry timeEntry : timeEntries) {
+                    t = (TimeEntry) timeEntry;
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
+                    dse.setDescription(t.getDetails());
+                    //System.out.println(t.getDetails());
+                    eventModel.addEvent(dse);
+                }
+            }else{
+                System.out.println("Empty timeEntries");
+            }
+        }
+        
+    }
+    
+    public Date toDate(String str){
+        Date date = null;
+        try {
+            date = df.parse(str);
+        } catch (ParseException ex) {
+            
+        }
+        return date;
     }
      
     public Date getRandomDate(Date base) {
@@ -76,25 +147,6 @@ public class scheduleManagedBean {
         return calendar;
     }
      
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
-         
-        return t.getTime();
-    }
-     
-    private Date previousDay11Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 11);
-         
-        return t.getTime();
-    }
-
-     
     public ScheduleEvent getEvent() {
         return event;
     }
@@ -103,13 +155,35 @@ public class scheduleManagedBean {
         this.event = event;
     }
      
-    public void addEvent(ActionEvent actionEvent) {
-        if(event.getId() == null)
-            eventModel.addEvent(event);
-        else
-            eventModel.updateEvent(event);
-         
+    
+    public void addEvent(ActionEvent actionEvent) throws TimeEntryExistException, GeneralException {
+        
+        if (event.getId() == null) {
+            TimeEntry t = new TimeEntry(event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), "");
+            if(userType.equals("student")){
+               
+                //student.getTimeEntries().add(t);
+                tecl.createTimeEntry(t, student);
+               
+            }else if(userType.equals("lecturer")){
+                tecl.createTimeEntry(t, lecturer);
+            }
+            eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
+        } else {
+            TimeEntry t = (TimeEntry) event.getData();
+            tecl.updateTimeEntry(t,event.getTitle(),df.format(event.getStartDate()), df.format(event.getEndDate()), details);
+            eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
+        }
         event = new DefaultScheduleEvent();
+    }
+
+    public void deleteEvent(ActionEvent actionEvent) {
+        TimeEntry t = (TimeEntry) event.getData();
+        if(userType.equals("student"))
+            tecl.deleteTimeEntry(t.getId(), student); 
+        else
+            tecl.deleteTimeEntry(t.getId(), lecturer); 
+        eventModel.deleteEvent(event);
     }
      
     public void onEventSelect(SelectEvent selectEvent) {
@@ -135,4 +209,77 @@ public class scheduleManagedBean {
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Lecturer getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Collection<TimeEntry> getTimeEntries() {
+        return timeEntries;
+    }
+
+    public void setTimeEntries(Collection<TimeEntry> timeEntries) {
+        this.timeEntries = timeEntries;
+    }
+
+    public FacesContext getContext() {
+        return context;
+    }
+
+    public void setContext(FacesContext context) {
+        this.context = context;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public DateFormat getDf() {
+        return df;
+    }
+
+    public void setDf(DateFormat df) {
+        this.df = df;
+    }
+    
 }

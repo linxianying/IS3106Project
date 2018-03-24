@@ -5,7 +5,6 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.studentControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
 import entity.Student;
@@ -16,6 +15,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import util.exception.StudentExistException;
+import ejb.session.stateless.StudentControllerLocal;
 
 /**
  *
@@ -26,114 +26,37 @@ import util.exception.StudentExistException;
 public class registerManagedBean {
 
     @EJB(name = "studentControllerLocal")
-    private studentControllerLocal studentControllerLocal;
+    private StudentControllerLocal studentControllerLocal;
 
-    private Student newStudent;    
-         
-    private String username;
-    private String password;
-    private String userType;
-    private String telephone;
-    private String faculty;
-    private String department;
-    private String email;
-    private boolean isPremium;
-    private String name;
-    
+    private Student newStudent;
+
     public registerManagedBean() {
         newStudent = new Student();
     }
 
-    public Student getStudent() {
+    public Student getNewStudent() {
         return newStudent;
     }
 
-    public void setStudent(Student student) {
-        this.newStudent = student;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isIsPremium() {
-        return isPremium;
-    }
-
-    public void setIsPremium(boolean isPremium) {
-        this.isPremium = isPremium;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setNewStudent(Student newStudent) {
+        this.newStudent = newStudent;
     }
     
-    
-    public void doSignUp(ActionEvent event){
-        try{
-            System.err.println("*********** doSignUp");
-            newStudent = new Student(name, password, email, faculty, department, telephone, username);
+    public void doSignUp(ActionEvent event) {
+        try {
             Student stu = studentControllerLocal.createStudent(newStudent);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  )", null));
-            FacesContext.getCurrentInstance().getExternalContext().redirect("loginStudent.xhtml");
-        }
-        catch(Exception ex){
+            newStudent = new Student();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New student created successfully (Student ID:  " + stu.getId() + ")", null));
+
+            //if never login, go to login page
+            if (!(Boolean)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("isLogin")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("loginStudent.xhtml");
+            } 
+            //if login already, should logout before logoin with new account
+            else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You need to logout before login with new account.", null));
+            }
+        } catch (Exception ex) {
             System.err.println(ex);
             System.out.println("Student with the same Username has already exists!");
         }

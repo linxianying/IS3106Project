@@ -24,8 +24,8 @@ import util.exception.PasswordChangeException;
  * @author mango
  */
 @Stateless
-@Local(administratorControllerLocal.class)
-public class administratorController implements administratorControllerLocal {
+@Local(AdministratorControllerLocal.class)
+public class AdministratorController implements AdministratorControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
@@ -85,7 +85,7 @@ public class administratorController implements administratorControllerLocal {
     }
 
     @Override
-    public Administrator adminLogin(String username, String password) throws InvalidLoginCredentialException, AdminNotFoundException {
+    public Administrator login(String username, String password) throws InvalidLoginCredentialException, AdminNotFoundException {
         try {
             Administrator admin = retrieveAdminByUsername(username);
             

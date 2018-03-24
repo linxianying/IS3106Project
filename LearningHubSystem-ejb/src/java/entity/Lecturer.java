@@ -6,6 +6,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,6 +60,9 @@ public class Lecturer implements Serializable {
     
     @OneToMany(cascade={CascadeType.ALL},mappedBy="lecturer")
     private List<Announcement> announcements;
+    
+    @OneToMany(cascade={CascadeType.ALL})
+    private Collection<TimeEntry> timeEntries = new ArrayList<TimeEntry>();
 
     //default constructor
     public Lecturer() {
@@ -163,6 +168,14 @@ public class Lecturer implements Serializable {
 
     public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
+    }
+
+    public Collection<TimeEntry> getTimeEntries() {
+        return timeEntries;
+    }
+
+    public void setTimeEntries(Collection<TimeEntry> timeEntries) {
+        this.timeEntries = timeEntries;
     }
     
     

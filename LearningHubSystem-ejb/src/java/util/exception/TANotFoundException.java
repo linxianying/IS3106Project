@@ -7,13 +7,13 @@ package util.exception;
 
 /**
  *
- * @author lin
+ * @author mango
  */
-public class StudentNotFoundException extends Exception {
-    public StudentNotFoundException() {
+public class TANotFoundException extends Exception{
+        public TANotFoundException() {
     }
 
-    public StudentNotFoundException(String msg) {
+    public TANotFoundException(String msg) {
         super(msg);
     }
 }

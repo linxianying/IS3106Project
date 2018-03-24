@@ -14,6 +14,7 @@ import entity.Student;
 import entity.TeachingAssistant;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,6 +22,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -28,7 +30,8 @@ import util.exception.StudentNotFoundException;
  * @author mango
  */
 @Stateless
-public class studentController implements studentControllerLocal {
+@Local(StudentControllerLocal.class)
+public class StudentController implements StudentControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
@@ -36,29 +39,26 @@ public class studentController implements studentControllerLocal {
     Student student;
     
     @Override
-    public Student createStudent(Student studentEntity){
-//        try{
-//            em.persist(student);
-//            em.flush();
-//            em.refresh(student);
-//
-//            return student;
-//        } catch (PersistenceException ex) {
-//            if (ex.getCause() != null
-//                    && ex.getCause().getCause() != null
-//                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
-//                throw new StudentExistException("Student Account Already Exist.\n");
-//            } else {
-//                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
-//            }
-//        }
-        
-        em.persist(studentEntity);
-        return studentEntity;
+    public Student createStudent(Student studentEntity) throws StudentExistException,GeneralException {
+        try{
+            em.persist(studentEntity);
+            em.flush();
+            em.refresh(studentEntity);
+
+            return studentEntity;
+        } catch (PersistenceException ex) {
+            if (ex.getCause() != null
+                    && ex.getCause().getCause() != null
+                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
+                throw new StudentExistException("Student Account Already Exist.\n");
+            } else {
+                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
+            }
+        }
     }
 
     @Override
-    public Student findStudent(String username) throws StudentNotFoundException{
+    public Student retrieveStudentByUsername(String username) throws StudentNotFoundException{
         student = null;
         try{
             Query q = em.createQuery("SELECT s FROM Student s WHERE s.username=:username");
@@ -67,8 +67,6 @@ public class studentController implements studentControllerLocal {
             System.out.println("Student " + username + " found.");
         }
         catch(NoResultException e){
-            System.out.println("Student " + username + " does not exist.");
-            student = null;
             throw new StudentNotFoundException("Student with specified ID not found");
         }
         catch(Exception e) {
@@ -87,7 +85,7 @@ public class studentController implements studentControllerLocal {
     @Override
     public boolean updateStudentEmail(String username, String email) throws StudentNotFoundException {
         
-        student = findStudent(username);
+        student = retrieveStudentByUsername(username);
         
         if (student==null) {
             System.out.println("Error: No student is found");
@@ -101,7 +99,7 @@ public class studentController implements studentControllerLocal {
     @Override
     public boolean updateStudentPassword(String username, String password) throws StudentNotFoundException {
         
-        student = findStudent(username);
+        student = retrieveStudentByUsername(username);
         
         if (student==null) {
             System.out.println("Error: No student is found");
@@ -115,7 +113,7 @@ public class studentController implements studentControllerLocal {
     @Override
     public boolean updateStudentTelephone(String username, String telephone) throws StudentNotFoundException {
         
-        student = findStudent(username);
+        student = retrieveStudentByUsername(username);
         
         if (student==null) {
             System.out.println("Error: No student is found");
@@ -124,6 +122,27 @@ public class studentController implements studentControllerLocal {
         student.setTelephone(telephone);
         em.merge(student);
         return true;
+    }
+
+    @Override
+    public Student login(String username, String password) throws InvalidLoginCredentialException{
+        try
+        {
+            Student student = retrieveStudentByUsername(username);
+           
+            if(student.getPassword().equals(password))
+            {
+                return student;
+            }
+            else
+            {
+                throw new InvalidLoginCredentialException("Invalid password!");
+            }
+        }
+        catch(StudentNotFoundException ex)
+        {
+            throw new InvalidLoginCredentialException("Username does not exist!");
+        }
     }
     
     

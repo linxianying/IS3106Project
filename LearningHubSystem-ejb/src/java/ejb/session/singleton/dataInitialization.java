@@ -5,18 +5,25 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import entity.TimeEntry;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.exception.GeneralException;
+import util.exception.TimeEntryExistException;
 
 /**
  *
@@ -29,6 +36,10 @@ public class dataInitialization {
     
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
+    
+    @EJB
+    TimeEntryControllerLocal tecl;
+    
     
     public dataInitialization() {
         
@@ -51,6 +62,9 @@ public class dataInitialization {
         }
         if (em.find(TeachingAssistant.class, 1l) == null) {
             loadTAData();
+        }
+        if (em.find(TimeEntry.class, 1l) == null) {
+            loadTEData();
         }
     }
     
@@ -75,13 +89,13 @@ public class dataInitialization {
     }
     
     private void loadStudentData() {
-        Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wyh");
+        Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wangyinhan");
         em.persist(student1);
-        Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gzp");
+        Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gongzipeng");
         em.persist(student2);
-        Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "lxy");
+        Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
         em.persist(student3);
-        Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xh");
+        Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
         em.persist(student4);
     }
     
@@ -102,12 +116,32 @@ public class dataInitialization {
     }
     
     private void loadTAData() {
-        TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA1", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
+        TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA111", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
         em.persist(teachingAssistant1);
-        TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA2", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
+        TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA222", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
         em.persist(teachingAssistant2);
-        TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA3", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
+        TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
         em.persist(teachingAssistant3);
+        
+    }
+    
+    private void loadTEData() {
+        Student student1 = new Student("name", "123456", "name@soc.nus", "Computing", "IS", "123456", "namename");
+        em.persist(student1);
+        
+        TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
+        TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
+        TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
+        try {
+            tecl.createTimeEntry(t1, student1);
+            tecl.createTimeEntry(t2, student1);
+            tecl.createTimeEntry(t3, student1);
+        } catch (TimeEntryExistException ex) {
+            Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+            Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
     

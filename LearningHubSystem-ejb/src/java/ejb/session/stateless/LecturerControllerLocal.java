@@ -19,7 +19,7 @@ import util.exception.PasswordChangeException;
  * @author mango
  */
 @Local
-public interface lecturerControllerLocal {
+public interface LecturerControllerLocal {
 
     public ArrayList<Lecturer> retrieveAllLecturers();
 
@@ -33,7 +33,7 @@ public interface lecturerControllerLocal {
 
     public Lecturer retrieveLecturerByPhoneNum(String phoneNum) throws LecturerNotFoundException;
 
-    public Lecturer lecturerLogin(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException;
+    public Lecturer login(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException;
 
     public Lecturer updateLecturer(Lecturer lec) throws LecturerExistException, GeneralException;
 

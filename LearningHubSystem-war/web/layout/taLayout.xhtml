@@ -3,11 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <ez:TopBarComponent />
+        <meta http-equiv="Content-Type" content="text/html;
+              charset=UTF-8" />
+        <h:outputStylesheet library="css" name="defaultCss.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <div id="top">
+            <h:form>
+                <p:commandLink title="Logout" style="text-decoration: none;" styleClass="logoutBtn" ></p:commandLink>
+                <p:commandLink title="Settings" style="text-decoration: none;" styleClass="settingsBtn"></p:commandLink>
+                <p:commandLink title="Private Message" style="text-decoration: none;" styleClass="msgBtn"></p:commandLink>
+                <p:commandLink title="Notifications" style="text-decoration: none;" styleClass="notiBtn"
+                               onclick="PF('announcementsDialog').show()"></p:commandLink>  
+            </h:form>
+        </div>
     </h:head>
 
     <h:body>
@@ -17,20 +28,21 @@
                 <div id="style-1">
                     <ul>
                         <li>
-                            <a href="studentDashboard.xhtml">
+                            <a href="#">
                                 <i class="fa fa-home fa-lg"></i>
                                 <span class="nav-text">Dashboard</span>
                             </a>
                         </li>
                         <li>
-                            <a href="studentSchedule.xhtml">
+                            <a href="#">
                                 <i class="fa fa-calendar fa-lg"></i>
                                 <span class="nav-text">Schedule</span>
                             </a>
                         </li>
                         <li>
-                            <a href="studentModule.xhtml">
-                                <i class="fa fa-graduation-cap fa-lg"></i>
+                            <a href="#">
+                                
+                                <i class="fa fa-folder-open-o fa-lg"></i>
                                 <span class="nav-text">Module</span>
                             </a>
                         </li>

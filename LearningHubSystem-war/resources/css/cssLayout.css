@@ -111,7 +111,7 @@ and open the template in the editor.
 /*-- sidebar --*/
 .settings {
     height:10%;
-    background:url(https://i.imgur.com/aLcvjMx.png);
+    background:url(https://imgur.com/ytgw5SU);
     background-color:#3b3b3b;
     background-repeat:no-repeat !important;
     width:250px;
@@ -218,7 +218,7 @@ and open the template in the editor.
 
 /* Logo Hover Property */
 .settings:hover, settings:focus {   
-    background:url(https://i.imgur.com/aLcvjMx.png);
+    background:url(https://imgur.com/ytgw5SU);
     background-color:#2b2b2b;
     -webkit-transition: all 0.2s ease-in-out, width 0, height 0, top 0, left 0;
     -moz-transition: all 0.2s ease-in-out, width 0, height 0, top 0, left 0;
@@ -227,7 +227,7 @@ and open the template in the editor.
 }
 
 .settings:active, settings:focus {   
-    background:url(https://i.imgur.com/aLcvjMx.png);
+    background:url(https://imgur.com/ytgw5SU);
     background-color:#2b2b2b;
     -webkit-transition: all 0.1s ease-in-out, width 0, height 0, top 0, left 0;
     -moz-transition: all 0.1s ease-in-out, width 0, height 0, top 0, left 0;
