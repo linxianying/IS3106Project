@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import ejb.session.singleton.*;
 import ejb.session.stateless.*;
+import entity.Lecturer;
 import entity.Student;
 import entity.TimeEntry;
 import java.util.ArrayList;
@@ -26,8 +27,13 @@ import util.exception.TimeEntryNotFoundException;
 @Local
 public interface TimeEntryControllerLocal {
 
-    public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) throws TimeEntryExistException,GeneralException;
+    public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) 
+            throws TimeEntryExistException,GeneralException;
+    public TimeEntry createTimeEntry(TimeEntry timeEntry, Lecturer lecturer) 
+            throws TimeEntryExistException,GeneralException;
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException;
     public List<TimeEntry> retrieveAllTimeEntrys() ;
-
+    public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details);
+    public boolean deleteTimeEntry(Long id, Student student);
+    public boolean deleteTimeEntry(Long id, Lecturer lecturer);
 }
