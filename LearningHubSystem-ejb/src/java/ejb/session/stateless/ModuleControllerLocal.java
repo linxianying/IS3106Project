@@ -31,4 +31,8 @@ public interface ModuleControllerLocal {
     Module addTA(TeachingAssistant TA, String moduleCode) throws ModuleNotFoundException;
 
     Module addStudent(Student student, String moduleCode) throws ModuleNotFoundException;
+    
+    void deleteModule(Module moduleToDelete);
+    
+    public void updateModule(Module module) throws ModuleNotFoundException;
 }

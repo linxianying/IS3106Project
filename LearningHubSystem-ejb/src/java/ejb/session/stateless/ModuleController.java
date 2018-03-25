@@ -111,6 +111,27 @@ public class ModuleController implements ModuleControllerLocal {
         }
     }
     
+    @Override
+    public void deleteModule(Module moduleToDelete){
+        em.remove(moduleToDelete);
+    }
+    
+    @Override
+    public void updateModule(Module module) throws ModuleNotFoundException
+    {
+        if(module.getId()!= null)
+        {
+            Module moduleToUpdate = retrieveModuleByModuleCode(module.getModuleCode());
+            moduleToUpdate.setModuleName(module.getModuleName());
+            moduleToUpdate.setModularCredit(module.getModularCredit());
+            moduleToUpdate.setClassSize(module.getClassSize());
+            moduleToUpdate.setExamDate(module.getExamDate());
+        }
+        else
+        {
+            throw new ModuleNotFoundException("Module doesn't exist.");
+        }
+    }
    
     
    
