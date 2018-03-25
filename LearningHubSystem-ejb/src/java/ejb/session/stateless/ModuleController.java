@@ -120,9 +120,11 @@ public class ModuleController implements ModuleControllerLocal {
             em.merge(module);
             em.merge(student);
             return module;
-        } catch (ModuleNotFoundException ex) {
-            throw new ModuleNotFoundException("Moudle: " + moduleCode + "dose not exist.");
+
+        }
+        catch(ModuleNotFoundException ex){
+            throw new ModuleNotFoundException("Module: " + moduleCode + "does not exist.");
         }
     }
-
+    
 }

@@ -7,9 +7,12 @@ package ejb.session.stateless;
 
 
 
+import entity.Lecturer;
 import entity.TimeEntry;
 import java.util.List;
 import entity.Student;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,25 +40,24 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     
     @Override
     public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) throws TimeEntryExistException,GeneralException {
-        try{
-            student.getTimeEntries().add(timeEntry);
-            em.persist(student);
-            em.persist(timeEntry);
-            em.flush(); 
-            em.refresh(timeEntry); 
+        student.getTimeEntries().add(timeEntry);
+        em.merge(student);
+        em.persist(timeEntry);
+        em.flush(); 
 
-            return timeEntry;
-        } catch (PersistenceException ex) {
-            if (ex.getCause() != null
-                    && ex.getCause().getCause() != null
-                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
-                throw new TimeEntryExistException("TimeEntry Already Exist.\n");
-            } else {
-                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
-            }
-        }
+        return timeEntry;
     }
 
+    @Override
+    public TimeEntry createTimeEntry(TimeEntry timeEntry, Lecturer lecturer) throws TimeEntryExistException,GeneralException {
+        lecturer.getTimeEntries().add(timeEntry);
+        em.merge(lecturer);
+        em.persist(timeEntry);
+        em.flush(); 
+
+        return timeEntry;
+    }
+    
     @Override
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException{
         t = null;
@@ -69,7 +71,7 @@ public class TimeEntryController implements TimeEntryControllerLocal {
             throw new TimeEntryNotFoundException("TimeEntry with specified ID not found");
         }
         catch(Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
         return t;
     }
@@ -81,8 +83,47 @@ public class TimeEntryController implements TimeEntryControllerLocal {
         
     }
     
+    @Override
+    public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details){
+        t.setTitle(title);
+        t.setFromDate(from);
+        t.setToDate(to);
+        t.setDetails(details);
+    }
     
+    @Override
+    public boolean deleteTimeEntry(Long id, Student student){
+        t = null;
+        try {
+            t = retrieveTimeEntryById(id);
+            if(t!=null)
+                student.getTimeEntries().remove(t);
+            em.merge(student);
+            em.remove(t);
+            em.flush();
+            
+        } catch (TimeEntryNotFoundException ex) {
+            Logger.getLogger(TimeEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
 
-    
+
+    @Override
+    public boolean deleteTimeEntry(Long id, Lecturer lecturer){
+        t = null;
+        try {
+            t = retrieveTimeEntryById(id);
+            if(t!=null)
+                lecturer.getTimeEntries().remove(t);
+            em.merge(lecturer);
+            em.remove(t);
+            em.flush();
+            
+        } catch (TimeEntryNotFoundException ex) {
+            Logger.getLogger(TimeEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
     
 }

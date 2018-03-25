@@ -130,19 +130,18 @@ public class dataInitialization {
         em.persist(student1);
         
         TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
+        TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
+        TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
         try {
             tecl.createTimeEntry(t1, student1);
+            tecl.createTimeEntry(t2, student1);
+            tecl.createTimeEntry(t3, student1);
         } catch (TimeEntryExistException ex) {
             Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GeneralException ex) {
             Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        em.persist(t1);
-        TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
-        em.persist(t2);
-        TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
-        em.persist(t3);
         
     }
     
