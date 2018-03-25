@@ -9,5 +9,28 @@
     <ui:define name="content">
 <!--message of the day-->
 
+    <h:head>
+            <title>Learning Hub System Student Announcement Page</title>
+        </h:head>
+        <h:body>
+            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
+                <h3>Announcements</h3>
+                <br/>
+
+                <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
+
+                    <p:panel header="#{utilManagedBean.formatDate(announcement.date)}" closable="true">
+                        <h:outputText value="#{announcement.name}" />
+                        <h:outputText value="#{announcement.lecturer}" />
+                        <h:outputText value="#{announcement.description}" />
+                    </p:panel>
+                    <br/>
+
+                </ui:repeat>
+            </h:panelGroup>
+
+          
+        </h:body>
+
     </ui:define>
 </ui:composition>

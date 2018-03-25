@@ -38,6 +38,25 @@ public class StudentController implements StudentControllerLocal {
     
     Student student;
     
+    
+    @Override
+    public List<Module> retrieveStudentModules(Long id) throws StudentNotFoundException{
+        student = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM Student s WHERE s.id=:id");
+            q.setParameter("id", id);
+            student = (Student) q.getSingleResult();
+            System.out.println("Student with id:" + id + " found.");
+        }
+        catch(NoResultException e){
+            throw new StudentNotFoundException("Student with specified ID not found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return student.getModules();
+    }
+    
     @Override
     public Student createStudent(Student studentEntity) throws StudentExistException,GeneralException {
         try{

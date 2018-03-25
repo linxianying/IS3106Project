@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Module;
 import entity.Student;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +32,7 @@ public interface StudentControllerLocal {
     public List<Student> retrieveAllStudents();
 
     Student login(String username, String password)throws InvalidLoginCredentialException;
+
+
+    public List<Module> retrieveStudentModules(Long id) throws StudentNotFoundException;
 }
