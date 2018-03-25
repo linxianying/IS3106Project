@@ -5,9 +5,12 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
                 xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 xmlns:p="http://primefaces.org/ui"
-                template="./layout/studentLayout.xhtml" >
+                template="./layout/studentLayout.xhtml" 
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
     <ui:define name="content">
 
+        <ezcomp:stackMenu/>
+        
         <p:accordionPanel multiple="true">
             <p:tab title="Lecturer List">
                 <h:form id="studentFacilitators">

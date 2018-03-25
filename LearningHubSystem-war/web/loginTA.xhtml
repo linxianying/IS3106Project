@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:p="http://primefaces.org/ui">
-   <h:head>
+    <h:head>
         <title>Learning Hub System TA Login Page</title>
         <h:outputStylesheet library="css" name="newcss.css" />
     </h:head>
@@ -20,7 +20,7 @@
                                  required="true" requiredMessage="Please enter your username" 
                                  placeholder="Username"
                                  validatorMessage="Username must be between 4-16 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,16}$" />
+                        <f:validateRegex pattern="^[a-zA-Z0-9]{4,16}$" />
                     </p:inputText>
                 </label>
             </div>
@@ -36,8 +36,9 @@
             <div class="form-row">
                 <p:commandButton value="LOGIN" actionListener="#{login_logoutManagedBean.loginTA}" update="growl"/>
             </div>
-        </h:panelGroup>
-    
+        </h:form>
+    </h:panelGroup>
+
     <h:panelGroup rendered="#{sessionScope['isLogin']}">
 
         <h:outputText value="You are login as #{sessionScope['role']}" />
@@ -45,6 +46,5 @@
         <h:outputText value="You must logout before login again" />
 
     </h:panelGroup>
-    </h:body>
 </html>
 
