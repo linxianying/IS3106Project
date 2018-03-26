@@ -16,17 +16,16 @@
                 <h3>Enrolled Modules</h3>
                 <br/>
 
-                <ui:repeat value="#{studentModuleManagedBean.modules}" var="module">
+                <ui:repeat value="#{moduleManagedBean.modules}" var="module">
 
                     <p:panel header="#{module.moduleCode}">
-                        <h:outputText value="#{module.moduleName}" />
-                        <h:outputText value="#{module.modularCredit}" />
+                        <p:link outcome="studentModuleDetails" value="#{module.moduleName}">
+                            <f:param value="#{module}" name="selectedModuleToView"/>
+                        </p:link><br/>
+                        <h:outputText value="#{module.modularCredit}" /><br/>
                         <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
                     </p:panel>
                     <br/>
-                    
-<!--                用这个来传value，然后再来个redirect to studentModuleDetails.xhtml-->
-<!--                    <f:setPropertyActionListener value="#{module}" target="#{moduleDetailsManagementManagedBean.selectedModuleToView}" />-->
 
                 </ui:repeat>
             </h:panelGroup>
