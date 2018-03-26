@@ -24,7 +24,7 @@ import util.exception.ModuleNotFoundException;
  *
  * @author Samango
  */
-@Named(value = "moduleManagementManagedBean")
+@Named(value = "adminModuleManagementManagedBean")
 @SessionScoped
 public class adminModuleManagement {
 
@@ -56,7 +56,7 @@ public class adminModuleManagement {
         try{
             Module m = moduleControllerLocal.createNewModule(newModule);
             modules.add(m);
-            //filteredModules.add(m);
+            filteredModules.add(m);
             newModule = new Module();
              
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New module created successfully (Module ID: " + m.getId() + ")", null));
