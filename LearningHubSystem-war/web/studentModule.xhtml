@@ -1,18 +1,34 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
-      xmlns:f="http://xmlns.jcp.org/jsf/core" 
-      xmlns:p="http://primefaces.org/ui"
-      template="./layout/studentLayout.xhtml" >
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
+                xmlns:f="http://xmlns.jcp.org/jsf/core" 
+                xmlns:p="http://primefaces.org/ui"
+                template="./layout/studentLayout.xhtml" >
     <ui:define name="content">
-    
+
         <h:head>
             <title>Learning Hub System Student Module Page</title>
         </h:head>
         <h:body>
-            message of the day
+            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
+                <h3>Enrolled Modules</h3>
+                <br/>
+
+                <ui:repeat value="#{studentModuleManagedBean.modules} 2017/2018, Semester 2" var="module">
+
+                    <p:panel header="#{module.moduleCode}" closable="true">
+                        <h:outputText value="#{module.moduleName}" />
+                        <h:outputText value="#{module.modularCredit}" />
+                        <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
+                    </p:panel>
+                    <br/>
+
+                </ui:repeat>
+            </h:panelGroup>
+
+            <!--            panelmenu-->
         </h:body>
     </ui:define>
 </ui:composition>

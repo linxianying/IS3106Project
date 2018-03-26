@@ -3,10 +3,83 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
                 template="./layout/studentLayout.xhtml" 
-                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-<!--data-repeat
-https://www.primefaces.org/showcase/ui/data/repeat.xhtml-->
+
+        <h:head>
+            <title>Learning Hub System Student Class and Group Page</title>
+        </h:head>
+
+        <body>
+            <h:form id="form">
+                <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
+                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                        <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
+                            <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
+
+
+<!--                how to            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> -->
+
+
+
+                        </p:commandLink>
+
+                        <p:outputPanel>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Id:" />
+                                <h:outputText value="#{student.id}" style="font-weight: bold"/>
+
+                                <h:outputText value="Name:" />
+                                <h:outputText value="#{student.name}" style="font-weight: bold"/>
+
+
+                            </h:panelGrid>
+                        </p:outputPanel>
+                    </h:panelGrid>
+                    <hr />
+                </p:repeat>
+
+                <p:dialog header="Student Info" widgetVar="studentDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                    <p:outputPanel id="studentDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
+                            <f:facet name="header">
+
+
+<!--                                <p:graphicImage name="demo/images/car/#{dataListView.selectedCar.brand}-big.gif"/> -->
+
+
+                            </f:facet>
+
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.id}" />
+
+                            <h:outputText value="Name:" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.name}" />
+
+                            <h:outputText value="Faculty:" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.faculty}" />
+
+                            <h:outputText value="Department" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.department}" />
+
+                            <h:outputText value="Telephone" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.telephone}" />
+
+                            <h:outputText value="Email" />
+                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
+
+
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+        </body>
+
+
     <ezcomp:stackMenu/>
+    
     </ui:define>
 </ui:composition>

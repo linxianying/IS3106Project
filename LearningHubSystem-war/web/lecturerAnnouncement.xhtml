@@ -5,6 +5,86 @@
                 template="./layout/lecturerLayout.xhtml" 
                 xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
     <ui:define name="content">
+        <h:head>
+            <title>Learning Hub System Lecturer Announcement Page</title>
+        </h:head>
+        <h:body>
+            <h:form>
+
+                <p:menubar>
+
+                    <p:submenu label="File" icon="ui-icon-document">
+                        <p:menuitem value="Create New Announcement" onclick="PF('dialogCreateNewAnnouncement').show()" icon="ui-icon-plusthick" />
+                    </p:submenu>
+
+                </p:menubar>
+                <br/>
+
+            </h:form>
+
+            <h:form id="formCreateNewAnnouncement">
+
+                <p:dialog id="dialogCreateNewAnnouncement" widgetVar="dialogCreateNewAnnouncement" header="Create New Announcement" closable="true">
+
+                    <p:messages id="messagesCreateNewProduct" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="name" value="Name: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="name" value="#{announcementManagedBean.newAnnouncement.name}" required="true" requiredMessage="Name is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="name" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="description" value="Description: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="description" value="#{announcementManagedBean.newAnnouncement.description}" required="true" requiredMessage="Description is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="description" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton type="reset" value="Clear" />&nbsp;
+                            <p:commandButton value="Create New Announcement"  actionListener="#{announcementManagedBean.createNewAnnouncement()}" oncomplete="PF('dialogCreateNewAnnouncement').show();" />
+                        </p:column>
+                    </p:row>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+            
+            
+            
+            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
+                <h3>Announcements</h3>
+                <br/>
+
+                <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
+
+                    <p:panel header="#{utilManagedBean.formatDate(announcement.date)}" closable="true">
+                        <h:outputText value="#{announcement.name}" />
+                        <h:outputText value="#{announcement.lecturer}" />
+                        <h:outputText value="#{announcement.description}" />
+                    </p:panel>
+                    <br/>
+
+                </ui:repeat>
+            </h:panelGroup>
+
+
+
+        </h:body>
 
         <ezcomp:stackMenu/>
     </ui:define>
