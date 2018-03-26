@@ -32,15 +32,10 @@ public class studentModuleManagedBean {
 
     @EJB
     private ModuleControllerLocal moduleController;
-    
-
-    
-    
 
     /**
      * Creates a new instance of studentModuleManagedBean
      */
-    
     private Student student;
     private List<Module> modules;
     private Module moduleToView;
@@ -52,14 +47,13 @@ public class studentModuleManagedBean {
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        if (session.getAttribute("userType").equals("student")) {
+        if (session.getAttribute("role").equals("student")) {
             userType = "student";
-            student = (Student) session.getAttribute("student");
-        }
-        try{
-        modules=studentController.retrieveStudentModules(student.getId());
-        }catch (StudentNotFoundException ex){
-            ex.printStackTrace();
+            student = (Student) session.getAttribute("currentStudent");
+            
+            modules = student.getModules();
+            for(Module each: modules){
+                System.err.println(each.getModuleCode());}
         }
     }
 
@@ -74,8 +68,6 @@ public class studentModuleManagedBean {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-   
 
     /**
      * @return the modules
