@@ -3,9 +3,14 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
                 template="./layout/lecturerLayout.xhtml" 
-                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
 
-        <ezcomp:stackMenu/>
+        <p:stack icon="resources/images/icon/stack.png" expanded="true">
+            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/lecturerAnnouncement.xhtml"/>
+            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/lecturerFacilitators.xhtml"/>
+            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/lecturerClassAndGroups.xhtml"/>
+            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/lecturerFiles.xhtml"/>
+        </p:stack>
     </ui:define>
 </ui:composition>
