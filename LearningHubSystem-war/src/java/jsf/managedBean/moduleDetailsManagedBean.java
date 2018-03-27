@@ -5,11 +5,17 @@
  */
 package jsf.managedBean;
 
+import ejb.session.stateless.ModuleControllerLocal;
 import entity.Module;
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import util.exception.ModuleNotFoundException;
 
 /**
  *
@@ -17,18 +23,33 @@ import javax.servlet.http.HttpSession;
  */
 @Named(value = "moduleDetailsManagedBean")
 @SessionScoped
-public class moduleDetailsManagedBean {
+public class moduleDetailsManagedBean implements Serializable {
 
-    private Module selectedModuleToView;
+    @EJB(name = "ModuleControllerLocal")
+    private ModuleControllerLocal moduleControllerLocal;
+
+    private Long moduleIdToView;
+    private Module moduleToView;
     FacesContext context;
     HttpSession session;
 
     public moduleDetailsManagedBean() {
-        session = (HttpSession) context.getExternalContext().getSession(true);
-        selectedModuleToView = (Module) session.getAttribute("selectedModuleToView");
-        System.err.println("*****************************************");
-        System.err.println(selectedModuleToView.getModuleCode());
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(selectedModuleToView);
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        moduleIdToView = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("moduleIdToView");
+        System.err.println("?????????");
+        System.err.println(moduleIdToView);
+        try {
+            moduleToView = moduleControllerLocal.retrieveModuleById(moduleIdToView);
+        } catch (ModuleNotFoundException ex) {
+            moduleToView = new Module();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the module details: " + ex.getMessage(), null));
+        } catch (Exception ex) {
+            moduleToView = new Module();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
     }
 
 }

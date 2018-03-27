@@ -11,6 +11,8 @@ import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,8 +20,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import util.exception.StudentNotFoundException;
+
+;
 
 /**
  *
@@ -27,13 +31,7 @@ import util.exception.StudentNotFoundException;
  */
 @ManagedBean
 @SessionScoped
-public class moduleManagedBean {
-
-    @EJB
-    private StudentControllerLocal studentController;
-
-    @EJB
-    private ModuleControllerLocal moduleController;
+public class moduleManagedBean implements Serializable {
 
     private Student student;
     private Lecturer lecturer;
@@ -52,19 +50,30 @@ public class moduleManagedBean {
             student = (Student) session.getAttribute("currentStudent");
 
             modules = student.getModules();
-        } 
-        
-        else if (session.getAttribute("role").equals("lecturer")) {
+        } else if (session.getAttribute("role").equals("lecturer")) {
             lecturer = (Lecturer) session.getAttribute("currentLecturer");
 
             modules = lecturer.getModules();
-        } 
-        
-        else if (session.getAttribute("role").equals("TA")) {
+        } else if (session.getAttribute("role").equals("TA")) {
             ta = (TeachingAssistant) session.getAttribute("currentTA");
 
             modules = ta.getModules();
         }
+    }
+
+    public void viewModuleDetails(ActionEvent event) throws IOException {
+        Long moduleIdToView = (Long) event.getComponent().getAttributes().get("ModuleIdToView");
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("moduleIdToView", moduleIdToView);
+        System.err.println("*******"+moduleIdToView);
+
+        if (session.getAttribute("role").equals("student")) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("studentModuleDetails.xhtml");
+        } else if (session.getAttribute("role").equals("lecturer")) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerModuleDetails.xhtml");
+        } else if (session.getAttribute("role").equals("TA")) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TAModuleDetails.xhtml");
+        }
+
     }
 
     public moduleManagedBean() {
