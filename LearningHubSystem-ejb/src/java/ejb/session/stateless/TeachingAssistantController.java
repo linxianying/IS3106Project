@@ -6,11 +6,9 @@
 package ejb.session.stateless;
 
 import javax.ejb.Stateless;
-import entity.Lecturer;
 import entity.Administrator;
 import entity.Announcement;
 import entity.Module;
-import entity.Student;
 import entity.TeachingAssistant;
 import java.util.List;
 import javax.ejb.Local;
@@ -21,6 +19,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -139,4 +139,44 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     public void deleteTA (TeachingAssistant ta){
         em.remove(ta);
     }
+    
+    @Override 
+    public Module registerModule (TeachingAssistant ta, Module mod) throws ModuleExistException{
+        List<Module> modules = ta.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                throw new ModuleExistException("Module has already been registered.\n");
+            }
+        }
+          
+            ta.getModules().add(mod);
+            mod.getTAs().add(ta);
+            em.persist(ta);
+            em.persist(mod);
+            em.flush();
+            
+            return mod;
+    }
+    
+    @Override
+    public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException{
+        Boolean registered = false;
+        List<Module> modules = ta.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                registered = true;
+            }
+        }
+        
+        if(registered){
+            ta.getModules().remove(mod);
+            mod.getTAs().add(ta);
+            em.persist(ta);
+            em.persist(mod);
+            em.flush();
+        }
+        
+        else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
+    }
+    
 }

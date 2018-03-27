@@ -12,6 +12,8 @@ import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -37,4 +39,8 @@ public interface StudentControllerLocal {
     Student login(String username, String password) throws InvalidLoginCredentialException;
     
     public void deleteStudent(Student student);
+    
+    public Module registerModule (Student stu, Module mod) throws ModuleExistException;
+    
+    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException;
 }

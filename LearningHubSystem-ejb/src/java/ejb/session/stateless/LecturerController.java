@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Lecturer;
+import entity.Module;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,6 +20,8 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.LecturerExistException;
 import util.exception.LecturerNotFoundException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.PasswordChangeException;
 
 /**
@@ -189,4 +192,45 @@ public class LecturerController implements LecturerControllerLocal {
     public void deleteLecturer (Lecturer lec){
         em.remove(lec);
     }
+    
+    @Override 
+    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException{
+        List<Module> modules = lec.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                throw new ModuleExistException("Module has already been registered.\n");
+            }
+        }
+          
+            lec.getModules().add(mod);
+            mod.getLecturers().add(lec);
+            em.persist(lec);
+            em.persist(mod);
+            em.flush();
+            
+            return mod;
+    }
+    
+    @Override
+    public void dropModule(Lecturer lec, Module mod) throws ModuleNotFoundException{
+        Boolean registered = false;
+        List<Module> modules = lec.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                registered = true;
+            }
+        }
+        
+        if(registered){
+            lec.getModules().remove(mod);
+            mod.getLecturers().remove(lec);
+            em.persist(lec);
+            em.persist(mod);
+            em.flush();
+        }
+        
+        else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
+    }
+       
+
 }

@@ -10,7 +10,6 @@ import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
 import entity.Lecturer;
-import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import util.exception.GeneralException;
 import util.exception.LecturerExistException;
-import util.exception.ModuleExistException;
+import util.exception.TAExistException;
 
 
 /**
@@ -42,11 +41,9 @@ public class adminUsersManagement {
     
     private List<Lecturer> lecturers;
     private Lecturer newLecturer;
-    private Lecturer lecturerToRemove;
     private List<Student> students;
-    private Student studentToRemove;
     private List<TeachingAssistant> TAs;
-    private TeachingAssistant taToRemove;
+    private TeachingAssistant newTA;
     
     
     /**
@@ -58,9 +55,8 @@ public class adminUsersManagement {
         students = new ArrayList();
         TAs = new ArrayList();
         newLecturer = new Lecturer();
-        lecturerToRemove = new Lecturer();
-        studentToRemove = new Student();
-        taToRemove = new TeachingAssistant();
+        newTA = new TeachingAssistant();
+        
         
     }
     
@@ -85,6 +81,72 @@ public class adminUsersManagement {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while create lecturer account: " + ex.getMessage(), null));
         }
     }
+    
+    public void createTA(ActionEvent event) throws GeneralException {
+        
+        try{
+            TeachingAssistant ta = taController.createTeachingAssistant(newTA);
+            TAs.add(ta);
+            newTA = new TeachingAssistant();
+             
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Teaching Assistant account created successfully (TA ID: " + ta.getId() + ")", null));
+            
+        }
+        catch(TAExistException ex){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while create TA account: " + ex.getMessage(), null));
+        } 
+    }
+    
+    public void deleteLecturer(ActionEvent event){
+        try
+        {
+            Lecturer lecturerToDelete = (Lecturer)event.getComponent().getAttributes().get("lecturerToDelete");
+            lecturerController.deleteLecturer(lecturerToDelete);
+            
+            lecturers.remove(lecturerToDelete);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer account deleted successfully", null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+    
+    public void deleteStudent(ActionEvent event){
+        try
+        {
+            Student studentToDelete = (Student)event.getComponent().getAttributes().get("studentToDelete");
+            studentController.deleteStudent(studentToDelete);
+            
+            students.remove(studentToDelete);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student account deleted successfully", null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+    
+    public void deleteTA (ActionEvent event){
+        try
+        {
+            TeachingAssistant taToDelete = (TeachingAssistant)event.getComponent().getAttributes().get("taToDelete");
+            taController.deleteTA(taToDelete);
+            
+            TAs.remove(taToDelete);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "TA account deleted successfully", null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+
+    
+    
     
     
 }

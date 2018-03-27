@@ -6,7 +6,6 @@
 package ejb.session.stateless;
 
 import util.exception.StudentExistException;
-import entity.Lecturer;
 import entity.Administrator;
 import entity.Announcement;
 import entity.Module;
@@ -23,6 +22,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -166,6 +167,45 @@ public class StudentController implements StudentControllerLocal {
     @Override
     public void deleteStudent(Student student){
         em.remove(student);
+    }
+    
+    @Override 
+    public Module registerModule (Student stu, Module mod) throws ModuleExistException{
+        List<Module> modules = stu.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                throw new ModuleExistException("Module has already been registered.\n");
+            }
+        }
+          
+            stu.getModules().add(mod);
+            mod.getStduents().add(stu);
+            em.persist(stu);
+            em.persist(mod);
+            em.flush();
+            
+            return mod;
+    }
+    
+    @Override
+    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException{
+        Boolean registered = false;
+        List<Module> modules = stu.getModules();
+        for(Module module:modules)   {
+            if (module.getModuleCode().equals(mod.getModuleCode())){
+                registered = true;
+            }
+        }
+        
+        if(registered){
+            stu.getModules().remove(mod);
+            mod.getStduents().remove(stu);
+            em.persist(stu);
+            em.persist(mod);
+            em.flush();
+        }
+        
+        else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
     
     
