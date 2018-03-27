@@ -67,6 +67,8 @@ public class Lecturer implements Serializable {
     //default constructor
     public Lecturer() {
         this.isPremium = false;
+        modules = new ArrayList<>();
+        announcements = new ArrayList<>();
     }
 
     public Lecturer(String username, String password, String name, String email,

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jsf.managedBean;
 
 import ejb.session.stateless.ModuleControllerLocal;
@@ -14,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.inject.Named;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import util.exception.ModuleNotFoundException;
 
 /**
@@ -30,14 +24,20 @@ public class moduleDetailsManagedBean implements Serializable {
 
     private Long moduleIdToView;
     private Module moduleToView;
-    FacesContext context;
-    HttpSession session;
 
     public moduleDetailsManagedBean() {
     }
 
+    public Module getModuleToView() {
+        return moduleToView;
+    }
+
+    public void setModuleToView(Module moduleToView) {
+        this.moduleToView = moduleToView;
+    }
+
     @PostConstruct
-    public void postConstruct() {
+    public void init() {
         moduleIdToView = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("moduleIdToView");
         System.err.println("?????????");
         System.err.println(moduleIdToView);

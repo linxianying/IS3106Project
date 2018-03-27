@@ -41,7 +41,7 @@ public class classAndGroupManagedBean implements Serializable {
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        moduleId = (Long) session.getAttribute("moduleId");
+        moduleId = (Long) session.getAttribute("moduleIdToView");
         try {
             module = moduleController.retrieveModuleById(moduleId);
             students = module.getStduents();

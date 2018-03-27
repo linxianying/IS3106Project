@@ -6,16 +6,22 @@
 package jsf.managedBean;
 
 import ejb.session.stateless.LecturerControllerLocal;
+import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
 import entity.Lecturer;
+import entity.Module;
 import entity.TeachingAssistant;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
+import util.exception.ModuleNotFoundException;
 
 /**
  *
@@ -25,24 +31,40 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class facilitatorManagedBean implements Serializable {
 
-    @EJB(name = "TeachingAssistantControllerLocal")
-    private TeachingAssistantControllerLocal teachingAssistantControllerLocal;
-
-    @EJB(name = "LecturerControllerLocal")
-    private LecturerControllerLocal lecturerControllerLocal;
+    @EJB(name = "ModuleControllerLocal")
+    private ModuleControllerLocal moduleControllerLocal;
 
     private Lecturer selectedLecturer;
     private TeachingAssistant selectedTA;
     private List<Lecturer> lecturers;
     private List<TeachingAssistant> TAs;
+    FacesContext context;
+    HttpSession session;
+    private Long moduleIdToView;
+    private Module moduleToView;
 
     public facilitatorManagedBean() {
     }
 
     @PostConstruct
     public void postConstruct() {
-        lecturers = lecturerControllerLocal.retrieveAllLecturers();
-        TAs = teachingAssistantControllerLocal.retrieveAllTAs();
+        context = FacesContext.getCurrentInstance();
+        session = (HttpSession) context.getExternalContext().getSession(true);
+        moduleIdToView = (Long) session.getAttribute("moduleIdToView");
+        try {
+            moduleToView = moduleControllerLocal.retrieveModuleById(moduleIdToView);
+            lecturers = moduleToView.getLecturers();
+            TAs = moduleToView.getTAs();
+//            for (Lecturer each : lecturers) {
+//                System.err.println("***************** " + each.getName());
+//            }
+        } catch (ModuleNotFoundException ex) {
+            moduleToView = new Module();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the module details: " + ex.getMessage(), null));
+        } catch (Exception ex) {
+            moduleToView = new Module();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
     }
 
     public Lecturer getSelectedLecturer() {
