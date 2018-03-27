@@ -5,11 +5,15 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
                 xmlns:f="http://xmlns.jcp.org/jsf/core" 
                 xmlns:p="http://primefaces.org/ui"
-                template="./layout/studentLayout.xhtml" 
-                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+                template="./layout/studentLayout.xhtml">
     <ui:define name="content">
 
-        <ezcomp:stackMenu/>
+        <p:stack icon="resources/images/icon/stack.png" expanded="true">
+            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/studentAnnouncement.xhtml"/>
+            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/studentFacilitators.xhtml"/>
+            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/studentClassAndGroups.xhtml"/>
+            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/studentFiles.xhtml"/>
+        </p:stack>
         
         <p:accordionPanel multiple="true">
             <p:tab title="Lecturer List">

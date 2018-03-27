@@ -3,9 +3,14 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
                 template="./layout/taLayout.xhtml" 
-                xmlns:ezcomp="http://xmlns.jcp.org/jsf/composite/ezcomp">
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
 
-        <ezcomp:stackMenu/>
+        <p:stack icon="resources/images/icon/stack.png" expanded="true">
+            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/TAAnnouncement.xhtml"/>
+            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/TAFacilitators.xhtml"/>
+            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/TAClassAndGroups.xhtml"/>
+            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/TAFiles.xhtml"/>
+        </p:stack>
     </ui:define>
 </ui:composition>

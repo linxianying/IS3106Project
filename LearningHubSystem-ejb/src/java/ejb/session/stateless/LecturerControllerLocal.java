@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Lecturer;
+import entity.Module;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -13,6 +14,8 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.LecturerExistException;
 import util.exception.LecturerNotFoundException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.PasswordChangeException;
 
 /**
@@ -40,4 +43,9 @@ public interface LecturerControllerLocal {
 
     public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException;
     
+    public void deleteLecturer (Lecturer lec);
+    
+    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException;
+    
+    public void dropModule(Lecturer lec, Module mod) throws ModuleNotFoundException;
 }

@@ -5,11 +5,14 @@
  */
 package ejb.session.stateless;
 
+import entity.Module;
 import entity.TeachingAssistant;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -33,4 +36,10 @@ public interface TeachingAssistantControllerLocal {
     TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException;
 
     List<TeachingAssistant> retrieveAllTAs();
+    
+    public void deleteTA (TeachingAssistant ta);
+    
+    public Module registerModule (TeachingAssistant ta, Module mod) throws ModuleExistException;
+    
+    public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException;
 }

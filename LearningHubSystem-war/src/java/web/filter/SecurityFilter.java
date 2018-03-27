@@ -128,6 +128,7 @@ public class SecurityFilter implements Filter {
                 || path.equals("/loginTA.xhtml")
                 || path.equals("/register.xhtml")
                 || path.startsWith("/images")
+                || path.startsWith("/resources/images")
                 || path.startsWith("/javax.faces.resource")) {
             return true;
         } else {

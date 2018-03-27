@@ -10,9 +10,9 @@ import javax.enterprise.context.RequestScoped;
 @Named(value = "utilManagedBean")
 @RequestScoped
 
-public class UtilManagedBean {
+public class utilManagedBean {
 
-    public UtilManagedBean() {
+    public utilManagedBean() {
     }
 
     public String formatLecturer(List<Lecturer> lecturers) {

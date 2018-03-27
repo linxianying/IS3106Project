@@ -7,8 +7,10 @@ package jsf.managedBean;
 
 import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
+import entity.Lecturer;
 import entity.Module;
 import entity.Student;
+import entity.TeachingAssistant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,45 +27,47 @@ import util.exception.StudentNotFoundException;
  */
 @ManagedBean
 @SessionScoped
-public class studentModuleManagedBean {
+public class moduleManagedBean {
 
     @EJB
     private StudentControllerLocal studentController;
 
     @EJB
     private ModuleControllerLocal moduleController;
-    
 
-    
-    
-
-    /**
-     * Creates a new instance of studentModuleManagedBean
-     */
-    
     private Student student;
+    private Lecturer lecturer;
+    private TeachingAssistant ta;
     private List<Module> modules;
     private Module moduleToView;
     FacesContext context;
     HttpSession session;
-    private String userType;
 
     @PostConstruct
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        if (session.getAttribute("userType").equals("student")) {
-            userType = "student";
-            student = (Student) session.getAttribute("student");
-        }
-        try{
-        modules=studentController.retrieveStudentModules(student.getId());
-        }catch (StudentNotFoundException ex){
-            ex.printStackTrace();
+
+        if (session.getAttribute("role").equals("student")) {
+            student = (Student) session.getAttribute("currentStudent");
+
+            modules = student.getModules();
+        } 
+        
+        else if (session.getAttribute("role").equals("lecturer")) {
+            lecturer = (Lecturer) session.getAttribute("currentLecturer");
+
+            modules = lecturer.getModules();
+        } 
+        
+        else if (session.getAttribute("role").equals("TA")) {
+            ta = (TeachingAssistant) session.getAttribute("currentTA");
+
+            modules = ta.getModules();
         }
     }
 
-    public studentModuleManagedBean() {
+    public moduleManagedBean() {
         modules = new ArrayList<>();
     }
 
@@ -74,8 +78,6 @@ public class studentModuleManagedBean {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-   
 
     /**
      * @return the modules

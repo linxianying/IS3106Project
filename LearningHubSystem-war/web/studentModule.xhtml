@@ -12,23 +12,23 @@
             <title>Learning Hub System Student Module Page</title>
         </h:head>
         <h:body>
-            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
+            <h:panelGroup>          
                 <h3>Enrolled Modules</h3>
                 <br/>
 
-                <ui:repeat value="#{studentModuleManagedBean.modules} 2017/2018, Semester 2" var="module">
+                <ui:repeat value="#{moduleManagedBean.modules}" var="module">
 
-                    <p:panel header="#{module.moduleCode}" closable="true">
-                        <h:outputText value="#{module.moduleName}" />
-                        <h:outputText value="#{module.modularCredit}" />
+                    <p:panel header="#{module.moduleCode}">
+                        <p:link outcome="studentModuleDetails" value="#{module.moduleName}">
+                            <f:param value="#{module}" name="selectedModuleToView"/>
+                        </p:link><br/>
+                        <h:outputText value="#{module.modularCredit}" /><br/>
                         <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
                     </p:panel>
                     <br/>
 
                 </ui:repeat>
             </h:panelGroup>
-
-            <!--            panelmenu-->
         </h:body>
     </ui:define>
 </ui:composition>

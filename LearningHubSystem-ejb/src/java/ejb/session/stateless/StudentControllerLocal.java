@@ -12,6 +12,8 @@ import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -22,17 +24,23 @@ import util.exception.StudentNotFoundException;
 @Local
 public interface StudentControllerLocal {
 
-    Student createStudent(Student student) throws StudentExistException, GeneralException;  
+    Student createStudent(Student student) throws StudentExistException, GeneralException;
+
     Student retrieveStudentByUsername(String username) throws StudentNotFoundException;
-    
+
     boolean updateStudentTelephone(String username, String telephone) throws StudentNotFoundException;
+
     boolean updateStudentPassword(String username, String password) throws StudentNotFoundException;
+
     boolean updateStudentEmail(String username, String email) throws StudentNotFoundException;
 
     public List<Student> retrieveAllStudents();
 
-    Student login(String username, String password)throws InvalidLoginCredentialException;
-
-
-    public List<Module> retrieveStudentModules(Long id) throws StudentNotFoundException;
+    Student login(String username, String password) throws InvalidLoginCredentialException;
+    
+    public void deleteStudent(Student student);
+    
+    public Module registerModule (Student stu, Module mod) throws ModuleExistException;
+    
+    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException;
 }
