@@ -33,4 +33,6 @@ public interface TeachingAssistantControllerLocal {
     TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException;
 
     List<TeachingAssistant> retrieveAllTAs();
+    
+    public void deleteTA (TeachingAssistant ta);
 }

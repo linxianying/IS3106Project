@@ -184,4 +184,9 @@ public class LecturerController implements LecturerControllerLocal {
             }
         }
     } 
+    
+    @Override
+    public void deleteLecturer (Lecturer lec){
+        em.remove(lec);
+    }
 }

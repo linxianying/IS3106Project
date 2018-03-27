@@ -163,5 +163,10 @@ public class StudentController implements StudentControllerLocal {
         }
     }
     
+    @Override
+    public void deleteStudent(Student student){
+        em.remove(student);
+    }
+    
     
 }

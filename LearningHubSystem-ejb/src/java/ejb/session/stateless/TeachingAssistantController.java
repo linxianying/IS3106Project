@@ -134,4 +134,9 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
             throw new InvalidLoginCredentialException("Username does not exist!");
         }
     }
+    
+    @Override
+    public void deleteTA (TeachingAssistant ta){
+        em.remove(ta);
+    }
 }

@@ -35,4 +35,6 @@ public interface StudentControllerLocal {
     public List<Student> retrieveAllStudents();
 
     Student login(String username, String password) throws InvalidLoginCredentialException;
+    
+    public void deleteStudent(Student student);
 }

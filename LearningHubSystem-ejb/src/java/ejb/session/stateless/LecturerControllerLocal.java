@@ -40,4 +40,5 @@ public interface LecturerControllerLocal {
 
     public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException;
     
+    public void deleteLecturer (Lecturer lec);
 }
