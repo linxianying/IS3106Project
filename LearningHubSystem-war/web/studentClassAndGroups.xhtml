@@ -12,71 +12,71 @@
             <title>Learning Hub System Student Class and Group Page</title>
         </h:head>
 
-        <body>
-            <h:form id="form">
-                <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
-                    <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                        <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
-                            <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
+        <!--        <body>-->
+        <h:form id="form">
+            <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
+                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
+                        <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
 
 
 <!--                how to            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> -->
 
 
 
-                        </p:commandLink>
+                    </p:commandLink>
 
-                        <p:outputPanel>
-                            <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Id:" />
-                                <h:outputText value="#{student.id}" style="font-weight: bold"/>
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{student.id}" style="font-weight: bold"/>
 
-                                <h:outputText value="Name:" />
-                                <h:outputText value="#{student.name}" style="font-weight: bold"/>
+                            <h:outputText value="Name:" />
+                            <h:outputText value="#{student.name}" style="font-weight: bold"/>
 
 
-                            </h:panelGrid>
-                        </p:outputPanel>
-                    </h:panelGrid>
-                    <hr />
-                </p:repeat>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+                <hr />
+            </p:repeat>
 
-                <p:dialog header="Student Info" widgetVar="studentDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
-                    <p:outputPanel id="studentDetail" style="text-align:center;">
-                        <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
-                            <f:facet name="header">
+            <p:dialog header="Student Info" widgetVar="studentDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                <p:outputPanel id="studentDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
+                        <f:facet name="header">
 
 
 <!--                                <p:graphicImage name="demo/images/car/#{dataListView.selectedCar.brand}-big.gif"/> -->
 
 
-                            </f:facet>
+                        </f:facet>
 
-                            <h:outputText value="Id:" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.id}" />
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.id}" />
 
-                            <h:outputText value="Name:" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.name}" />
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.name}" />
 
-                            <h:outputText value="Faculty:" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.faculty}" />
+                        <h:outputText value="Faculty:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.faculty}" />
 
-                            <h:outputText value="Department" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.department}" />
+                        <h:outputText value="Department" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.department}" />
 
-                            <h:outputText value="Telephone" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.telephone}" />
+                        <h:outputText value="Telephone" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.telephone}" />
 
-                            <h:outputText value="Email" />
-                            <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
+                        <h:outputText value="Email" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
 
 
 
-                        </p:panelGrid>
-                    </p:outputPanel>
-                </p:dialog>
-            </h:form>
-        </body>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+        <!--        </body>-->
 
 
         <p:stack icon="resources/images/icon/stack.png" expanded="true">
