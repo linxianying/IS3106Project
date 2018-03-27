@@ -42,10 +42,6 @@ public class classAndGroupManagedBean implements Serializable {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
         moduleId = (Long) session.getAttribute("moduleIdToView");
-<<<<<<< HEAD
-=======
-        System.err.println(moduleId);
->>>>>>> 937e6114345f219061f30fc7541f40070e2aa334
         try {
             module = moduleController.retrieveModuleById(moduleId);
             students = module.getStduents();

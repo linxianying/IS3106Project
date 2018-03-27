@@ -52,18 +52,4 @@ public class moduleDetailsManagedBean implements Serializable {
         }
     }
 
-    /**
-     * @return the moduleToView
-     */
-    public Module getModuleToView() {
-        return moduleToView;
-    }
-
-    /**
-     * @param moduleToView the moduleToView to set
-     */
-    public void setModuleToView(Module moduleToView) {
-        this.moduleToView = moduleToView;
-    }
-
 }

@@ -79,8 +79,8 @@ public class dataInitialization {
 
     private void loadLecturerData() {
         Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
-//        List<Module> modules = moduleControllerLocal.retrieveAllModules();
-//        
+        List<Module> modules = moduleControllerLocal.retrieveAllModules();
+        
 //        for(Module each : modules) {
 //            each.getLecturers().add(newLecturer1);
 //            //List<Module> list = newLecturer1.getModules();
