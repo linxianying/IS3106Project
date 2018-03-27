@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
@@ -13,6 +14,7 @@ import entity.Student;
 import entity.TeachingAssistant;
 import entity.TimeEntry;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -33,21 +35,21 @@ import util.exception.TimeEntryExistException;
 @LocalBean
 @Startup
 public class dataInitialization {
-    
+
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
-    
+
     @EJB
     TimeEntryControllerLocal tecl;
-    
+
     
     public dataInitialization() {
-        
+
     }
-    
+
     @PostConstruct
     public void postConstruct() {
-        
+
         if (em.find(Administrator.class, 1l) == null) {
             loadAdminData();
         }
@@ -67,13 +69,13 @@ public class dataInitialization {
             loadTEData();
         }
     }
-    
+
    
     private void loadAdminData() {
         Administrator newAdmin = new Administrator("administrator", "admin@soc.nus", "12345678", "admin", "password");
         em.persist(newAdmin);
     }
-    
+
     private void loadLecturerData() {
         Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
         em.persist(newLecturer1);
@@ -85,9 +87,9 @@ public class dataInitialization {
         em.persist(newLecturer4);
         Lecturer newLecturer5 = new Lecturer("lecturer5", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
         em.persist(newLecturer5);
-        
+
     }
-    
+
     private void loadStudentData() {
         Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wangyinhan");
         em.persist(student1);
@@ -98,10 +100,10 @@ public class dataInitialization {
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
         em.persist(student4);
     }
-    
+
     private void loadModuleData() {
         Timestamp timestamp=new Timestamp(2018, 5, 3, 9, 0, 0, 0);
-        Module newModule1 = new Module("Database Systems", "CS2102", 4, 177, 
+        Module newModule1 = new Module("Database Systems", "CS2102", 4, 177,
                 "The aim of this module is to introduce the fundamental concepts and techniques", timestamp);
         em.persist(newModule1);
         Timestamp timestamp2=new Timestamp(2018, 4, 30, 13, 0, 0, 0);
@@ -109,12 +111,12 @@ public class dataInitialization {
                 "This module aims to train students to be conversant in front-end development for Enterprise Systems.", timestamp2);
         em.persist(newModule2);
         Timestamp timestamp3=new Timestamp(2018, 4, 30, 13, 0, 0, 0);
-        Module newModule3 = new Module("Regression Analysis", "ST3131", 4, 232, 
+        Module newModule3 = new Module("Regression Analysis", "ST3131", 4, 232,
                 "This module focuses on data analysis using multiple re",timestamp3);
         em.persist(newModule3);
-        
+
     }
-    
+
     private void loadTAData() {
         TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA111", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
         em.persist(teachingAssistant1);
@@ -122,13 +124,13 @@ public class dataInitialization {
         em.persist(teachingAssistant2);
         TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
         em.persist(teachingAssistant3);
-        
+
     }
-    
+
     private void loadTEData() {
         Student student1 = new Student("name", "123456", "name@soc.nus", "Computing", "IS", "123456", "namename");
         em.persist(student1);
-        
+
         TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
         TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
         TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
@@ -141,8 +143,8 @@ public class dataInitialization {
         } catch (GeneralException ex) {
             Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         
     }
-    
+
 }
