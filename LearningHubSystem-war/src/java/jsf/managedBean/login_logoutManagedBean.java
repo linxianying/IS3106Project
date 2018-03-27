@@ -59,10 +59,6 @@ public class login_logoutManagedBean {
     public void loginStudent(ActionEvent event) throws StudentNotFoundException, IOException {
         try {
             Student currentStudent = studentControllerLocal.login(username, password);
-            context = FacesContext.getCurrentInstance();
-            session = (HttpSession) context.getExternalContext().getSession(true);
-            session.setAttribute("userType", "student");
-            session.setAttribute("student", currentStudent);
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentStudent", currentStudent);

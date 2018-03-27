@@ -17,13 +17,12 @@
                 <br/>
 
                 <ui:repeat value="#{moduleManagedBean.modules}" var="module">
-
                     <p:panel header="#{module.moduleCode}">
-                        <p:link outcome="studentModuleDetails" value="#{module.moduleName}">
-                            <f:param value="#{module}" name="selectedModuleToView"/>
-                        </p:link><br/>
-                        <h:outputText value="#{module.modularCredit}" /><br/>
-                        <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
+                    <p:commandLink actionListener="#{moduleManagedBean.viewModuleDetails}" value="#{module.moduleName}">
+                        <f:attribute value="#{module.id}" name="ModuleIdToView"/>
+                    </p:commandLink><br/>
+                    <h:outputText value="#{module.modularCredit}" /><br/>
+                    <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
                     </p:panel>
                     <br/>
 
