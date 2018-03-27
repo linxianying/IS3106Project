@@ -19,10 +19,10 @@ import util.exception.AdminNotFoundException;
 import util.exception.LecturerNotFoundException;
 import util.exception.StudentNotFoundException;
 import util.exception.TANotFoundException;
-import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
-import ejb.session.stateless.TeachingAssistantControllerLocal;
+import ejb.session.stateless.AdminControllerLocal;
+import ejb.session.stateless.TAControllerLocal;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import util.exception.InvalidLoginCredentialException;
@@ -36,16 +36,18 @@ import util.exception.InvalidLoginCredentialException;
 public class login_logoutManagedBean {
 
     @EJB
-    private TeachingAssistantControllerLocal teachingAssistantControllerLocal;
+    private AdminControllerLocal administratorControllerLocal;
+
+    @EJB
+    private TAControllerLocal teachingAssistantControllerLocal;
 
     @EJB
     private StudentControllerLocal studentControllerLocal;
 
     @EJB
     private LecturerControllerLocal lecturerControllerLocal;
-
-    @EJB
-    private AdministratorControllerLocal administratorControllerLocal;
+    
+    
 
     private String username;
     private String password;
