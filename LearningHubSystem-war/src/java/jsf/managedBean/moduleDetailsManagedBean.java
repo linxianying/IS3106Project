@@ -42,14 +42,28 @@ public class moduleDetailsManagedBean implements Serializable {
         System.err.println("?????????");
         System.err.println(moduleIdToView);
         try {
-            moduleToView = moduleControllerLocal.retrieveModuleById(moduleIdToView);
+            setModuleToView(moduleControllerLocal.retrieveModuleById(moduleIdToView));
         } catch (ModuleNotFoundException ex) {
-            moduleToView = new Module();
+            setModuleToView(new Module());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the module details: " + ex.getMessage(), null));
         } catch (Exception ex) {
-            moduleToView = new Module();
+            setModuleToView(new Module());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
+    }
+
+    /**
+     * @return the moduleToView
+     */
+    public Module getModuleToView() {
+        return moduleToView;
+    }
+
+    /**
+     * @param moduleToView the moduleToView to set
+     */
+    public void setModuleToView(Module moduleToView) {
+        this.moduleToView = moduleToView;
     }
 
 }
