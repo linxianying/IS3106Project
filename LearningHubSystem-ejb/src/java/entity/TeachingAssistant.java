@@ -24,37 +24,38 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class TeachingAssistant implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String username;
-    
+
     @Column(length = 128, nullable = false)
     private String password;
-    
+
     @Column(length = 32, nullable = false)
     private String name;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String email;
-    
+
     @Column(length = 32, nullable = false)
     private String faculty;
-    
+
     @Column(length = 13, nullable = false, unique = true)
     private String telephone;
-    
+
     @Column(length = 32, nullable = false)
     private String department;
-    
+
     @Column(nullable = false)
     private boolean isPremium;
-    
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="TA_Module")
+
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "TA_Module")
     private List<Module> modules;
 
     public TeachingAssistant() {
@@ -62,7 +63,7 @@ public class TeachingAssistant implements Serializable {
         modules = new ArrayList<>();
     }
 
-    public TeachingAssistant(String username, String password, String name, 
+    public TeachingAssistant(String username, String password, String name,
             String email, String faculty, String telephone, String department) {
         this();
         this.username = username;
@@ -74,7 +75,6 @@ public class TeachingAssistant implements Serializable {
         this.department = department;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -179,5 +179,5 @@ public class TeachingAssistant implements Serializable {
     public String toString() {
         return "entity.TeachingAssistant[ id=" + id + " ]";
     }
-    
+
 }

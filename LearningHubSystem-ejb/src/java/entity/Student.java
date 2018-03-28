@@ -59,9 +59,11 @@ public class Student implements Serializable {
     private List<Module> modules;
     
     @OneToMany(cascade={CascadeType.ALL})
-    private Collection<TimeEntry> timeEntries = new ArrayList<TimeEntry>();
+    private Collection<TimeEntry> timeEntries ;
 
     public Student() {
+        modules = new ArrayList<>();
+        timeEntries = new ArrayList<>();
         this.isPremium = false;
         modules = new ArrayList<>();
     }
