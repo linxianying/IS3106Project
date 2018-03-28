@@ -62,11 +62,15 @@ public class Lecturer implements Serializable {
     private List<Announcement> announcements;
     
     @OneToMany(cascade={CascadeType.ALL})
-    private Collection<TimeEntry> timeEntries = new ArrayList<TimeEntry>();
+    private Collection<TimeEntry> timeEntries ;
 
     //default constructor
     public Lecturer() {
         this.isPremium = false;
+        modules = new ArrayList<>();
+        announcements =new ArrayList<>();
+        timeEntries=new ArrayList<>();
+        
     }
 
     public Lecturer(String username, String password, String name, String email,

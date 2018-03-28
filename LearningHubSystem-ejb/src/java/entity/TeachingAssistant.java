@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -23,44 +24,46 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 public class TeachingAssistant implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String username;
-    
+
     @Column(length = 128, nullable = false)
     private String password;
-    
+
     @Column(length = 32, nullable = false)
     private String name;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String email;
-    
+
     @Column(length = 32, nullable = false)
     private String faculty;
-    
+
     @Column(length = 13, nullable = false, unique = true)
     private String telephone;
-    
+
     @Column(length = 32, nullable = false)
     private String department;
-    
+
     @Column(nullable = false)
     private boolean isPremium;
-    
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="TA_Module")
+
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "TA_Module")
     private List<Module> modules;
 
     public TeachingAssistant() {
         this.isPremium = false;
+        modules = new ArrayList<>();
     }
 
-    public TeachingAssistant(String username, String password, String name, 
+    public TeachingAssistant(String username, String password, String name,
             String email, String faculty, String telephone, String department) {
         this.username = username;
         this.password = password;
@@ -69,11 +72,10 @@ public class TeachingAssistant implements Serializable {
         this.faculty = faculty;
         this.telephone = telephone;
         this.department = department;
-    
+
         this.isPremium = false;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -178,5 +180,5 @@ public class TeachingAssistant implements Serializable {
     public String toString() {
         return "entity.TeachingAssistant[ id=" + id + " ]";
     }
-    
+
 }

@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -61,6 +62,10 @@ public class Module implements Serializable {
     private List<Announcement> announcements;
 
     public Module() {
+        lecturers = new ArrayList<>();
+        TAs = new ArrayList<>();
+        stduents = new ArrayList<>();
+        announcements = new ArrayList<>();
     }
 
     
