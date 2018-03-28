@@ -7,8 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.faces.bean.SessionScoped;
+
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import util.exception.ModuleNotFoundException;
 
 /**
@@ -16,7 +17,7 @@ import util.exception.ModuleNotFoundException;
  * @author mango
  */
 @Named(value = "moduleDetailsManagedBean")
-@SessionScoped
+@ViewScoped
 public class moduleDetailsManagedBean implements Serializable {
 
     @EJB(name = "ModuleControllerLocal")
@@ -37,10 +38,9 @@ public class moduleDetailsManagedBean implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
-        moduleIdToView = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("moduleIdToView");
-        System.err.println("?????????");
-        System.err.println(moduleIdToView);
+    public void postConstruct() {
+        moduleIdToView = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("moduleIdToView");
+        
         try {
             setModuleToView(moduleControllerLocal.retrieveModuleById(moduleIdToView));
         } catch (ModuleNotFoundException ex) {

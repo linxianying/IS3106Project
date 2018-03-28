@@ -19,24 +19,25 @@
             <p:tab title="Module Overivew">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:outputText value="Modular code: " />
-                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.moduleCode}" /><br/>
+                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.moduleCode}" />
                     <h:outputText value="Module name: " />
-                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.moduleName}" /><br/>
+                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.moduleName}" />
                     <h:outputText value="Modular credit: " />
-                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.modularCredit}" /><br/>
+                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.modularCredit}" />
                     <h:outputText value="Class size: " />
-                     <h:outputText value="#{moduleDetailsManagedBean.moduleToView.classSize}" />
+                    <h:outputText value="#{moduleDetailsManagedBean.moduleToView.classSize}" />
                 </h:panelGrid>
             </p:tab>
-            
+
             <p:tab title="Module Description">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:outputText value="#{moduleDetailsManagedBean.moduleToView.description}" />
                 </h:panelGrid>
             </p:tab>
-            
+
             <p:tab title="Module Exam Info">
                 <h:panelGrid columns="2" cellpadding="10">
+                    <h:outputText value="Exam Date: " />
                     <h:outputText value="#{moduleDetailsManagedBean.moduleToView.examDate}" />
                 </h:panelGrid>
             </p:tab>

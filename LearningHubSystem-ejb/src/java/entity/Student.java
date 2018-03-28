@@ -69,6 +69,7 @@ public class Student implements Serializable {
     }
 
     public Student(String name, String password, String email, String faculty, String department, String telephone, String username) {
+        this();
         this.name = name;
         this.password = password;
         this.email = email;
@@ -76,8 +77,6 @@ public class Student implements Serializable {
         this.department = department;
         this.telephone = telephone;
         this.username = username;
-        
-        this.isPremium = false;
     }
     
 
