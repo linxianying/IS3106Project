@@ -18,9 +18,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 
 ;
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
  * @author lin
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class moduleManagedBean implements Serializable {
 
     private Student student;
@@ -42,7 +42,7 @@ public class moduleManagedBean implements Serializable {
     HttpSession session;
 
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
 

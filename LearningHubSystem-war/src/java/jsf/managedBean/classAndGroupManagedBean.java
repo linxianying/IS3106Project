@@ -9,13 +9,13 @@ import ejb.session.stateless.ModuleControllerLocal;
 import entity.Module;
 import entity.Student;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import util.exception.ModuleNotFoundException;
 
@@ -24,7 +24,7 @@ import util.exception.ModuleNotFoundException;
  * @author wyh
  */
 @Named(value = "classAndGroupManagedBean")
-@SessionScoped
+@ViewScoped
 public class classAndGroupManagedBean implements Serializable {
 
     @EJB

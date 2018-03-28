@@ -73,6 +73,9 @@ public class Lecturer implements Serializable {
 
     public Lecturer(String username, String password, String name, String email,
             String faculty, String department, String telephone) {
+        
+        this();
+        
         this.username = username;
         this.password = password;
         this.name = name;
@@ -80,8 +83,6 @@ public class Lecturer implements Serializable {
         this.faculty = faculty;
         this.department = department;
         this.telephone = telephone;
-        
-        this.isPremium = false;
     }
     
     public Long getId() {

@@ -43,6 +43,7 @@ public class TimeEntry implements Serializable {
     }
     
     public TimeEntry(String title, String from, String to, String details) {
+        this();
         this.title = title;
         this.fromDate = from;
         this.toDate = to;

@@ -70,6 +70,7 @@ public class Module implements Serializable {
 
     
     public Module(String moduleName, String moduleCode, int modularCredit, int classSize, String description, Date examDate) {
+        this();
         this.moduleName = moduleName;
         this.moduleCode = moduleCode;
         this.modularCredit = modularCredit;

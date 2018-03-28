@@ -18,44 +18,44 @@ import javax.persistence.Id;
  */
 @Entity
 public class Administrator implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 32, nullable = false)
     private String name;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String email;
-    
+
     @Column(length = 13, nullable = false, unique = true)
     private String telephone;
-    
+
     @Column(length = 32, nullable = false, unique = true)
     private String username;
-    
+
     @Column(length = 130, nullable = false)
     private String password;
-    
+
     @Column(nullable = false)
     private boolean isPremium;
 
     //default constructor
-    public Administrator(){
+    public Administrator() {
         this.isPremium = false;
     }
 
     public Administrator(String name, String email, String telephone, String username, String password) {
+        this();
         this.name = name;
         this.email = email;
         this.telephone = telephone;
         this.username = username;
         this.password = password;
-        
-        this.isPremium = false;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -136,5 +136,5 @@ public class Administrator implements Serializable {
     public String toString() {
         return "entity.Administrator[ id=" + id + " ]";
     }
-    
+
 }

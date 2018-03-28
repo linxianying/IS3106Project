@@ -47,6 +47,7 @@ public class Announcement implements Serializable {
     }
 
     public Announcement(String name, String description, Date date, Lecturer lecturer, Module module) {
+        this();
         this.name = name;
         this.description = description;
         this.date = date;

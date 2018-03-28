@@ -5,8 +5,6 @@
  */
 package jsf.managedBean;
 
-import entity.Administrator;
-import entity.Lecturer;
 import entity.Student;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import util.exception.StudentExistException;
 import ejb.session.stateless.StudentControllerLocal;
 
 /**
