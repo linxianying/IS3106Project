@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -33,8 +34,7 @@ public class Announcement implements Serializable {
     @Column(nullable = false)
     private String description;
     
-    @Column(nullable = false)
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
            
     @ManyToOne(cascade={CascadeType.PERSIST}, optional = false)
@@ -125,7 +125,7 @@ public class Announcement implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Announcement[ id=" + id + " ]";
+        return "entity.Announcement[ id=" + id + "; date=" + date + " ]";
     }
     
 }
