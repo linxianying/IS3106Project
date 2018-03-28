@@ -61,11 +61,15 @@ public class Module implements Serializable {
     @OneToMany(cascade={CascadeType.PERSIST},mappedBy="module")
     private List<Announcement> announcements;
 
+//    @OneToMany(cascade={CascadeType.PERSIST},mappedBy="module")
+//    private List<FileEntity> files;
+    
     public Module() {
         lecturers = new ArrayList<>();
         TAs = new ArrayList<>();
         stduents = new ArrayList<>();
         announcements = new ArrayList<>();
+        //files = new ArrayList<>();
     }
 
     
@@ -191,5 +195,19 @@ public class Module implements Serializable {
     public String toString() {
         return "entity.Module[ id=" + id + " ]";
     }
+
+    /**
+     * @return the files
+     */
+//    public List<FileEntity> getFiles() {
+//        return files;
+//    }
+//
+//    /**
+//     * @param files the files to set
+//     */
+//    public void setFiles(List<FileEntity> files) {
+//        this.files = files;
+//    }
     
 }
