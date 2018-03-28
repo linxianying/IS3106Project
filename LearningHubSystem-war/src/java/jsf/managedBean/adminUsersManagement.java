@@ -36,7 +36,9 @@ public class adminUsersManagement {
 
     @EJB
     private LecturerControllerLocal lecturerController;
+    @EJB
     private StudentControllerLocal studentController;
+    @EJB
     private TeachingAssistantControllerLocal taController;
     
     private List<Lecturer> lecturers;
@@ -145,6 +147,7 @@ public class adminUsersManagement {
         }
     }
 
+    
     
     
     

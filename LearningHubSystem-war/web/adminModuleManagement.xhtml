@@ -21,9 +21,16 @@
     </h:form>
 
    <h:form id="viewMods">          
-    <p:dataTable id="dataTableViewMods" value="#{moduleManagementManagedBean.modules}" filteredValue="#{moduleManagementManagedBean.filteredModules}" rowKey="#{Module.id}" rowIndexVar="row"
+    <p:dataTable id="dataTableViewMods" value="#{moduleManagementManagedBean.modules}" filteredValue="#{moduleManagementManagedBean.filteredModules}" var="module" widgetVar="dataTableViewMods" rowKey="#{module.id}" rowIndexVar="row"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,30">
-           
+    
+        <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('dataTableViewMods').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+        </f:facet>
+        
     <p:column headerText="Id" sortBy="#{module.id}" filterBy="#{module.id}" filterMatchMode="contains">
         <h:outputText value="#{module.id}"/>
     </p:column>
@@ -53,7 +60,7 @@
             <f:setPropertyActionListener value="#{module}" target="#{moduleManagementManagedBean.moduleToUpdate}" />
         </p:commandButton>
         <p:commandButton icon="ui-icon-trash" actionListener="#{moduleManagementManagedBean.removeModule}" update=":viewMods:dataTableViewMods">
-            <f:attribute name="productEntityToDelete" value="#{productEntity}" />
+            <f:attribute name="moduleToDelete" value="#{module}" />
                 <p:confirm header="Confirmation" message="Are you sure you want to delete #{module.moduleName} ?" icon="ui-icon-alert" />
         </p:commandButton>
     </p:column>    

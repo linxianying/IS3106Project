@@ -95,6 +95,7 @@ public class StudentController implements StudentControllerLocal {
         return student;
     }
     
+    
     @Override
     public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");

@@ -24,7 +24,7 @@ import util.exception.ModuleNotFoundException;
  *
  * @author Samango
  */
-@Named(value = "adminModuleManagementManagedBean")
+@Named(value = "moduleManagementManagedBean")
 @SessionScoped
 public class adminModuleManagement {
 
@@ -40,7 +40,7 @@ public class adminModuleManagement {
      * Creates a new instance of moduleManagementManagedBean
      */
     public adminModuleManagement() {
-        modules = new ArrayList<Module>();
+        modules = new ArrayList<>();
         newModule = new Module();
     }
     
@@ -98,6 +98,40 @@ public class adminModuleManagement {
         }
         
     }
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+
+    public List<Module> getFilteredModules() {
+        return filteredModules;
+    }
+
+    public void setFilteredModules(List<Module> filteredModules) {
+        this.filteredModules = filteredModules;
+    }
+
+    public Module getNewModule() {
+        return newModule;
+    }
+
+    public void setNewModule(Module newModule) {
+        this.newModule = newModule;
+    }
+
+    public Module getModuleToUpdate() {
+        return moduleToUpdate;
+    }
+
+    public void setModuleToUpdate(Module moduleToUpdate) {
+        this.moduleToUpdate = moduleToUpdate;
+    }
+    
+    
     
     
     
