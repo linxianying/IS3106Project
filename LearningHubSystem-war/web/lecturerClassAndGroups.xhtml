@@ -9,7 +9,7 @@
     <ui:define name="content">
 
         <h:head>
-            <title>Learning Hub System Lecturer Class and Group Page</title>
+            <title>Learning Hub System:: Lecturer:: Class and Group Page</title>
         </h:head>
 
         <!--        <body>-->
@@ -19,10 +19,7 @@
                     <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
                         <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
 
-
                         <p:graphicImage value="resources/images/nophoto.jpg"/> 
-
-
 
                     </p:commandLink>
 
@@ -34,7 +31,6 @@
                             <h:outputText value="Name:" />
                             <h:outputText value="#{student.name}" style="font-weight: bold"/>
 
-
                         </h:panelGrid>
                     </p:outputPanel>
                 </h:panelGrid>
@@ -45,7 +41,6 @@
                 <p:outputPanel id="studentDetail" style="text-align:center;">
                     <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
                         <f:facet name="header">
-
 
                             <p:graphicImage value="resources/images/nophoto.jpg"/> 
 
@@ -69,20 +64,17 @@
                         <h:outputText value="Email" />
                         <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
 
-
-
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>
         </h:form>
         <!--        </body>-->
-
-
+                
         <p:stack icon="resources/images/icon/stack.png" expanded="true">
-            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/studentAnnouncement.xhtml"/>
-            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/studentFacilitators.xhtml"/>
-            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/studentClassAndGroups.xhtml"/>
-            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/studentFiles.xhtml"/>
+            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/lecturerAnnouncement.xhtml"/>
+            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/lecturerFacilitators.xhtml"/>
+            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/lecturerClassAndGroups.xhtml"/>
+            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/lecturerFiles.xhtml"/>
         </p:stack>
 
     </ui:define>

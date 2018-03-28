@@ -55,9 +55,6 @@ public class facilitatorManagedBean implements Serializable {
             moduleToView = moduleControllerLocal.retrieveModuleById(moduleIdToView);
             lecturers = moduleToView.getLecturers();
             TAs = moduleToView.getTAs();
-//            for (Lecturer each : lecturers) {
-//                System.err.println("***************** " + each.getName());
-//            }
         } catch (ModuleNotFoundException ex) {
             moduleToView = new Module();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while retrieving the module details: " + ex.getMessage(), null));

@@ -8,12 +8,9 @@
                 template="./layout/studentLayout.xhtml">
     <ui:define name="content">
 
-        <p:stack icon="resources/images/icon/stack.png" expanded="true">
-            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/studentAnnouncement.xhtml"/>
-            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/studentFacilitators.xhtml"/>
-            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/studentClassAndGroups.xhtml"/>
-            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/studentFiles.xhtml"/>
-        </p:stack>
+        <h:head>
+            <title>Learning Hub System:: Student:: Module Details Page</title>
+        </h:head>
 
         <p:accordionPanel multiple="true">
             <p:tab title="Module Overivew">
@@ -42,6 +39,13 @@
                 </h:panelGrid>
             </p:tab>
         </p:accordionPanel>
+        
+        <p:stack icon="resources/images/icon/stack.png" expanded="true">
+            <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/studentAnnouncement.xhtml"/>
+            <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/studentFacilitators.xhtml"/>
+            <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/studentClassAndGroups.xhtml"/>
+            <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/studentFiles.xhtml"/>
+        </p:stack>
 
     </ui:define>
 </ui:composition>

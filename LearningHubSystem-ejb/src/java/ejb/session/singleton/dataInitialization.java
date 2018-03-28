@@ -151,12 +151,6 @@ public class dataInitialization {
         Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
         em.persist(student3);
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
-        //set relationship between student4 and modules
-        student4.setModules(modules);
-        for (Module each : modules) {
-            each.getStduents().add(student4);
-            em.refresh(each);
-        }
         em.persist(student4);
 
     }
