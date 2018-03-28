@@ -19,7 +19,7 @@
 
                 <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
 
-                    <p:panel header="#{utilManagedBean.formatDate(announcement.date)}" closable="true">
+                    <p:panel header="#{utilManagedBean.formatMotdHeader(announcement.date)}" closable="true">
                         <h:outputText value="#{announcement.name}" />
                         <h:outputText value="#{announcement.lecturer}" />
                         <h:outputText value="#{announcement.description}" />
