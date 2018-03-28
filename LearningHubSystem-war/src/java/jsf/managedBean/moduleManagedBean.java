@@ -64,7 +64,6 @@ public class moduleManagedBean implements Serializable {
     public void viewModuleDetails(ActionEvent event) throws IOException {
         Long moduleIdToView = (Long) event.getComponent().getAttributes().get("ModuleIdToView");
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("moduleIdToView", moduleIdToView);
-        System.err.println("*******"+moduleIdToView);
 
         if (session.getAttribute("role").equals("student")) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("studentModuleDetails.xhtml");

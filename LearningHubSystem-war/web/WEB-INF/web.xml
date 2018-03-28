@@ -35,8 +35,8 @@
         <location>/error.xhtml</location> 
     </error-page>
     <context-param>
-            <param-name>primefaces.THEME</param-name>
-            <param-value>redmond</param-value>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>redmond</param-value>
     </context-param>
     <mime-mapping>
         <extension>xhtml</extension>
@@ -45,5 +45,9 @@
     <context-param>
         <param-name>facelets.SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>alternatedocroot_1</param-name>
+        <param-value>/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles</param-value>
     </context-param>
 </web-app>

@@ -65,6 +65,7 @@ public class Student implements Serializable {
         modules = new ArrayList<>();
         timeEntries = new ArrayList<>();
         this.isPremium = false;
+        modules = new ArrayList<>();
     }
 
     public Student(String name, String password, String email, String faculty, String department, String telephone, String username) {

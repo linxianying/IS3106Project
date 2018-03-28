@@ -115,7 +115,16 @@ public class dataInitialization {
 
     private void loadLecturerData() {
         Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
+        List<Module> modules = moduleControllerLocal.retrieveAllModules();
+        
+//        for(Module each : modules) {
+//            each.getLecturers().add(newLecturer1);
+//            //List<Module> list = newLecturer1.getModules();
+//            newLecturer1.getModules().add(each);
+//            em.refresh(each);
+//        }
         em.persist(newLecturer1);
+        
         Lecturer newLecturer2 = new Lecturer("lecturer2", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
         em.persist(newLecturer2);
         Lecturer newLecturer3 = new Lecturer("lecturer3", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");

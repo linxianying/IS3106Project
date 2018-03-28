@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -73,9 +74,11 @@ public class scheduleManagedBean {
         eventModel = new DefaultScheduleModel();
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        if(session.getAttribute("userType").equals("student")){
+        Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
+        if(sessionMap.get("role").equals("student")){
+            
             userType = "student";
-            student = (Student) session.getAttribute("student");
+            student = (Student) sessionMap.get("currentStudent");
             username = student.getUsername();
             timeEntries = student.getTimeEntries();
             TimeEntry t;
