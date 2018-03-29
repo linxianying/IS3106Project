@@ -19,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.model.DefaultStreamedContent;
@@ -30,7 +31,7 @@ import util.exception.ModuleNotFoundException;
  * @author mango
  */
 @Named(value = "fileDownloadManagedBean")
-@SessionScoped
+@ViewScoped
 public class fileDownloadManagedBean implements Serializable {
 
     @EJB(name = "FileEntityControllerLocal")
@@ -41,6 +42,7 @@ public class fileDownloadManagedBean implements Serializable {
 
     private StreamedContent file;
     private Long selectedFileId;
+    private FileEntity selectedFile;
     private List<FileEntity> relatedFiles;
     private Long moduleIdToView;
     private Module moduleToView;
@@ -69,15 +71,15 @@ public class fileDownloadManagedBean implements Serializable {
     public void handleDownload(ActionEvent event) {
         try {
             selectedFileId = (Long) event.getComponent().getAttributes().get("fileId");
-            FileEntity selectedFile = fileEntityControllerLocal.retrieveFileById(selectedFileId);
+            setSelectedFile(fileEntityControllerLocal.retrieveFileById(selectedFileId));
 
-            String filePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + selectedFile.getModule().getModuleCode() + System.getProperty("file.separator") + selectedFile.getFileName();
+            String filePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + getSelectedFile().getModule().getModuleCode() + System.getProperty("file.separator") + getSelectedFile().getFileName();
 
             InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(filePath);
             
             System.err.println("********* filePath: " + filePath);
 
-            file = new DefaultStreamedContent(stream, "image/png", selectedFile.getFileName());
+            file = new DefaultStreamedContent(stream, "image/png", getSelectedFile().getFileName());
             System.err.println("********* file: " + file.getContentLength());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -140,6 +142,20 @@ public class fileDownloadManagedBean implements Serializable {
      */
     public void setSelectedFileId(Long selectedFileId) {
         this.selectedFileId = selectedFileId;
+    }
+
+    /**
+     * @return the selectedFile
+     */
+    public FileEntity getSelectedFile() {
+        return selectedFile;
+    }
+
+    /**
+     * @param selectedFile the selectedFile to set
+     */
+    public void setSelectedFile(FileEntity selectedFile) {
+        this.selectedFile = selectedFile;
     }
 
 }

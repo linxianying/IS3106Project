@@ -13,22 +13,38 @@
         </h:head>
 
         <!--    download files-->
+        <h2>Files Can Download For this Module</h2>
         <h:form>
             <p:repeat value="#{fileDownloadManagedBean.relatedFiles}" var="file">
-                <h:panelGrid columns="3" style="width:100%">
-                    
-                    <p:commandButton value="selectFile" actionListener="#{fileDownloadManagedBean.handleDownload}" update="@form">
-                        <f:attribute name="fileId" value="#{file.id}"  />
-                    </p:commandButton>
-                    
-                    <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                        <p:graphicImage value="/uploadedFiles/#{file.module.moduleCode}/#{file.fileName}" /> 
-                        <p:fileDownload value="#{fileDownloadManagedBean.file}" />
-                    </p:commandButton>
-                    
-                    <a href="/LearningHubSystem-war/uploadedFiles/#{file.module.moduleCode}/#{file.fileName}" >Test</a>
-                    
-                </h:panelGrid>
+
+                <p:panelGrid style="margin-top:20px">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">
+                                <h:outputText value="#{file.fileName}" />
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+
+                    <p:row>
+                        <p:column rowspan="2">
+                            <p:graphicImage value="/uploadedFiles/#{file.module.moduleCode}/#{file.fileName}"  width="200"/> 
+                        </p:column>
+
+                        <p:column>
+                            <p:commandButton value="1.selectFile" actionListener="#{fileDownloadManagedBean.handleDownload}" update="@form">
+                                <f:attribute name="fileId" value="#{file.id}"  />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column>
+                            <p:commandButton value="2.download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload value="#{fileDownloadManagedBean.file}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <hr/>
             </p:repeat>
         </h:form>
 
