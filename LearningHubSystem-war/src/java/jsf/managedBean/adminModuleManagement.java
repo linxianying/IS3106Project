@@ -7,6 +7,7 @@ package jsf.managedBean;
 
 import ejb.session.stateless.ModuleControllerLocal;
 import entity.Module;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.faces.event.ActionEvent;
 import java.util.List;
