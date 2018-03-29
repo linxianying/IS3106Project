@@ -208,8 +208,8 @@ public class dataInitialization {
             Module is3106 = moduleControllerLocal.retrieveModuleByModuleCode("IS3106");
             Module cs2102 = moduleControllerLocal.retrieveModuleByModuleCode("CS2102");
             Module st3131 = moduleControllerLocal.retrieveModuleByModuleCode("ST3131");
-            
-            Announcement announcement=announcementControllerLocal.retrieveAnnouncementByName("test");
+
+            Announcement announcement = announcementControllerLocal.retrieveAnnouncementByName("test");
 
             twk.getModules().add(is3106);
             ta1.getModules().add(is3106);
@@ -229,13 +229,10 @@ public class dataInitialization {
             st3131.getTAs().add(ta3);
             st3131.getAnnouncements().add(announcement);
 
-        } catch (LecturerNotFoundException | ModuleNotFoundException | TANotFoundException|AnnouncementNotFoundException ex) {
+        } catch (LecturerNotFoundException | ModuleNotFoundException | TANotFoundException | AnnouncementNotFoundException ex) {
             ex.getMessage();
 
         }
-        
-        
-        // relationships between module and announcement
-        
+
     }
 }

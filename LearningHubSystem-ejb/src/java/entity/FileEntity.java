@@ -32,10 +32,9 @@ public class FileEntity implements Serializable {
     public FileEntity() {
     }
 
-    public FileEntity(String fileName, Module module) {
+    public FileEntity(String fileName) {
         this();
         this.fileName = fileName;
-        this.module = module;
     }
 
     public Long getId() {

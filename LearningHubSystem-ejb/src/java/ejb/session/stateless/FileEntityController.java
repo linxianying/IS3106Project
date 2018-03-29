@@ -33,7 +33,7 @@ public class FileEntityController implements FileEntityControllerLocal {
     private FileEntity fileEntity;
 
     @Override
-    public FileEntity createNewFileEntity(FileEntity file) throws FileEntityExistException {
+    public FileEntity createNewFileEntity(FileEntity file, Long moduleId) throws FileEntityExistException {
         List<FileEntity> files = retrieveAllFiles();
         for (FileEntity each : files) {
             if (each.getId().equals(file.getId())) {
@@ -41,11 +41,10 @@ public class FileEntityController implements FileEntityControllerLocal {
             }
         }
         em.persist(file);
-//        //module.getFiles().add(file);
-//        em.flush();
-//        em.refresh(file);
-//        
-        System.err.println("没问题");
+        Module module = em.find(Module.class, moduleId);
+        file.setModule(module);
+        module.getFiles().add(file);
+        
         return file;
 
     }

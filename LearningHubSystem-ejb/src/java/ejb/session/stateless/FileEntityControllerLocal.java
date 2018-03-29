@@ -21,7 +21,7 @@ public interface FileEntityControllerLocal {
 
     List<FileEntity> retrieveAllFiles();
 
-    FileEntity createNewFileEntity(FileEntity file) throws FileEntityExistException;
+    FileEntity createNewFileEntity(FileEntity file, Long moduleId) throws FileEntityExistException;
 
     FileEntity retrieveFileByFileName(String fileName) throws FileEntityNotFoundException;
 }

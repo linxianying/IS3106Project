@@ -67,15 +67,12 @@ public class fileUploadManagedBean implements Serializable {
         try {
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + moduleToView.getModuleCode() + System.getProperty("file.separator") + moduleToView.getModuleCode() + event.getFile().getFileName();
 
-            FileEntity newFile = new FileEntity(event.getFile().getFileName(), moduleToView);
+            FileEntity newFile = new FileEntity(event.getFile().getFileName());
             
             try{
-                System.err.println("到try了");
-                newFile = fileEntityControllerLocal.createNewFileEntity(newFile);
-                System.err.println("结束了");
+                newFile = fileEntityControllerLocal.createNewFileEntity(newFile, moduleIdToView);
             }
             catch(Exception ex){
-                System.out.println(ex.getMessage());
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New File Entity is not created successfully!","")); 
             }
             
