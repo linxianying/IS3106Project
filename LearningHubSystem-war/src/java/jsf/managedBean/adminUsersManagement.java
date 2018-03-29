@@ -5,7 +5,6 @@
  */
 package jsf.managedBean;
 
-import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
@@ -147,6 +146,47 @@ public class adminUsersManagement {
         }
     }
 
+    public Lecturer getNewLecturer() {
+        return newLecturer;
+    }
+
+    public void setNewLecturer(Lecturer newLecturer) {
+        this.newLecturer = newLecturer;
+    }
+
+    public TeachingAssistant getNewTA() {
+        return newTA;
+    }
+
+    public void setNewTA(TeachingAssistant newTA) {
+        this.newTA = newTA;
+    }
+
+    public List<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public void setLecturers(List<Lecturer> lecturers) {
+        this.lecturers = lecturers;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public List<TeachingAssistant> getTAs() {
+        return TAs;
+    }
+
+    public void setTAs(List<TeachingAssistant> TAs) {
+        this.TAs = TAs;
+    }
+
+    
     
     
     

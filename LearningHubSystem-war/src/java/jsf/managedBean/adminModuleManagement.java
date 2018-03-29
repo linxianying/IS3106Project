@@ -35,13 +35,16 @@ public class adminModuleManagement {
     private List<Module> filteredModules;
     private Module newModule;
     private Module moduleToUpdate;
-
+    private Module moduleToAssign;
     /**
      * Creates a new instance of moduleManagementManagedBean
      */
     public adminModuleManagement() {
         modules = new ArrayList<>();
+        filteredModules = new ArrayList();
         newModule = new Module();
+        moduleToUpdate = new Module();
+        moduleToAssign = new Module();
     }
     
     @PostConstruct
@@ -98,6 +101,11 @@ public class adminModuleManagement {
         }
         
     }
+    
+    public void assignModule(ActionEvent event) throws IOException{
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("moduleToAssignId",moduleToAssign.getId());
+        FacesContext.getCurrentInstance().getExternalContext().redirect("adminModuleAssignment.xhtml");
+    }
 
     public List<Module> getModules() {
         return modules;
@@ -130,9 +138,15 @@ public class adminModuleManagement {
     public void setModuleToUpdate(Module moduleToUpdate) {
         this.moduleToUpdate = moduleToUpdate;
     }
+
+    public Module getModuleToAssign() {
+        return moduleToAssign;
+    }
+
+    public void setModuleToAssign(Module moduleToAssign) {
+        this.moduleToAssign = moduleToAssign;
+    }
     
-    
-    
-    
+   
     
 }
