@@ -25,6 +25,8 @@ public interface TeachingAssistantControllerLocal {
 
     TeachingAssistant createTeachingAssistant(TeachingAssistant ta) throws TAExistException, GeneralException;
 
+    TeachingAssistant retrieveTAById (Long id) throws TANotFoundException;
+    
     TeachingAssistant retrieveTAByUsername(String username) throws TANotFoundException;
 
     boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException;

@@ -6,8 +6,6 @@
 package ejb.session.stateless;
 
 import javax.ejb.Stateless;
-import entity.Administrator;
-import entity.Announcement;
 import entity.Module;
 import entity.TeachingAssistant;
 import java.util.List;
@@ -60,6 +58,23 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     public List<TeachingAssistant> retrieveAllTAs() {
         Query query = em.createQuery("SELECT t FROM TeachingAssistant t");
         return (List<TeachingAssistant>) query.getResultList();
+    }
+    
+    @Override 
+    public TeachingAssistant retrieveTAById (Long id) throws TANotFoundException{
+        teachingAssistant = null;
+        try{
+            Query q = em.createQuery("SELECT t FROM TeachingAssistant t WHERE t.Id=:ID");
+            q.setParameter("ID", id);
+            teachingAssistant = (TeachingAssistant) q.getSingleResult();
+        }
+         catch(NoResultException e){
+            throw new TANotFoundException("Student with specified ID not found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return teachingAssistant;
     }
 
     @Override

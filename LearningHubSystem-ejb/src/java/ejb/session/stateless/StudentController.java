@@ -76,6 +76,23 @@ public class StudentController implements StudentControllerLocal {
             }
         }
     }
+    
+    @Override 
+    public Student retrieveStudentById (Long id) throws StudentNotFoundException{
+        student = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM Student s WHERE s.Id=:ID");
+            q.setParameter("ID", id);
+            student = (Student) q.getSingleResult();
+        }
+         catch(NoResultException e){
+            throw new StudentNotFoundException("Student with specified ID not found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
 
     @Override
     public Student retrieveStudentByUsername(String username) throws StudentNotFoundException{

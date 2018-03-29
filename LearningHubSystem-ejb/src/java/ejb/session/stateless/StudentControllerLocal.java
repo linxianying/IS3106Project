@@ -25,6 +25,8 @@ import util.exception.StudentNotFoundException;
 public interface StudentControllerLocal {
 
     Student createStudent(Student student) throws StudentExistException, GeneralException;
+    
+    Student retrieveStudentById (Long id) throws StudentNotFoundException;
 
     Student retrieveStudentByUsername(String username) throws StudentNotFoundException;
 
