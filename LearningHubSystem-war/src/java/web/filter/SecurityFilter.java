@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"})
+//@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"})
 
 public class SecurityFilter implements Filter {
 
@@ -33,6 +33,8 @@ public class SecurityFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession httpSession = httpServletRequest.getSession(true);
         String requestServletPath = httpServletRequest.getServletPath();
+        
+        System.err.println("********** requestServletPath: " + requestServletPath);
 
         if (httpSession.getAttribute("isLogin") == null) {
             httpSession.setAttribute("isLogin", false);
@@ -129,7 +131,8 @@ public class SecurityFilter implements Filter {
                 || path.equals("/register.xhtml")
                 || path.startsWith("/images")
                 || path.startsWith("/resources/images")
-                || path.startsWith("/javax.faces.resource")) {
+                || path.startsWith("/javax.faces.resource")
+                || path.startsWith("/uploadedFiles")) {
             return true;
         } else {
             return false;

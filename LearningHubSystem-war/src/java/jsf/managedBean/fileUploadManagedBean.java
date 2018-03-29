@@ -65,7 +65,7 @@ public class fileUploadManagedBean implements Serializable {
     public void handleUpload(FileUploadEvent event) {
 
         try {
-            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + moduleToView.getModuleCode() + System.getProperty("file.separator") + moduleToView.getModuleCode() + event.getFile().getFileName();
+            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + moduleToView.getModuleCode() + System.getProperty("file.separator") + event.getFile().getFileName();
 
             FileEntity newFile = new FileEntity(event.getFile().getFileName());
             
