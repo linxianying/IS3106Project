@@ -6,11 +6,10 @@
 package jsf.managedBean;
 
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.io.InputStream;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -20,7 +19,7 @@ import org.primefaces.model.StreamedContent;
  * @author mango
  */
 @Named(value = "fileDownloadManagedBean")
-@SessionScoped
+@ViewScoped
 public class fileDownloadManagedBean implements Serializable {
 
     private StreamedContent file;

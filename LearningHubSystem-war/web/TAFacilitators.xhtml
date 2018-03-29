@@ -3,8 +3,125 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
                 template="./layout/taLayout.xhtml" 
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
+
+        <h:head>
+            <title>Learning Hub System:: Teaching Assistant:: Facilitators Page</title>
+        </h:head>
+
+        <p:accordionPanel multiple="true">
+            <p:tab title="Lecturer List">
+                <h:form id="TALecturers">
+                    <p:repeat value="#{facilitatorManagedBean.lecturers}" var="lecturer" >
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            <p:commandLink update="formViewLecturer" oncomplete="PF('lecturerDialog').show()">
+                                <f:setPropertyActionListener value="#{lecturer}" target="#{facilitatorManagedBean.selectedLecturer}" />
+                                <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                            </p:commandLink>
+
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Name:" />
+                                    <h:outputText value="#{lecturer.name}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Faculty:" />
+                                    <h:outputText value="#{lecturer.faculty}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Department:" />
+                                    <h:outputText value="#{lecturer.department}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <hr />
+                    </p:repeat>
+                </h:form>
+            </p:tab>
+
+            <p:tab title="Teaching Assistant List">
+                <h:form id="TATAs">
+                    <p:repeat value="#{facilitatorManagedBean.TAs}" var="TA" >
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            <p:commandLink update="formViewTA" oncomplete="PF('TADialog').show()">
+                                <f:setPropertyActionListener value="#{TA}" target="#{facilitatorManagedBean.selectedTA}" />
+                                <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                            </p:commandLink>
+
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Name:" />
+                                    <h:outputText value="#{TA.name}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Faculty:" />
+                                    <h:outputText value="#{TA.faculty}" style="font-weight: bold"/>
+
+                                    <h:outputText value="Department:" />
+                                    <h:outputText value="#{TA.department}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                        <p:separator />
+                    </p:repeat>
+                </h:form>
+            </p:tab>
+        </p:accordionPanel>
+
+        <h:form id="formViewLecturer">
+            <p:dialog header="Lecturer Details" widgetVar="lecturerDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                <p:outputPanel id="lecturerDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty facilitatorManagedBean.selectedLecturer}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedLecturer.name}" />
+
+                        <h:outputText value="Faculty" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedLecturer.faculty}" />
+
+                        <h:outputText value="Department:" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedLecturer.department}"/>
+
+                        <h:outputText value="Email" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedLecturer.email}" />
+
+                        <h:outputText value="Phone number" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedLecturer.telephone}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formViewTA">
+            <p:dialog header="TA Details" widgetVar="TADialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                <p:outputPanel id="TADetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty facilitatorManagedBean.selectedTA}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedTA.name}" />
+
+                        <h:outputText value="Faculty" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedTA.faculty}" />
+
+                        <h:outputText value="Department:" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedTA.department}"/>
+
+                        <h:outputText value="Email" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedTA.email}" />
+
+                        <h:outputText value="Phone number" />
+                        <h:outputText value="#{facilitatorManagedBean.selectedTA.telephone}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
 
         <p:stack icon="resources/images/icon/stack.png" expanded="true">
             <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/TAAnnouncement.xhtml"/>
@@ -12,5 +129,7 @@
             <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/TAClassAndGroups.xhtml"/>
             <p:menuitem value="Folders" icon="/resources/images/icon/folder.png" url="/TAFiles.xhtml"/>
         </p:stack>
+
+
     </ui:define>
 </ui:composition>

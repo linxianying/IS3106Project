@@ -73,7 +73,7 @@ public class scheduleManagedBean {
     public void init() {
         eventModel = new DefaultScheduleModel();
         context = FacesContext.getCurrentInstance();
-        session = (HttpSession) context.getExternalContext().getSession(true);
+        //session = (HttpSession) context.getExternalContext().getSession(true);
         Map<String, Object> sessionMap = context.getExternalContext().getSessionMap();
         if(sessionMap.get("role").equals("student")){
             
@@ -95,7 +95,7 @@ public class scheduleManagedBean {
             }
         }else{
             userType = "lecturer";
-            lecturer = (Lecturer) session.getAttribute("lecturer");
+            lecturer = (Lecturer) sessionMap.get("currentLecturer");
             username = lecturer.getUsername();
             timeEntries = lecturer.getTimeEntries();
             TimeEntry t;

@@ -9,7 +9,7 @@
     <ui:define name="content">
 
         <h:head>
-            <title>Learning Hub System Student Class and Group Page</title>
+            <title>Learning Hub System:: Student:: Class and Group Page</title>
         </h:head>
 
         <h:form id="form">
@@ -18,10 +18,7 @@
                     <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
                         <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
 
-
-<!--                how to            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" /> -->
-
-
+                        <p:graphicImage value="resources/images/nophoto.jpg"/> 
 
                     </p:commandLink>
 
@@ -45,9 +42,7 @@
                     <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
                         <f:facet name="header">
 
-
-<!--                                <p:graphicImage name="demo/images/car/#{dataListView.selectedCar.brand}-big.gif"/> -->
-
+                            <p:graphicImage value="resources/images/nophoto.jpg"/> 
 
                         </f:facet>
 
@@ -68,8 +63,6 @@
 
                         <h:outputText value="Email" />
                         <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
-
-
 
                     </p:panelGrid>
                 </p:outputPanel>

@@ -5,9 +5,14 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.AnnouncementControllerLocal;
+import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.ModuleControllerLocal;
+import ejb.session.stateless.StudentControllerLocal;
+import ejb.session.stateless.TeachingAssistantControllerLocal;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Administrator;
+import entity.Announcement;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
@@ -24,7 +29,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.exception.AnnouncementNotFoundException;
 import util.exception.GeneralException;
+import util.exception.LecturerNotFoundException;
+import util.exception.ModuleNotFoundException;
+import util.exception.TANotFoundException;
 import util.exception.TimeEntryExistException;
 
 /**
@@ -35,6 +44,18 @@ import util.exception.TimeEntryExistException;
 @LocalBean
 @Startup
 public class dataInitialization {
+
+    @EJB
+    private AnnouncementControllerLocal announcementControllerLocal;
+
+    @EJB
+    private TeachingAssistantControllerLocal teachingAssistantControllerLocal;
+
+    @EJB
+    private StudentControllerLocal studentControllerLocal;
+
+    @EJB
+    private LecturerControllerLocal lecturerControllerLocal;
 
     @EJB(name = "ModuleControllerLocal")
     private ModuleControllerLocal moduleControllerLocal;
@@ -70,6 +91,21 @@ public class dataInitialization {
         if (em.find(TimeEntry.class, 1l) == null) {
             loadTEData();
         }
+        if (em.find(Announcement.class, 1l) == null) {
+            loadAnnoucementData();
+            setRelationships();
+        }
+    }
+
+    private void loadAnnoucementData() {
+        try {
+            Lecturer twk = lecturerControllerLocal.retrieveLecturerByUsername("lecturer1");
+            Module is3106 = moduleControllerLocal.retrieveModuleByModuleCode("IS3106");
+            Announcement newAnnouncement = new Announcement("test", "testing annoucement functionality", new Timestamp(2018, 4, 30, 13, 0, 0, 0), twk, is3106);
+            em.persist(newAnnouncement);
+        } catch (LecturerNotFoundException | ModuleNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void loadAdminData() {
@@ -79,16 +115,7 @@ public class dataInitialization {
 
     private void loadLecturerData() {
         Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
-        List<Module> modules = moduleControllerLocal.retrieveAllModules();
-        
-//        for(Module each : modules) {
-//            each.getLecturers().add(newLecturer1);
-//            //List<Module> list = newLecturer1.getModules();
-//            newLecturer1.getModules().add(each);
-//            em.refresh(each);
-//        }
         em.persist(newLecturer1);
-        
         Lecturer newLecturer2 = new Lecturer("lecturer2", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
         em.persist(newLecturer2);
         Lecturer newLecturer3 = new Lecturer("lecturer3", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");
@@ -97,7 +124,6 @@ public class dataInitialization {
         em.persist(newLecturer4);
         Lecturer newLecturer5 = new Lecturer("lecturer5", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
         em.persist(newLecturer5);
-
     }
 
     private void loadModuleData() {
@@ -125,12 +151,6 @@ public class dataInitialization {
         Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
         em.persist(student3);
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
-        //set relationship between student4 and modules
-        student4.setModules(modules);
-        for (Module each : modules) {
-            each.getStduents().add(student4);
-            em.refresh(each);
-        }
         em.persist(student4);
 
     }
@@ -164,4 +184,58 @@ public class dataInitialization {
 
     }
 
+    private void setRelationships() {
+        //each student registers in all module
+        List<Module> modules = moduleControllerLocal.retrieveAllModules();
+        List<Student> students = studentControllerLocal.retrieveAllStudents();
+        for (Student student : students) {
+            student.setModules(modules);
+        }
+        for (Module module : modules) {
+            module.setStduents(students);
+        }
+
+        //relation between module and lecturer, TA, annoucement
+        try {
+            Lecturer twk = lecturerControllerLocal.retrieveLecturerByUsername("lecturer1");
+            Lecturer lhh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer2");
+            Lecturer tsc = lecturerControllerLocal.retrieveLecturerByUsername("lecturer4");
+
+            TeachingAssistant ta1 = teachingAssistantControllerLocal.retrieveTAByUsername("TA111");
+            TeachingAssistant ta2 = teachingAssistantControllerLocal.retrieveTAByUsername("TA222");
+            TeachingAssistant ta3 = teachingAssistantControllerLocal.retrieveTAByUsername("TA333");
+
+            Module is3106 = moduleControllerLocal.retrieveModuleByModuleCode("IS3106");
+            Module cs2102 = moduleControllerLocal.retrieveModuleByModuleCode("CS2102");
+            Module st3131 = moduleControllerLocal.retrieveModuleByModuleCode("ST3131");
+            
+            Announcement announcement=announcementControllerLocal.retrieveAnnouncementByName("test");
+
+            twk.getModules().add(is3106);
+            ta1.getModules().add(is3106);
+            is3106.getLecturers().add(twk);
+            is3106.getTAs().add(ta1);
+            is3106.getAnnouncements().add(announcement);
+
+            lhh.getModules().add(cs2102);
+            ta2.getModules().add(cs2102);
+            cs2102.getLecturers().add(lhh);
+            cs2102.getTAs().add(ta2);
+            cs2102.getAnnouncements().add(announcement);
+
+            tsc.getModules().add(st3131);
+            ta3.getModules().add(st3131);
+            st3131.getLecturers().add(tsc);
+            st3131.getTAs().add(ta3);
+            st3131.getAnnouncements().add(announcement);
+
+        } catch (LecturerNotFoundException | ModuleNotFoundException | TANotFoundException|AnnouncementNotFoundException ex) {
+            ex.getMessage();
+
+        }
+        
+        
+        // relationships between module and announcement
+        
+    }
 }

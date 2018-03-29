@@ -2,9 +2,74 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
-                template="./layout/lecturerLayout.xhtml" 
-                xmlns:p="http://primefaces.org/ui">
+                template="./layout/lecturerLayout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
+
+        <h:head>
+            <title>Learning Hub System:: Lecturer:: Class and Group Page</title>
+        </h:head>
+
+        <!--        <body>-->
+        <h:form id="form">
+            <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
+                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
+                        <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
+
+                        <p:graphicImage value="resources/images/nophoto.jpg"/> 
+
+                    </p:commandLink>
+
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" >
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{student.id}" style="font-weight: bold"/>
+
+                            <h:outputText value="Name:" />
+                            <h:outputText value="#{student.name}" style="font-weight: bold"/>
+
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+                <hr />
+            </p:repeat>
+
+            <p:dialog header="Student Info" widgetVar="studentDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                <p:outputPanel id="studentDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
+                        <f:facet name="header">
+
+                            <p:graphicImage value="resources/images/nophoto.jpg"/> 
+
+                        </f:facet>
+
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.id}" />
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.name}" />
+
+                        <h:outputText value="Faculty:" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.faculty}" />
+
+                        <h:outputText value="Department" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.department}" />
+
+                        <h:outputText value="Telephone" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.telephone}" />
+
+                        <h:outputText value="Email" />
+                        <h:outputText value="#{classAndGroupManagedBean.selectedStudent.email}" />
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+        <!--        </body>-->
+                
         <p:stack icon="resources/images/icon/stack.png" expanded="true">
             <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/lecturerAnnouncement.xhtml"/>
             <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/lecturerFacilitators.xhtml"/>
