@@ -18,6 +18,7 @@ import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
 import entity.TimeEntry;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.exception.AnnouncementNotFoundException;
@@ -140,6 +142,15 @@ public class dataInitialization {
                 "This module focuses on data analysis using multiple re", timestamp3);
         em.persist(newModule3);
 
+        //create folder for uploading files
+        List<Module> modules = moduleControllerLocal.retrieveAllModules();
+        
+        for (Module each : modules) {
+            Boolean success = (new File("/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles/" + each.getModuleCode())).mkdirs();
+            if (!success) {
+                System.err.println("The new folder is not created successfully!");
+            }
+        }
     }
 
     private void loadStudentData() {

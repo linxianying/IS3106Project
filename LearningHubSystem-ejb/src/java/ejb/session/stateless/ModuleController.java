@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.io.File;
 import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
@@ -61,6 +62,12 @@ public class ModuleController implements ModuleControllerLocal {
         em.persist(newModule);
         em.flush();
 
+        //create folder for uploading files for this module
+        Boolean success = (new File("/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles/" + newModule.getModuleCode())).mkdirs();
+        if(!success){
+            System.err.println("The new folder is not created successfully!");
+        }    
+        
         return newModule;
     }
 
