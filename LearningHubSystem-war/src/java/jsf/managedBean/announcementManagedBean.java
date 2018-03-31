@@ -10,6 +10,7 @@ import ejb.session.stateless.ModuleControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
 import entity.Module;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +18,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import util.exception.AnnouncementExistException;
 import util.exception.ModuleNotFoundException;
@@ -29,9 +30,10 @@ import util.exception.ModuleNotFoundException;
  *
  * @author lin
  */
-@ManagedBean
-@RequestScoped
-public class announcementManagedBean {
+
+@Named
+@ViewScoped
+public class announcementManagedBean implements Serializable{
 
     @EJB
     private ModuleControllerLocal moduleController;
@@ -57,12 +59,16 @@ public class announcementManagedBean {
     public void init() {
         context = FacesContext.getCurrentInstance();
         session = (HttpSession) context.getExternalContext().getSession(true);
-        moduleId = (Long) session.getAttribute("moduleId");
+        moduleId = (Long) session.getAttribute("moduleIdToView");
+        System.err.println(moduleId);
         try {
             Module module = moduleController.retrieveModuleById(moduleId);
             announcements = module.getAnnouncements();
-            if(session.getAttribute("userType").equals("lecturer")){
-            lecturer = (Lecturer) session.getAttribute("lecturer");
+            if(announcements.size()==0) {
+                System.err.println("empty!!!!!!!!!!!!");
+            }
+            if(session.getAttribute("role").equals("currentLecturer")){
+            lecturer = (Lecturer) session.getAttribute("currentLecturer");
             }
             
             
