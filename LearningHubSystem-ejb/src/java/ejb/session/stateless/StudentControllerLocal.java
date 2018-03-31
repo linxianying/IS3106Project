@@ -14,6 +14,7 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -47,4 +48,7 @@ public interface StudentControllerLocal {
     public void dropModule(Student stu, Module mod) throws ModuleNotFoundException;
 
     public Student updateStudent(Student stu) throws StudentNotFoundException;
+
+    public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException;
+
 }

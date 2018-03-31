@@ -54,13 +54,6 @@ public class settingManagedBean implements Serializable {
     private Administrator admin;
     private Lecturer lecturer;
     private TeachingAssistant ta;
-    private String name;
-    private String username;
-    private String email;
-    private String telephone;
-    private String faculty;
-    private String department;
-    private Boolean isPremium;
 
     public settingManagedBean() {
 
@@ -80,180 +73,6 @@ public class settingManagedBean implements Serializable {
             setTa((TeachingAssistant) session.getAttribute("currentTA"));
         } else if (getUserType().equals("admin")) {
             setAdmin((Administrator) session.getAttribute("currentAdmin"));
-        }
-
-    }
-
-    public String getUsername() {
-        if (getUserType().equals("student")) {
-            return student.getUsername();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getUsername();
-        } else if (getUserType().equals("TA")) {
-            return ta.getUsername();
-        } else if (getUserType().equals("admin")) {
-            return admin.getUsername();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setUsername(String username) {
-        if (getUserType().equals("student")) {
-            student.setUsername(username);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setUsername(username);
-        } else if (getUserType().equals("TA")) {
-            ta.setUsername(username);
-        } else if (getUserType().equals("admin")) {
-            admin.setUsername(username);
-        }
-    }
-
-    public String getTelephone() {
-        if (getUserType().equals("student")) {
-            return student.getTelephone();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getTelephone();
-        } else if (getUserType().equals("TA")) {
-            return ta.getTelephone();
-        } else if (getUserType().equals("admin")) {
-            return admin.getTelephone();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setTelephone(String telephone) {
-        if (getUserType().equals("student")) {
-            student.setTelephone(telephone);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setTelephone(telephone);
-        } else if (getUserType().equals("TA")) {
-            ta.setTelephone(telephone);
-        } else if (getUserType().equals("admin")) {
-            admin.setTelephone(telephone);
-        }
-    }
-
-    public String getName() {
-        if (getUserType().equals("student")) {
-            return student.getName();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getName();
-        } else if (getUserType().equals("TA")) {
-            return ta.getName();
-        } else if (getUserType().equals("admin")) {
-            return admin.getName();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setName(String name) {
-        if (getUserType().equals("student")) {
-            student.setName(name);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setName(name);
-        } else if (getUserType().equals("TA")) {
-            ta.setName(name);
-        } else if (getUserType().equals("admin")) {
-            admin.setName(name);
-        }
-    }
-
-    public String getEmail() {
-        if (getUserType().equals("student")) {
-            return student.getEmail();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getEmail();
-        } else if (getUserType().equals("TA")) {
-            return ta.getEmail();
-        } else if (getUserType().equals("admin")) {
-            return admin.getEmail();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setEmail(String email) {
-        if (getUserType().equals("student")) {
-            student.setEmail(email);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setEmail(email);
-        } else if (getUserType().equals("TA")) {
-            ta.setEmail(email);
-        } else if (getUserType().equals("admin")) {
-            admin.setEmail(email);
-        }
-    }
-
-    public String getFaculty() {
-        if (getUserType().equals("student")) {
-            return student.getFaculty();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getFaculty();
-        } else if (getUserType().equals("TA")) {
-            return ta.getFaculty();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setFaculty(String faculty) {
-        if (getUserType().equals("student")) {
-            student.setFaculty(faculty);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setFaculty(faculty);
-        } else if (getUserType().equals("TA")) {
-            ta.setFaculty(faculty);
-        } else {
-            System.err.println("Error");
-        }
-    }
-
-    public String getDepartment() {
-        if (getUserType().equals("student")) {
-            return student.getDepartment();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getDepartment();
-        } else if (getUserType().equals("TA")) {
-            return ta.getDepartment();
-        } else {
-            System.err.println("Error");
-            return null;
-        }
-    }
-
-    public void setDepartment(String department) {
-        if (getUserType().equals("student")) {
-            student.setDepartment(department);
-        } else if (getUserType().equals("lecturer")) {
-            lecturer.setDepartment(department);
-        } else if (getUserType().equals("TA")) {
-            ta.setDepartment(department);
-        } else {
-            System.err.println("Error");
-        }
-    }
-
-    public Boolean getIsPremium() {
-        if (getUserType().equals("student")) {
-            return student.getIsPremium();
-        } else if (getUserType().equals("lecturer")) {
-            return lecturer.getIsPremium();
-        } else if (getUserType().equals("TA")) {
-            return ta.getIsPremium();
-        } else if (getUserType().equals("admin")) {
-            return admin.getIsPremium();
-        } else {
-            System.err.println("Error");
-            return null;
         }
     }
 
@@ -298,13 +117,6 @@ public class settingManagedBean implements Serializable {
 
     }
 
-    public void setIsPremium(Boolean isPremium) {
-        this.isPremium = isPremium;
-    }
-
-    /**
-     * @return the userType
-     */
     public String getUserType() {
         return userType;
     }

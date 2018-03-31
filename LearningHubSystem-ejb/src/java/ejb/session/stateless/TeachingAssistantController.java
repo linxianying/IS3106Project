@@ -20,7 +20,9 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentExistException;
+import util.exception.StudentNotFoundException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -214,4 +216,24 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
     
+    
+    
+    @Override
+    public void changePassword(String currentPassword, String newPassword, Long TAId) throws TANotFoundException, PasswordChangeException {
+        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        }
+
+        try {
+            TeachingAssistant ta = retrieveTAById(TAId);
+            if (currentPassword.equals(ta.getPassword())) {
+                ta.setPassword(newPassword);
+                em.merge(ta);
+            } else {
+                throw new PasswordChangeException("Password change Failed: Current password is wrong");
+            }
+        } catch (TANotFoundException ex) {
+            throw new TANotFoundException("Teaching Assistant with ID " + TAId + "does not exist.");
+        }
+    }
 }

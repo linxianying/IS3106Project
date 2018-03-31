@@ -38,7 +38,7 @@
                             <h:outputLabel value="Name " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.name}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.name}" />
                         </p:column>
                     </p:row>
 
@@ -47,7 +47,7 @@
                             <h:outputLabel value="Username: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.username}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.username}" />
                         </p:column>
                     </p:row>
 
@@ -56,7 +56,7 @@
                             <h:outputLabel value="Email: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.email}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.email}" />
                         </p:column>
                     </p:row>
 
@@ -65,7 +65,7 @@
                             <h:outputLabel value="Telephone: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.telephone}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.telephone}" />
                         </p:column>
                     </p:row>
 
@@ -74,7 +74,7 @@
                             <h:outputLabel value="Premium: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.isPremium}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.isPremium}" />
                         </p:column>
                     </p:row>
 
@@ -83,7 +83,7 @@
                             <h:outputLabel value="Faculty: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.faculty}">
+                            <h:outputText value="#{settingManagedBean.lecturer.faculty}">
                             </h:outputText>
                         </p:column>
                     </p:row>
@@ -93,7 +93,7 @@
                             <h:outputLabel value="Department: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{settingManagedBean.department}" />
+                            <h:outputText value="#{settingManagedBean.lecturer.department}" />
                         </p:column>
                     </p:row>
 
@@ -120,7 +120,7 @@
                                 <h:outputLabel value="Name: " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="name" value="#{settingManagedBean.name}" requiredMessage="Name is required"/>
+                                <h:inputText id="name" value="#{settingManagedBean.lecturer.name}" requiredMessage="Name is required"/>
                             </p:column>
                             <p:column>
                                 <p:message for="name" />
@@ -132,7 +132,7 @@
                                 <h:outputLabel value="Username: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="username" value="#{settingManagedBean.username}" requiredMessage="Username is required" 
+                                <p:inputText id="username" value="#{settingManagedBean.lecturer.username}" requiredMessage="Username is required" 
                                              validatorMessage="Username must be between 4-12 letters/numbers.">
                                     <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
                                 </p:inputText>
@@ -147,7 +147,7 @@
                                 <p:outputLabel value="Email: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{settingManagedBean.email}" required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{settingManagedBean.lecturer.email}" required="true" requiredMessage="Email is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="email" />
@@ -159,7 +159,7 @@
                                 <p:outputLabel value="Telephone: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="tele" value="#{settingManagedBean.telephone}" required="true" requiredMessage="Telephone is required" />
+                                <p:inputText id="tele" value="#{settingManagedBean.lecturer.telephone}" required="true" requiredMessage="Telephone is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="tele" />
@@ -171,7 +171,7 @@
                                 <p:outputLabel value="Department: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="depart" value="#{settingManagedBean.department}" required="true" requiredMessage="Department is required" />
+                                <p:inputText id="depart" value="#{settingManagedBean.lecturer.department}" required="true" requiredMessage="Department is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="depart" />
@@ -183,7 +183,7 @@
                                 <p:outputLabel  value="Faculty: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="faculty" value="#{settingManagedBean.faculty}" required="true" requiredMessage="Faculty is required" />
+                                <p:inputText id="faculty" value="#{settingManagedBean.lecturer.faculty}" required="true" requiredMessage="Faculty is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="faculty: " />
@@ -193,6 +193,12 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton value="Update Profile" update="@form viewProfile" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Change password"/>
                             </p:column>
                         </p:row>
 

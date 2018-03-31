@@ -24,8 +24,10 @@ import javax.persistence.Query;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.LecturerExistException;
+import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -230,6 +232,25 @@ public class StudentController implements StudentControllerLocal {
             return studentToUpdate;
         } else {
             throw new StudentNotFoundException("Student ID not provided for profile to be updated");
+        }
+    }
+
+    @Override
+    public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException {
+        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        }
+
+        try {
+            Student stu = retrieveStudentById(studentId);
+            if (currentPassword.equals(stu.getPassword())) {
+                stu.setPassword(newPassword);
+                em.merge(stu);
+            } else {
+                throw new PasswordChangeException("Password change Failed: Current password is wrong");
+            }
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException("Student with ID " + studentId + "does not exist.");
         }
     }
 

@@ -13,6 +13,7 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -35,7 +36,6 @@ public interface TeachingAssistantControllerLocal {
     TeachingAssistant updateTA(TeachingAssistant ta) throws TANotFoundException;
 
     //boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException;
-
     TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException;
 
     List<TeachingAssistant> retrieveAllTAs();
@@ -45,4 +45,7 @@ public interface TeachingAssistantControllerLocal {
     public Module registerModule(TeachingAssistant ta, Module mod) throws ModuleExistException;
 
     public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException;
+
+    public void changePassword(String currentPassword, String newPassword, Long TAId) throws TANotFoundException, PasswordChangeException;
+
 }
