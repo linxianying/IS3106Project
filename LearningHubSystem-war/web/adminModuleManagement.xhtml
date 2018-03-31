@@ -63,6 +63,9 @@
             <f:attribute name="moduleToDelete" value="#{module}" />
                 <p:confirm header="Confirmation" message="Are you sure you want to delete #{module.moduleName} ?" icon="ui-icon-alert" />
         </p:commandButton>
+        <p:commandButton icon="ui-icon-disk" actionListener="#{moduleAssignment.assignModule}" >
+            <f:attribute name="moduleToAssign" value="#{module}" />
+        </p:commandButton>
     </p:column>    
     
     </p:dataTable>
