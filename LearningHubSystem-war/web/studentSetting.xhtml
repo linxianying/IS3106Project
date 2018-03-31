@@ -98,13 +98,42 @@
 
                     <p:row>
                         <p:column colspan="3">
-                            <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" value="Update" actionListener="#{settingManagementManagedBean.update}">
+                            <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" value="Update">
                             </p:commandButton>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton value="Change password" oncomplete="PF('dialogUpdatePassword').show()"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
 
+<!--            <h:form id="formUpdatePassword">
+                <p:dialog id="dialogUpdatePassword" widgetVar="dialogUpdatePassword" header="Update Password" closable="true">
+                    <p:messages id="messagesUpdateProfile" redisplay="false" />
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Name: " />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="name" value="#{settingManagedBean.student.name}" requiredMessage="Name is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="name" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Update Profile" update="viewProfile @form" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>-->
 
             <h:form id="formUpdateProfile">
 
@@ -192,12 +221,6 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton value="Update Profile" update="viewProfile @form" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
-                            </p:column>
-                        </p:row>
-                        
-                        <p:row>
-                            <p:column colspan="3">
-                                <p:commandButton value="Change password"/>
                             </p:column>
                         </p:row>
 
