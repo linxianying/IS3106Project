@@ -237,8 +237,8 @@ public class StudentController implements StudentControllerLocal {
 
     @Override
     public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException {
-        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
-            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        if (currentPassword.length() > 16 || currentPassword.length() < 6||newPassword.length() > 16 || newPassword.length() < 6) {
+                throw new PasswordChangeException("Password length must be in range [6.16]!");
         }
 
         try {
