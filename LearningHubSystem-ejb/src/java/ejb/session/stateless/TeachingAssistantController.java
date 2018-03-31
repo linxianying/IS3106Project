@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import javax.ejb.Stateless;
 import entity.Module;
+import entity.Student;
 import entity.TeachingAssistant;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,6 +20,9 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
+import util.exception.StudentExistException;
+import util.exception.StudentNotFoundException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -64,7 +68,7 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     public TeachingAssistant retrieveTAById (Long id) throws TANotFoundException{
         teachingAssistant = null;
         try{
-            Query q = em.createQuery("SELECT t FROM TeachingAssistant t WHERE t.Id=:ID");
+            Query q = em.createQuery("SELECT t FROM TeachingAssistant t WHERE t.id=:ID");
             q.setParameter("ID", id);
             teachingAssistant = (TeachingAssistant) q.getSingleResult();
         }
@@ -92,20 +96,20 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         }
         return teachingAssistant;
     }
-
-    @Override
-    public boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException {
-
-        teachingAssistant = retrieveTAByUsername(username);
-
-        if (teachingAssistant == null) {
-            System.out.println("Error: No teaching assistant is found");
-            return false;
-        }
-        teachingAssistant.setEmail(email);
-        em.merge(teachingAssistant);
-        return true;
-    }
+//
+//    @Override
+//    public boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException {
+//
+//        teachingAssistant = retrieveTAByUsername(username);
+//
+//        if (teachingAssistant == null) {
+//            System.out.println("Error: No teaching assistant is found");
+//            return false;
+//        }
+//        teachingAssistant.setEmail(email);
+//        em.merge(teachingAssistant);
+//        return true;
+//    }
 
     @Override
     public boolean updateTeachingAssistantPassword(String username, String password) throws TANotFoundException {
@@ -122,18 +126,36 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     }
 
     @Override
-    public boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException {
-
-        teachingAssistant = retrieveTAByUsername(username);
-
-        if (teachingAssistant == null) {
-            System.out.println("Error: update teaching assistant's telephone failed");
-            return false;
+    public TeachingAssistant updateTA(TeachingAssistant ta) throws TANotFoundException {
+        
+        if (ta.getId() != null) {
+            TeachingAssistant taToUpdate = retrieveTAById(ta.getId());
+            taToUpdate.setName(ta.getName());
+            taToUpdate.setUsername(ta.getUsername());
+            taToUpdate.setTelephone(ta.getTelephone());
+            taToUpdate.setEmail(ta.getEmail());
+            taToUpdate.setDepartment(ta.getDepartment());
+            taToUpdate.setFaculty(ta.getFaculty());
+            return taToUpdate;
+        } else {
+            throw new TANotFoundException("TA ID not provided for profile to be updated");
         }
-        teachingAssistant.setTelephone(telephone);
-        em.merge(teachingAssistant);
-        return true;
+
     }
+    
+//    @Override
+//    public boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException {
+//
+//        teachingAssistant = retrieveTAByUsername(username);
+//
+//        if (teachingAssistant == null) {
+//            System.out.println("Error: update teaching assistant's telephone failed");
+//            return false;
+//        }
+//        teachingAssistant.setTelephone(telephone);
+//        em.merge(teachingAssistant);
+//        return true;
+//    }
 
     @Override
     public TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException {
@@ -194,4 +216,24 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
     
+    
+    
+    @Override
+    public void changePassword(String currentPassword, String newPassword, Long TAId) throws TANotFoundException, PasswordChangeException {
+        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        }
+
+        try {
+            TeachingAssistant ta = retrieveTAById(TAId);
+            if (currentPassword.equals(ta.getPassword())) {
+                ta.setPassword(newPassword);
+                em.merge(ta);
+            } else {
+                throw new PasswordChangeException("Password change Failed: Current password is wrong");
+            }
+        } catch (TANotFoundException ex) {
+            throw new TANotFoundException("Teaching Assistant with ID " + TAId + "does not exist.");
+        }
+    }
 }

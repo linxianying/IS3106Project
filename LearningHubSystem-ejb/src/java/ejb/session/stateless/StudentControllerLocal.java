@@ -14,6 +14,7 @@ import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentExistException;
 import util.exception.StudentNotFoundException;
 
@@ -25,8 +26,8 @@ import util.exception.StudentNotFoundException;
 public interface StudentControllerLocal {
 
     Student createStudent(Student student) throws StudentExistException, GeneralException;
-    
-    Student retrieveStudentById (Long id) throws StudentNotFoundException;
+
+    Student retrieveStudentById(Long id) throws StudentNotFoundException;
 
     Student retrieveStudentByUsername(String username) throws StudentNotFoundException;
 
@@ -39,10 +40,15 @@ public interface StudentControllerLocal {
     public List<Student> retrieveAllStudents();
 
     Student login(String username, String password) throws InvalidLoginCredentialException;
-    
+
     public void deleteStudent(Student student);
-    
-    public Module registerModule (Student stu, Module mod) throws ModuleExistException;
-    
+
+    public Module registerModule(Student stu, Module mod) throws ModuleExistException;
+
     public void dropModule(Student stu, Module mod) throws ModuleNotFoundException;
+
+    public Student updateStudent(Student stu) throws StudentNotFoundException;
+
+    public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException;
+
 }

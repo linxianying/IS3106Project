@@ -174,17 +174,18 @@ public class LecturerController implements LecturerControllerLocal {
     }
     
     @Override
-    public Lecturer updateLecturer(Lecturer lec) throws LecturerExistException, GeneralException{
-        try {
-            return em.merge(lec);
-        } catch (PersistenceException ex) {
-            if (ex.getCause() != null
-                    && ex.getCause().getCause() != null
-                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
-                throw new LecturerExistException("Lecturer with same username/phone number/email already exist");
-            } else {
-                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
-            }
+    public Lecturer updateLecturer(Lecturer lec) throws LecturerNotFoundException{
+        if (lec.getId() != null) {
+            Lecturer lecToUpdate = retrieveLecturerById(lec.getId());
+            lecToUpdate.setName(lec.getName());
+            lecToUpdate.setUsername(lec.getUsername());
+            lecToUpdate.setTelephone(lec.getTelephone());
+            lecToUpdate.setEmail(lec.getEmail());
+            lecToUpdate.setDepartment(lec.getDepartment());
+            lecToUpdate.setFaculty(lec.getFaculty());
+            return lecToUpdate;
+        } else {
+            throw new LecturerNotFoundException("Lecturer ID not provided for profile to be updated");
         }
     } 
     
