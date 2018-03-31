@@ -80,11 +80,51 @@
 
                     <p:row>
                         <p:column colspan="3">
-                            <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" value="Update" actionListener="#{settingManagementManagedBean.update}">
+                            <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" value="Update">
                             </p:commandButton>
                         </p:column>
                     </p:row>
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton value="Change password" oncomplete="PF('dialogUpdatePassword').show()"/>
+                        </p:column>
+                    </p:row>
                 </p:panelGrid>
+            </h:form>
+
+            <h:form id="formUpdatePassword">
+                <p:dialog id="dialogUpdatePassword" widgetVar="dialogUpdatePassword" header="Update Password" closable="true">
+                    <p:messages id="messagesUpdatePassword" redisplay="false" />
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Current password " />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Name is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="currPass" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="New password " />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="Name is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="newPass" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Update Password" update="@form" actionListener="#{settingManagedBean.updatePassword}" oncomplete="PF('dialogUpdatePassword').show();" />
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:dialog>
             </h:form>
 
 
@@ -152,13 +192,6 @@
                                 <p:commandButton value="Update Profile" update="@form viewProfile" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
                             </p:column>
                         </p:row>
-                        
-                        <p:row>
-                            <p:column colspan="3">
-                                <p:commandButton value="Change password"/>
-                            </p:column>
-                        </p:row>
-
                     </p:panelGrid>
 
                 </p:dialog>

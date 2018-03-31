@@ -24,6 +24,7 @@ import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 import util.exception.AdminNotFoundException;
 import util.exception.LecturerNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentNotFoundException;
 import util.exception.TANotFoundException;
 
@@ -54,6 +55,8 @@ public class settingManagedBean implements Serializable {
     private Administrator admin;
     private Lecturer lecturer;
     private TeachingAssistant ta;
+    private String currentPassword;
+    private String newPassword;
 
     public settingManagedBean() {
 
@@ -114,7 +117,46 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         }
+    }
 
+    public void updatePassword() {
+        if (getUserType().equals("student")) {
+            try {
+                studentControllerLocal.changePassword(currentPassword, newPassword, student.getId());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
+            } catch (StudentNotFoundException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
+            }catch (PasswordChangeException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            }
+        } else if (getUserType().equals("lecturer")) {
+            try {
+                lecturerControllerLocal.changePassword(currentPassword, newPassword, lecturer.getId());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
+            } catch (LecturerNotFoundException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
+            }catch (PasswordChangeException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            }
+        } else if (getUserType().equals("TA")) {
+            try {
+                teachingAssistantControllerLocal.changePassword(currentPassword, newPassword, ta.getId());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
+            } catch (TANotFoundException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
+            }catch (PasswordChangeException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            }
+        } else if (getUserType().equals("admin")) {
+            try {
+                administratorControllerLocal.changePassword(currentPassword, newPassword, admin.getId());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
+            } catch (AdminNotFoundException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
+            }catch (PasswordChangeException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+            }
+        }
     }
 
     public String getUserType() {
@@ -182,6 +224,34 @@ public class settingManagedBean implements Serializable {
      */
     public void setTa(TeachingAssistant ta) {
         this.ta = ta;
+    }
+
+    /**
+     * @return the currentPassword
+     */
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    /**
+     * @param currentPassword the currentPassword to set
+     */
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    /**
+     * @return the newPassword
+     */
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    /**
+     * @param newPassword the newPassword to set
+     */
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
 }
