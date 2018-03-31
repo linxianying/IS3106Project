@@ -185,7 +185,9 @@
                                 <p:outputLabel value="Email: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{settingManagedBean.ta.email}" required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{settingManagedBean.ta.email}" 
+                                             validatorMessage="Email format is invalid."
+                                             required="true" requiredMessage="Email is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="email" />

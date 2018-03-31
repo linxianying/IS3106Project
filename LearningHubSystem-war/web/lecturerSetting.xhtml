@@ -147,7 +147,9 @@
                                 <p:outputLabel value="Email: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{settingManagedBean.lecturer.email}" required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{settingManagedBean.lecturer.email}" 
+                                             required="true" requiredMessage="Email is required" 
+                                             validatorMessage="Email format is invalid."/>
                             </p:column>
                             <p:column>
                                 <p:message for="email" />
