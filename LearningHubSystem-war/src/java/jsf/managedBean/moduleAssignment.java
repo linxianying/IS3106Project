@@ -144,12 +144,9 @@ public class moduleAssignment implements Serializable {
     public void enrollTA(ActionEvent event){
         //Long taId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("taId");
         try {
-<<<<<<< HEAD
-            TAToRg = taController.retrieveTAById(taId); 
-=======
+
             
             TAToRg = taController.retrieveTAById(TAIdToRg);
->>>>>>> f48bb1aa34025a8686a396835d12ca9e6d8ecaa7
             taController.registerModule(TAToRg, moduleToAssign);
             
             TAs.add(TAToRg);
