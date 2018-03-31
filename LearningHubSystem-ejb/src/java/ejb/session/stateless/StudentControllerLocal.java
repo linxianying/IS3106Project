@@ -41,7 +41,7 @@ public interface StudentControllerLocal {
 
     Student login(String username, String password) throws InvalidLoginCredentialException;
 
-    public void deleteStudent(Student student);
+    public void deleteStudent (Student stu) throws StudentNotFoundException;
 
     public Module registerModule(Student stu, Module mod) throws ModuleExistException;
 

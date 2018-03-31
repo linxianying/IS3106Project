@@ -43,7 +43,7 @@ public interface LecturerControllerLocal {
 
     public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException;
     
-    public void deleteLecturer (Lecturer lec);
+    public void deleteLecturer (Lecturer lec) throws LecturerNotFoundException;
     
     public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException;
     

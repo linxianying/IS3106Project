@@ -40,7 +40,7 @@ public interface TeachingAssistantControllerLocal {
 
     List<TeachingAssistant> retrieveAllTAs();
 
-    public void deleteTA(TeachingAssistant ta);
+    public void deleteTA (TeachingAssistant ta) throws TANotFoundException;
 
     public Module registerModule(TeachingAssistant ta, Module mod) throws ModuleExistException;
 

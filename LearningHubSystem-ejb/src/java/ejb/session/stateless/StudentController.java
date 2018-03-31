@@ -175,9 +175,15 @@ public class StudentController implements StudentControllerLocal {
         }
     }
 
-    @Override
-    public void deleteStudent(Student student) {
-        em.remove(student);
+   @Override
+    public void deleteStudent (Student stu) throws StudentNotFoundException {
+        try {
+            Student stuToDelete = retrieveStudentById(stu.getId());
+            em.remove(stuToDelete);
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException("Student doesn't exist.");
+        }
+        
     }
 
     @Override

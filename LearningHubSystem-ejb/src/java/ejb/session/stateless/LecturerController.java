@@ -9,6 +9,8 @@ import entity.Lecturer;
 import entity.Module;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -190,8 +192,14 @@ public class LecturerController implements LecturerControllerLocal {
     } 
     
     @Override
-    public void deleteLecturer (Lecturer lec){
-        em.remove(lec);
+    public void deleteLecturer (Lecturer lec) throws LecturerNotFoundException {
+        try {
+            Lecturer lecToDelete = retrieveLecturerById(lec.getId());
+            em.remove(lecToDelete);
+        } catch (LecturerNotFoundException ex) {
+            throw new LecturerNotFoundException("Lecturer doesn't exist.");
+        }
+        
     }
     
     @Override 

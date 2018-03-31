@@ -56,7 +56,7 @@
                 </p:column>
 
                 <p:column headerText="Action" >
-                    <p:commandButton update="updateModule" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-pencil" title="Update Module:: Module Informaiton">
+                    <p:commandButton update="updateModule" oncomplete="PF('dialogUpdateMod').show()" icon="ui-icon-pencil" title="Update Module:: Module Informaiton">
                         <f:setPropertyActionListener value="#{module}" target="#{moduleManagementManagedBean.moduleToUpdate}" />
                     </p:commandButton>
                     <p:commandButton icon="ui-icon-trash" actionListener="#{moduleManagementManagedBean.removeModule}" update=":viewMods:dataTableViewMods">
@@ -121,9 +121,9 @@
         </h:form>
 
         <h:form id="updateModule">  
-            <p:dialog id="dialogUpdateMod" widgetVar="dialogUpdateMod" header="Update Module:: Module Information" closable="true">
+            <p:dialog id="dialogUpdateMod" widgetVar="dialogUpdateMod" header="Update Module:: Module Information" closable="true"  >
 
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="3">
                     <h:outputText value="Module Name: " />
                     <p:inputText id="txtName" value="#{moduleManagementManagedBean.moduleToUpdate.moduleName}" required="true" requiredMessage="Module name is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtName" />

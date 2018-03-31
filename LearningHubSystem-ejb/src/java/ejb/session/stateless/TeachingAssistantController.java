@@ -172,9 +172,15 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         }
     }
     
-    @Override
-    public void deleteTA (TeachingAssistant ta){
-        em.remove(ta);
+     @Override
+    public void deleteTA (TeachingAssistant ta) throws TANotFoundException {
+        try {
+            TeachingAssistant taToDelete = retrieveTAById(ta.getId());
+            em.remove(taToDelete);
+        } catch (TANotFoundException ex) {
+            throw new TANotFoundException("TA doesn't exist.");
+        }
+        
     }
     
     @Override 
