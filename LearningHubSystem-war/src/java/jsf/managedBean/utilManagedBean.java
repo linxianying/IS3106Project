@@ -21,7 +21,6 @@ public class utilManagedBean {
             format = lecturers.get(i).getName() + ", ";
         }
         return format;
-
     }
     
     
