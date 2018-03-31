@@ -182,7 +182,10 @@
                                 <p:outputLabel value="Telephone: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="tele" value="#{settingManagedBean.admin.telephone}" required="true" requiredMessage="Telephone is required" />
+                                <p:inputText id="tele" value="#{settingManagedBean.admin.telephone}" required="true" requiredMessage="Telephone is required"
+                                             validatorMessage="Should be numeric!">
+                                    <f:validateRegex pattern="^[0-9]$"/>
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <p:message for="tele" />
