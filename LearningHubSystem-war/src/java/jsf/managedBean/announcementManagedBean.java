@@ -90,6 +90,7 @@ public class announcementManagedBean implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new announcement: name of announcement must be unique. " + ex.getMessage(), null));
         }
     }
+    
 
     /**
      * @return the announcements

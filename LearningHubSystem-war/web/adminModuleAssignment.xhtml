@@ -88,7 +88,7 @@
                          emptyMessage="No students found with given criteria" filteredValue="#{moduleAssignment.filteredStudents}">
  
         <f:facet name="header">
-            <p:outputPanel>
+            <p:outputPanel style="text-align: right;">
                 <h:outputText value="Search all fields:" />
                 <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
             </p:outputPanel>

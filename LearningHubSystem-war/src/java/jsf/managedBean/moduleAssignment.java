@@ -13,11 +13,11 @@ import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -78,14 +78,11 @@ public class moduleAssignment implements Serializable {
         
     }
     
-    @PostConstruct
-    public void postConstruct(){
-        Long moduleToAssignId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("moduleToAssignId");
-        try {
-            moduleToAssign = moduleController.retrieveModuleById(moduleToAssignId);
-        } catch (ModuleNotFoundException ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));             
-        }
+    public void assignModule(ActionEvent event)throws IOException{
+        
+        FacesContext.getCurrentInstance().getExternalContext().redirect("adminModuleAssignment.xhtml");
+        moduleToAssign = (Module)event.getComponent().getAttributes().get("moduleToAssign");
+       
         
         List<Student> allStudents = studentController.retrieveAllStudents();
         allStudents.stream().filter((st) -> (st.getModules().contains(moduleToAssign))).forEachOrdered((st) -> {
