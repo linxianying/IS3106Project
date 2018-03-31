@@ -195,30 +195,6 @@
                         </p:row>
 
                         <p:row>
-                            <p:column>
-                                <p:outputLabel value="Department: " />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="depart" value="#{settingManagedBean.student.department}" required="true" requiredMessage="Department is required" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="depart" />
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel  value="Faculty: " />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="faculty" value="#{settingManagedBean.student.faculty}" required="true" requiredMessage="Faculty is required" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="faculty: " />
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
                             <p:column colspan="3">
                                 <p:commandButton value="Update Profile" update="viewProfile @form" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
                             </p:column>
