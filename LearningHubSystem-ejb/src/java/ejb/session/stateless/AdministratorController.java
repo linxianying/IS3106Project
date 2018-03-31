@@ -24,7 +24,6 @@ import util.exception.PasswordChangeException;
  * @author mango
  */
 @Stateless
-@Local(AdministratorControllerLocal.class)
 public class AdministratorController implements AdministratorControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
