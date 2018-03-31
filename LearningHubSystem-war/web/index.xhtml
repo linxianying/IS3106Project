@@ -7,22 +7,25 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Learning Hub System Index Page</title>
+        <h:outputStylesheet library="css" name="form.css" />
     </h:head>
-    <h:panelGroup rendered="#{!sessionScope['isLogin']}">
-        <p:button value="LOGIN AS STUDENT" outcome="loginStudent"/>
+    <h:form class="form-labels-on-top">
+        <h:panelGroup rendered="#{!sessionScope['isLogin']}">
+            <p:button value="LOGIN AS STUDENT" outcome="loginStudent"/>
 
-        <br></br>
-        <p:button value="LOGIN AS LECTURER" outcome="loginLecturer"/>
+            <br></br>
+            <p:button value="LOGIN AS LECTURER" outcome="loginLecturer"/>
 
-        <br></br>
-        <p:button value="LOGIN AS ADMINISTRATOR" outcome="loginAdmin"/>
+            <br></br>
+            <p:button value="LOGIN AS ADMINISTRATOR" outcome="loginAdmin"/>
 
-        <br></br>
-        <p:button value="LOGIN AS TEACHING ASSISTANT" outcome="loginTA"/>
+            <br></br>
+            <p:button value="LOGIN AS TEACHING ASSISTANT" outcome="loginTA"/>
 
 
-        <br></br>
-    </h:panelGroup>
+            <br></br>
+        </h:panelGroup>
+    </h:form>
 
     <h:panelGroup rendered="#{sessionScope['isLogin']}">
 
