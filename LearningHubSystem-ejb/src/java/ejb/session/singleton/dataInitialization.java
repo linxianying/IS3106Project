@@ -129,15 +129,15 @@ public class dataInitialization {
     }
 
     private void loadModuleData() {
-        Timestamp timestamp = new Timestamp(2018, 5, 3, 9, 0, 0, 0);
+        Timestamp timestamp = new Timestamp(118, 5, 3, 9, 0, 0, 0);
         Module newModule1 = new Module("Database Systems", "CS2102", 4, 177,
                 "The aim of this module is to introduce the fundamental concepts and techniques", timestamp);
         em.persist(newModule1);
-        Timestamp timestamp2 = new Timestamp(2018, 4, 30, 13, 0, 0, 0);
+        Timestamp timestamp2 = new Timestamp(118, 4, 30, 13, 0, 0, 0);
         Module newModule2 = new Module("Enterprise Systems Interface Design and Development", "IS3106", 4, 60,
                 "This module aims to train students to be conversant in front-end development for Enterprise Systems.", timestamp2);
         em.persist(newModule2);
-        Timestamp timestamp3 = new Timestamp(2018, 4, 30, 13, 0, 0, 0);
+        Timestamp timestamp3 = new Timestamp(118, 4, 30, 13, 0, 0, 0);
         Module newModule3 = new Module("Regression Analysis", "ST3131", 4, 232,
                 "This module focuses on data analysis using multiple re", timestamp3);
         em.persist(newModule3);
