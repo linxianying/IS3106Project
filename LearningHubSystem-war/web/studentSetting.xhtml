@@ -14,7 +14,7 @@
         <body>
             <h2>Student: Personal Profile</h2>
             <h:form id="viewProfile">
-                <p:panelGrid>
+                <p:panelGrid style="width:500px;height:500px;">
                     <f:facet name="header">
                         <p:row>
                             <p:column colspan="3">
@@ -137,11 +137,13 @@
 
             <h:form id="formUpdateProfile">
 
-                <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" header="Update Profile" closable="true">
+                <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" 
+                          header="Update Profile" closable="true"
+                          >
 
                     <p:messages id="messagesUpdateProfile" redisplay="false" />
 
-                    <p:panelGrid>
+                    <p:panelGrid style="width:500px;height:500px;">
 
                         <p:row>
                             <p:column>
