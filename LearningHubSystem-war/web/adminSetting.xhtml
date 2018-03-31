@@ -79,8 +79,10 @@
                     </p:row>
 
                     <p:row>
-                        <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" title="Update" actionListener="#{settingManagementManagedBean.update}">
-                        </p:commandButton>
+                        <p:column colspan="3">
+                            <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" value="Update" actionListener="#{settingManagementManagedBean.update}">
+                            </p:commandButton>
+                        </p:column>
                     </p:row>
                 </p:panelGrid>
             </h:form>
@@ -111,7 +113,10 @@
                                 <h:outputLabel value="Username: " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="username" value="#{settingManagedBean.username}" requiredMessage="Username is required"/>
+                                <p:inputText id="username" value="#{settingManagedBean.username}" requiredMessage="Username is required" 
+                                             validatorMessage="Username must be between 4-12 letters/numbers.">
+                                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <p:message for="username" />

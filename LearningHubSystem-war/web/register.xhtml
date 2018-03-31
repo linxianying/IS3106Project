@@ -13,78 +13,78 @@
         <h:outputText value="Register A New Student" />
         <h:form>
             <p:messages showDetail="true" autoUpdate="true" closable="true" />
-        <div class="form-labels-on-top">
-            <div class="form-row">
-                <label>
-                    <span>Username</span>
-                    <p:inputText styleClass="textInput" id="username" value="#{registerManagedBean.newStudent.username}" 
-                         required="true" requiredMessage="Please enter your username" 
-                         placeholder="Username"
-                         validatorMessage="Username must be between 4-12 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
-                    </p:inputText>
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Name</span>
-                    <p:inputText styleClass="textInput" id="name" value="#{registerManagedBean.newStudent.name}" 
-                         required="true" requiredMessage="Please enter your name" 
-                         placeholder="Name"
-                    />
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Password</span>
-                    <p:password styleClass="textInput" id="password1" value="#{registerManagedBean.newStudent.password}" 
-                    required="true" requiredMessage="Please enter your password" 
-                    placeholder="Password"/>
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Email</span>
-                    <p:inputText styleClass="textInput" id="school" value="#{registerManagedBean.newStudent.email}" 
-                         required="true" requiredMessage="Please enter your email" 
-                         placeholder="Email"
-                    />
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Faculty</span>
-                    <p:inputText styleClass="textInput" id="faculty" value="#{registerManagedBean.newStudent.faculty}" 
-                         required="true" requiredMessage="Please enter your faculty" 
-                         placeholder="Faculty"
-                    />
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Department</span>
-                    <p:inputText styleClass="textInput" id="department" value="#{registerManagedBean.newStudent.department}" 
-                         required="true" requiredMessage="Please enter your department" 
-                         placeholder="Department"
-                    />
-                </label>
-            </div>
-            <div class="form-row">
-                <label>
-                    <span>Telephone</span>
-                    <p:inputText styleClass="textInput" id="telephone" value="#{registerManagedBean.newStudent.telephone}" 
-                         required="true" requiredMessage="Please enter your telephone" 
-                         placeholder="Telephone"
-                    />
-                </label>
-            </div>
-            
+            <div class="form-labels-on-top">
+                <div class="form-row">
+                    <label>
+                        <span>Username</span>
+                        <p:inputText styleClass="textInput" id="username" value="#{registerManagedBean.newStudent.username}" 
+                                     required="true" requiredMessage="Please enter your username" 
+                                     placeholder="Username"
+                                     validatorMessage="Username must be between 4-12 letters/numbers.">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
+                        </p:inputText>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Name</span>
+                        <p:inputText styleClass="textInput" id="name" value="#{registerManagedBean.newStudent.name}" 
+                                     required="true" requiredMessage="Please enter your name" 
+                                     placeholder="Name"
+                                     />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Password</span>
+                        <p:password styleClass="textInput" id="password1" value="#{registerManagedBean.newStudent.password}" 
+                                    required="true" requiredMessage="Please enter your password" 
+                                    placeholder="Password"/>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Email</span>
+                        <p:inputText styleClass="textInput" id="school" value="#{registerManagedBean.newStudent.email}" 
+                                     required="true" requiredMessage="Please enter your email" 
+                                     placeholder="Email"
+                                     />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Faculty</span>
+                        <p:inputText styleClass="textInput" id="faculty" value="#{registerManagedBean.newStudent.faculty}" 
+                                     required="true" requiredMessage="Please enter your faculty" 
+                                     placeholder="Faculty"
+                                     />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Department</span>
+                        <p:inputText styleClass="textInput" id="department" value="#{registerManagedBean.newStudent.department}" 
+                                     required="true" requiredMessage="Please enter your department" 
+                                     placeholder="Department"
+                                     />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        <span>Telephone</span>
+                        <p:inputText styleClass="textInput" id="telephone" value="#{registerManagedBean.newStudent.telephone}" 
+                                     required="true" requiredMessage="Please enter your telephone" 
+                                     placeholder="Telephone"
+                                     />
+                    </label>
+                </div>
 
-            <div class="form-row">
-                <h:commandButton value="SIGN UP" actionListener="#{registerManagedBean.doSignUp}" />
-            </div>
 
-        </div>
+                <div class="form-row">
+                    <h:commandButton value="SIGN UP" actionListener="#{registerManagedBean.doSignUp}" />
+                </div>
+
+            </div>
         </h:form>
     </h:body>
 </html>

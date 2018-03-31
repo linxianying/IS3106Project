@@ -24,13 +24,13 @@
         <h:form id="formUploadFile" enctype="multipart/form-data">
             <p:panel header="File Upload">
                 <p:messages autoUpdate="true" redisplay="false" />
-                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleUpload}" />
+                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleUpload}"/>
             </p:panel>
         </h:form>
 
         <!--    download files-->
         <h2>Files Can Download For this Module</h2>
-        <h:form>
+        <h:form id="download">
             <p:repeat value="#{fileDownloadManagedBean.relatedFiles}" var="file">
 
                 <p:panelGrid style="margin-top:20px">
