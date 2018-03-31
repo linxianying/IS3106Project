@@ -7,7 +7,8 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Learning Hub System Administrator Login Page</title>
-        <h:outputStylesheet library="css" name="newcss.css" />
+        <h:outputStylesheet library="css" name="form.css" />
+        
     </h:head>
     <h:panelGroup rendered="#{!sessionScope['isLogin']}">
         <h:form class="form-labels-on-top">
@@ -37,7 +38,7 @@
                 <p:commandButton value="LOGIN" actionListener="#{login_logoutManagedBean.loginStudent}" update="growl"/>
             </div>
             <div class="form-row">
-                <p:button value="SIGN UP" outcome="register?faces-redirect=true"/>
+                <h:button value="SIGN UP" outcome="register?faces-redirect=true"/>
             </div>
         </h:form>
     </h:panelGroup>

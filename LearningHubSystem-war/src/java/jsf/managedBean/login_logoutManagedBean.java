@@ -115,6 +115,22 @@ public class login_logoutManagedBean {
         ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
     }
+    
+    public void setting(ActionEvent event) throws IOException{
+        String role = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("role");
+        if(role.equals("student")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("studentSetting.xhtml");
+        }
+        else if(role.equals("admin")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("adminSetting.xhtml");
+        }
+        else if(role.equals("lecturer")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("lecturerSetting.xhtml");
+        }
+        else if(role.equals("TA")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("TASetting.xhtml");
+        }
+    }
 
     public String getUsername() {
         return username;

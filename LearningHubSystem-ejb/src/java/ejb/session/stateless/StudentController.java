@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import util.exception.StudentExistException;
 import entity.Administrator;
 import entity.Announcement;
+import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
@@ -22,8 +23,11 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.LecturerExistException;
+import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import util.exception.PasswordChangeException;
 import util.exception.StudentNotFoundException;
 
 /**
@@ -36,9 +40,9 @@ public class StudentController implements StudentControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
-    
+
     Student student;
-    
+
 //    
 //    @Override
 //    public List<Module> retrieveStudentModules(Long id) throws StudentNotFoundException{
@@ -59,8 +63,8 @@ public class StudentController implements StudentControllerLocal {
 //    }
 //    
     @Override
-    public Student createStudent(Student studentEntity) throws StudentExistException,GeneralException {
-        try{
+    public Student createStudent(Student studentEntity) throws StudentExistException, GeneralException {
+        try {
             em.persist(studentEntity);
             em.flush();
             em.refresh(studentEntity);
@@ -76,55 +80,50 @@ public class StudentController implements StudentControllerLocal {
             }
         }
     }
-    
-    @Override 
-    public Student retrieveStudentById (Long id) throws StudentNotFoundException{
+
+    @Override
+    public Student retrieveStudentById(Long id) throws StudentNotFoundException {
         student = null;
-        try{
-            Query q = em.createQuery("SELECT s FROM Student s WHERE s.Id=:ID");
+        try {
+            Query q = em.createQuery("SELECT s FROM Student s WHERE s.id=:ID");
             q.setParameter("ID", id);
             student = (Student) q.getSingleResult();
-        }
-         catch(NoResultException e){
+        } catch (NoResultException e) {
             throw new StudentNotFoundException("Student with specified ID not found");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return student;
     }
 
     @Override
-    public Student retrieveStudentByUsername(String username) throws StudentNotFoundException{
+    public Student retrieveStudentByUsername(String username) throws StudentNotFoundException {
         student = null;
-        try{
+        try {
             Query q = em.createQuery("SELECT s FROM Student s WHERE s.username=:username");
             q.setParameter("username", username);
             student = (Student) q.getSingleResult();
             System.out.println("Student " + username + " found.");
-        }
-        catch(NoResultException e){
+        } catch (NoResultException e) {
             throw new StudentNotFoundException("Student with specified ID not found");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return student;
     }
-    
-    
+
     @Override
     public List<Student> retrieveAllStudents() {
         Query query = em.createQuery("SELECT s FROM Student s");
         return (List<Student>) query.getResultList();
     }
-    
+
     @Override
     public boolean updateStudentEmail(String username, String email) throws StudentNotFoundException {
-        
+
         student = retrieveStudentByUsername(username);
-        
-        if (student==null) {
+
+        if (student == null) {
             System.out.println("Error: No student is found");
             return false;
         }
@@ -132,13 +131,13 @@ public class StudentController implements StudentControllerLocal {
         em.merge(student);
         return true;
     }
-    
+
     @Override
     public boolean updateStudentPassword(String username, String password) throws StudentNotFoundException {
-        
+
         student = retrieveStudentByUsername(username);
-        
-        if (student==null) {
+
+        if (student == null) {
             System.out.println("Error: No student is found");
             return false;
         }
@@ -146,13 +145,13 @@ public class StudentController implements StudentControllerLocal {
         em.merge(student);
         return true;
     }
-    
+
     @Override
     public boolean updateStudentTelephone(String username, String telephone) throws StudentNotFoundException {
-        
+
         student = retrieveStudentByUsername(username);
-        
-        if (student==null) {
+
+        if (student == null) {
             System.out.println("Error: No student is found");
             return false;
         }
@@ -162,69 +161,97 @@ public class StudentController implements StudentControllerLocal {
     }
 
     @Override
-    public Student login(String username, String password) throws InvalidLoginCredentialException{
-        try
-        {
+    public Student login(String username, String password) throws InvalidLoginCredentialException {
+        try {
             Student student = retrieveStudentByUsername(username);
-           
-            if(student.getPassword().equals(password))
-            {
+
+            if (student.getPassword().equals(password)) {
                 return student;
-            }
-            else
-            {
+            } else {
                 throw new InvalidLoginCredentialException("Invalid password!");
             }
-        }
-        catch(StudentNotFoundException ex)
-        {
+        } catch (StudentNotFoundException ex) {
             throw new InvalidLoginCredentialException("Username does not exist!");
         }
     }
-    
+
     @Override
-    public void deleteStudent(Student student){
+    public void deleteStudent(Student student) {
         em.remove(student);
     }
-    
-    @Override 
-    public Module registerModule (Student stu, Module mod) throws ModuleExistException{
+
+    @Override
+    public Module registerModule(Student stu, Module mod) throws ModuleExistException {
         List<Module> modules = stu.getModules();
-        for(Module module:modules)   {
-            if (module.getModuleCode().equals(mod.getModuleCode())){
+        for (Module module : modules) {
+            if (module.getModuleCode().equals(mod.getModuleCode())) {
                 throw new ModuleExistException("Module has already been registered.\n");
             }
         }
-          
-            stu.getModules().add(mod);
-            mod.getStduents().add(stu);
-            em.persist(stu);
-            em.persist(mod);
-            em.flush();
-            
-            return mod;
+
+        stu.getModules().add(mod);
+        mod.getStduents().add(stu);
+        em.persist(stu);
+        em.persist(mod);
+        em.flush();
+
+        return mod;
     }
-    
+
     @Override
-    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException{
+    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException {
         Boolean registered = false;
         List<Module> modules = stu.getModules();
-        for(Module module:modules)   {
-            if (module.getModuleCode().equals(mod.getModuleCode())){
+        for (Module module : modules) {
+            if (module.getModuleCode().equals(mod.getModuleCode())) {
                 registered = true;
             }
         }
-        
-        if(registered){
+
+        if (registered) {
             stu.getModules().remove(mod);
             mod.getStduents().remove(stu);
             em.persist(stu);
             em.persist(mod);
             em.flush();
+        } else {
+            throw new ModuleNotFoundException("Module: " + mod.getModuleCode() + " wasn't found in the module list.");
         }
-        
-        else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
-    
-    
+
+    @Override
+    public Student updateStudent(Student stu) throws StudentNotFoundException {
+        if (stu.getId() != null) {
+            Student studentToUpdate = retrieveStudentById(stu.getId());
+            studentToUpdate.setName(stu.getName());
+            studentToUpdate.setUsername(stu.getUsername());
+            studentToUpdate.setTelephone(stu.getTelephone());
+            studentToUpdate.setEmail(stu.getEmail());
+            studentToUpdate.setDepartment(stu.getDepartment());
+            studentToUpdate.setFaculty(stu.getFaculty());
+            return studentToUpdate;
+        } else {
+            throw new StudentNotFoundException("Student ID not provided for profile to be updated");
+        }
+    }
+
+    @Override
+    public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException {
+        if (currentPassword.length() > 16 || currentPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
+        }
+
+        try {
+            Student stu = retrieveStudentById(studentId);
+            if (currentPassword.equals(stu.getPassword())) {
+                stu.setPassword(newPassword);
+                em.merge(stu);
+            } else {
+                throw new PasswordChangeException("Password change Failed: Current password is wrong");
+            }
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException("Student with ID " + studentId + "does not exist.");
+        }
+    }
+
 }

@@ -39,7 +39,7 @@ public interface LecturerControllerLocal {
 
     public Lecturer login(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException;
 
-    public Lecturer updateLecturer(Lecturer lec) throws LecturerExistException, GeneralException;
+    public Lecturer updateLecturer(Lecturer lec) throws LecturerNotFoundException;
 
     public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException;
     
