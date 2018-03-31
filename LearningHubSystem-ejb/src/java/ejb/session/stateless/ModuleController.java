@@ -7,6 +7,8 @@ import entity.Student;
 import entity.TeachingAssistant;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -61,7 +63,7 @@ public class ModuleController implements ModuleControllerLocal {
         }
         em.persist(newModule);
         em.flush();
-
+       
         //create folder for uploading files for this module
         Boolean success = (new File("/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles/" + newModule.getModuleCode())).mkdirs();
         if(!success){
@@ -136,8 +138,15 @@ public class ModuleController implements ModuleControllerLocal {
     
 
     @Override
-    public void deleteModule(Module moduleToDelete){
-        em.remove(moduleToDelete);
+    public void deleteModule(Module module) throws ModuleNotFoundException {
+        Module moduleToDelete;
+        try{
+            moduleToDelete = retrieveModuleById(module.getId());
+            em.remove(moduleToDelete);
+        }catch(ModuleNotFoundException ex){
+            throw new ModuleNotFoundException("Module does not exist.");
+        }
+        
     }
     
     @Override

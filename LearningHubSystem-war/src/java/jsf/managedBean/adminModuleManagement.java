@@ -60,10 +60,12 @@ public class adminModuleManagement implements Serializable{
     
     public void createModule(ActionEvent event){
         try{
+            
             Module m = moduleControllerLocal.createNewModule(newModule);
+            
             modules.add(m);
             filteredModules.add(m);
-            newModule = new Module();
+            newModule = new Module();            
              
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New module created successfully (Module ID: " + m.getId() + ")", null));
             
@@ -75,7 +77,7 @@ public class adminModuleManagement implements Serializable{
     
     public void removeModule(ActionEvent event){
         try
-        {
+        {   
             Module moduleToDelete = (Module)event.getComponent().getAttributes().get("moduleToDelete");
             moduleControllerLocal.deleteModule(moduleToDelete);
             

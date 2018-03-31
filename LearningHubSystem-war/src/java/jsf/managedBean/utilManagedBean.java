@@ -29,4 +29,10 @@ public class utilManagedBean {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return simpleDateFormat.format(date);
     }
+    
+    public String formatMotdHeader(Date date)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
+        return simpleDateFormat.format(date);
+    }
 }
