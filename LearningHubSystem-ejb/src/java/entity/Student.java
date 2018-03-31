@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Student implements Serializable {
     private String password;
     
     @Column(length = 32, nullable = false, unique = true)
+    @Pattern(regexp = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")
     private String email;
     
     @Column(length = 32, nullable = false)

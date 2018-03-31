@@ -24,7 +24,9 @@
         <h:form id="formUploadFile" enctype="multipart/form-data">
             <p:panel header="File Upload">
                 <p:messages autoUpdate="true" redisplay="false" />
-                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleUpload}"/>
+                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleUpload}"
+                              mode="advanced" dragDropSupport="false"  
+                              update="@form" sizeLimit="100000000" fileLimit="3"/>
             </p:panel>
         </h:form>
 

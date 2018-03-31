@@ -117,11 +117,11 @@ and open the template in the editor.
 /*-- sidebar --*/
 .settings {
     height:10%;
-    background:url(https://imgur.com/ytgw5SU);
+    background:url(https://tmpfilecdn.freelogodesign.org/170484e8-3711-4e25-8f74-e9953e9d9343.png);
+    background-size: 75px 75px;
     background-color:#3b3b3b;
     background-repeat:no-repeat !important;
     width:250px;
-    margin-left:0px;
     text-align: center;
 }
 
