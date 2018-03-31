@@ -50,18 +50,10 @@ public class FileEntityController implements FileEntityControllerLocal {
     }
 
     @Override
-    public FileEntity retrieveFileByFileName(String fileName) throws FileEntityNotFoundException {
-        fileEntity = null;
-        try {
-            Query q = em.createQuery("SELECT f FROM FileEntity f WHERE f.fileName=:fileName");
-            q.setParameter("fileName", fileName);
-            fileEntity = (FileEntity) q.getSingleResult();
-            System.err.println("File: " + fileName + " found.");
-        } catch (NoResultException e) {
-            throw new FileEntityNotFoundException("File with specified file name not found");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public FileEntity retrieveFileById(Long fileId) {
+        fileEntity = em.find(FileEntity.class, fileId);
+        //lazy fectching
+        fileEntity.getModule().getId();
         return fileEntity;
     }
 

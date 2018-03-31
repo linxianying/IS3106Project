@@ -11,12 +11,14 @@ import ejb.session.stateless.TeachingAssistantControllerLocal;
 import entity.Lecturer;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -31,7 +33,7 @@ import util.exception.TAExistException;
  */
 @Named(value = "accountManagement")
 @SessionScoped
-public class adminUsersManagement {
+public class adminUsersManagement implements Serializable {
 
     @EJB
     private LecturerControllerLocal lecturerController;
@@ -46,6 +48,15 @@ public class adminUsersManagement {
     private List<TeachingAssistant> TAs;
     private TeachingAssistant newTA;
     
+    private List<Lecturer> filteredLecturers;
+    private List<Student> filteredStudents;
+    private List<TeachingAssistant> filteredTAs;
+            
+    private Lecturer lecToView;
+    private Student stuToView;
+    private TeachingAssistant taToView;
+    
+    
     
     /**
      * Creates a new instance of accountManagement
@@ -55,9 +66,16 @@ public class adminUsersManagement {
         lecturers = new ArrayList();
         students = new ArrayList();
         TAs = new ArrayList();
+        
+        filteredLecturers = new ArrayList();
+        filteredStudents = new ArrayList();
+        filteredTAs = new ArrayList();              
+        
         newLecturer = new Lecturer();
         newTA = new TeachingAssistant();
-        
+        lecToView = new Lecturer();
+        stuToView = new Student();
+        taToView = new TeachingAssistant();
         
     }
     
@@ -66,6 +84,10 @@ public class adminUsersManagement {
         lecturers = lecturerController.retrieveAllLecturers();
         students = studentController.retrieveAllStudents();
         TAs = taController.retrieveAllTAs();
+        
+        filteredLecturers = lecturers;
+        filteredStudents = students;
+        filteredTAs = TAs;
     }
     
     public void createLecturer(ActionEvent event) throws GeneralException {
@@ -73,6 +95,7 @@ public class adminUsersManagement {
         try{
             Lecturer l = lecturerController.createNewLecturer(newLecturer);
             lecturers.add(l);
+            filteredLecturers.add(l);
             newLecturer = new Lecturer();
              
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New lecturer account created successfully (Lecturer ID: " + l.getId() + ")", null));
@@ -88,6 +111,7 @@ public class adminUsersManagement {
         try{
             TeachingAssistant ta = taController.createTeachingAssistant(newTA);
             TAs.add(ta);
+            filteredTAs.add(ta);
             newTA = new TeachingAssistant();
              
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Teaching Assistant account created successfully (TA ID: " + ta.getId() + ")", null));
@@ -105,6 +129,7 @@ public class adminUsersManagement {
             lecturerController.deleteLecturer(lecturerToDelete);
             
             lecturers.remove(lecturerToDelete);
+            filteredLecturers.remove(lecturerToDelete);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer account deleted successfully", null));
         }
@@ -121,6 +146,7 @@ public class adminUsersManagement {
             studentController.deleteStudent(studentToDelete);
             
             students.remove(studentToDelete);
+            filteredStudents.remove(studentToDelete);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student account deleted successfully", null));
         }
@@ -137,6 +163,7 @@ public class adminUsersManagement {
             taController.deleteTA(taToDelete);
             
             TAs.remove(taToDelete);
+            filteredTAs.remove(taToDelete);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "TA account deleted successfully", null));
         }
@@ -184,6 +211,54 @@ public class adminUsersManagement {
 
     public void setTAs(List<TeachingAssistant> TAs) {
         this.TAs = TAs;
+    }
+
+    public Lecturer getLecToView() {
+        return lecToView;
+    }
+
+    public void setLecToView(Lecturer lecToView) {
+        this.lecToView = lecToView;
+    }
+
+    public Student getStuToView() {
+        return stuToView;
+    }
+
+    public void setStuToView(Student stuToView) {
+        this.stuToView = stuToView;
+    }
+
+    public TeachingAssistant getTaToView() {
+        return taToView;
+    }
+
+    public void setTaToView(TeachingAssistant taToView) {
+        this.taToView = taToView;
+    }
+
+    public List<Lecturer> getFilteredLecturers() {
+        return filteredLecturers;
+    }
+
+    public void setFilteredLecturers(List<Lecturer> filteredLecturers) {
+        this.filteredLecturers = filteredLecturers;
+    }
+
+    public List<Student> getFilteredStudents() {
+        return filteredStudents;
+    }
+
+    public void setFilteredStudents(List<Student> filteredStudents) {
+        this.filteredStudents = filteredStudents;
+    }
+
+    public List<TeachingAssistant> getFilteredTAs() {
+        return filteredTAs;
+    }
+
+    public void setFilteredTAs(List<TeachingAssistant> filteredTAs) {
+        this.filteredTAs = filteredTAs;
     }
 
     

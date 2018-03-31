@@ -48,7 +48,6 @@ public class classAndGroupManagedBean implements Serializable {
         } catch (ModuleNotFoundException ex) {
             ex.printStackTrace();
         }
-
     }
 
     public classAndGroupManagedBean() {

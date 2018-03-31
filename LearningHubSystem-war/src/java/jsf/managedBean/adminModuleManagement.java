@@ -8,15 +8,17 @@ package jsf.managedBean;
 import ejb.session.stateless.ModuleControllerLocal;
 import entity.Module;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import javax.faces.event.ActionEvent;
+
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 
@@ -26,7 +28,7 @@ import util.exception.ModuleNotFoundException;
  */
 @Named(value = "moduleManagementManagedBean")
 @SessionScoped
-public class adminModuleManagement {
+public class adminModuleManagement implements Serializable{
 
     @EJB
     private ModuleControllerLocal moduleControllerLocal;
@@ -51,6 +53,7 @@ public class adminModuleManagement {
     public void postConstruct()
     {
         modules = moduleControllerLocal.retrieveAllModules();
+        //System.err.println("*********** modules: " + modules.size());
         filteredModules = modules;
     }
     
