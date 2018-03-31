@@ -32,7 +32,7 @@ public interface ModuleControllerLocal {
 
     Module addStudent(Student student, String moduleCode) throws ModuleNotFoundException;
 
-    void deleteModule(Module moduleToDelete);
+    public void deleteModule(Module module) throws ModuleNotFoundException;
     
     public void updateModule(Module module) throws ModuleNotFoundException;
 
