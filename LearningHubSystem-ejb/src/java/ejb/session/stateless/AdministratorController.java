@@ -122,17 +122,16 @@ public class AdministratorController implements AdministratorControllerLocal {
     }
     
     @Override
-    public Administrator updateAdmin(Administrator admin) throws AdminExistException, GeneralException{
-        try {
-            return em.merge(admin);
-        } catch (PersistenceException ex) {
-            if (ex.getCause() != null
-                    && ex.getCause().getCause() != null
-                    && ex.getCause().getCause().getClass().getSimpleName().equals("MySQLIntegrityConstraintViolationException")) {
-                throw new AdminExistException("Admin with same username/phone number/email already exist");
-            } else {
-                throw new GeneralException("An unexpected error has occurred: " + ex.getMessage());
-            }
+    public Administrator updateAdmin(Administrator admin) throws AdminNotFoundException{
+        if (admin.getId() != null) {
+            Administrator adminToUpdate = retrieveAdminById(admin.getId());
+            adminToUpdate.setName(admin.getName());
+            adminToUpdate.setUsername(admin.getUsername());
+            adminToUpdate.setTelephone(admin.getTelephone());
+            adminToUpdate.setEmail(admin.getEmail());
+            return adminToUpdate;
+        } else {
+            throw new AdminNotFoundException("Admin ID not provided for profile to be updated");
         }
     }
 

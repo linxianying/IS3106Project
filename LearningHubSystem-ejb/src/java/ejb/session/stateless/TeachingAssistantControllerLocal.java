@@ -25,23 +25,24 @@ public interface TeachingAssistantControllerLocal {
 
     TeachingAssistant createTeachingAssistant(TeachingAssistant ta) throws TAExistException, GeneralException;
 
-    TeachingAssistant retrieveTAById (Long id) throws TANotFoundException;
-    
+    TeachingAssistant retrieveTAById(Long id) throws TANotFoundException;
+
     TeachingAssistant retrieveTAByUsername(String username) throws TANotFoundException;
 
-    boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException;
-
+    //boolean updateTeachingAssistantEmail(String username, String email) throws TANotFoundException;
     boolean updateTeachingAssistantPassword(String username, String password) throws TANotFoundException;
 
-    boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException;
+    TeachingAssistant updateTA(TeachingAssistant ta) throws TANotFoundException;
+
+    //boolean updateTeachingAssistantTelephone(String username, String telephone) throws TANotFoundException;
 
     TeachingAssistant login(String username, String password) throws InvalidLoginCredentialException;
 
     List<TeachingAssistant> retrieveAllTAs();
-    
-    public void deleteTA (TeachingAssistant ta);
-    
-    public Module registerModule (TeachingAssistant ta, Module mod) throws ModuleExistException;
-    
+
+    public void deleteTA(TeachingAssistant ta);
+
+    public Module registerModule(TeachingAssistant ta, Module mod) throws ModuleExistException;
+
     public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException;
 }

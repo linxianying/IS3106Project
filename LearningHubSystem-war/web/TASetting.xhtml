@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                template="./layout/taLayout.xhtml" 
+                xmlns:p="http://primefaces.org/ui" 
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h:head>
+            <title>Learning Hub System:: Teaching Assistant:: Setting Page</title>
+        </h:head>
+
+        <body>
+            <h2>Teaching Assistant: Personal Profile</h2>
+
+            <h:form id="viewProfile">
+                <p:panelGrid>
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">
+                                <h:outputText value="replaced by photo" />
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="User Type: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.userType}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Name " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.name}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Username: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.username}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Email: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.email}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Telephone: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.telephone}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Premium: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.isPremium}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Faculty: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.faculty}">
+                                <f:convertNumber type="currency" currencySymbol="$" maxIntegerDigits="5" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Department: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{settingManagedBean.department}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:commandButton update="formUpdateProfile" oncomplete="PF('dialogUpdateProfile').show()" icon="ui-icon-pencil" title="Update" actionListener="#{settingManagementManagedBean.update}">
+                        </p:commandButton>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+
+
+            <h:form id="formUpdateProfile">
+
+                <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" header="Update Profile" closable="true">
+
+                    <p:messages id="messagesUpdateProfile" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Name: " />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="name" value="#{settingManagedBean.name}" requiredMessage="Name is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="name" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Username: " />
+                            </p:column>
+                            <p:column>
+                                <h:inputText id="username" value="#{settingManagedBean.username}" requiredMessage="Username is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="username" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Email: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="email" value="#{settingManagedBean.email}" required="true" requiredMessage="Email is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="email" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Telephone: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="tele" value="#{settingManagedBean.telephone}" required="true" requiredMessage="Telephone is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="tele" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Department: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="depart" value="#{settingManagedBean.department}" required="true" requiredMessage="Department is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="depart" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel  value="Faculty: " />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="faculty" value="#{settingManagedBean.faculty}" required="true" requiredMessage="Faculty is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="faculty: " />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Update Profile" update="@form viewProfile" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </p:dialog>
+
+            </h:form>
+
+        </body>
+
+    </ui:define>
+</ui:composition>

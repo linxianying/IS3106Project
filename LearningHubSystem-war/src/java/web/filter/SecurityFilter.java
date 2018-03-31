@@ -73,6 +73,7 @@ public class SecurityFilter implements Filter {
                     || path.equals("/studentModuleDetails.xhtml")
                     || path.equals("/studentDashboard.xhtml")
                     || path.equals("/studentModule.xhtml")
+                    || path.equals("/studentSetting.xhtml")
                     || path.equals("/studentSchedule.xhtml")) {
                 return true;
             } else {
@@ -86,6 +87,7 @@ public class SecurityFilter implements Filter {
                     || path.equals("/lecturerModuleDetails.xhtml")
                     || path.equals("/lecturerDashboard.xhtml")
                     || path.equals("/lecturerModule.xhtml")
+                    || path.equals("/lecturerSetting.xhtml")
                     || path.equals("/lecturerSchedule.xhtml")) {
                 return true;
             } else {
@@ -100,6 +102,7 @@ public class SecurityFilter implements Filter {
                     || path.equals("/TAModuleDetails.xhtml")
                     || path.equals("/TADashboard.xhtml")
                     || path.equals("/TAModule.xhtml")
+                    || path.equals("/TASetting.xhtml")
                     || path.equals("/TASchedule.xhtml")) {
                 return true;
             } else {
@@ -109,13 +112,14 @@ public class SecurityFilter implements Filter {
         }else if (currentRole.equals("admin")) {
             if (path.equals("/adminDashboard.xhtml")
                     || path.equals("/adminModuleManagement.xhtml")
-                    || path.equals("/adminUsersManagement.xhtml")) {
+                    || path.equals("/adminModuleAssignment.xhtml")
+                    || path.equals("/adminUsersManagement.xhtml")
+                    || path.equals("/adminSetting.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         }
-
             return false;
         }
 
