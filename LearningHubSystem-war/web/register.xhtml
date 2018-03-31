@@ -39,13 +39,16 @@
                         <span>Password</span>
                         <p:password styleClass="textInput" id="password1" value="#{registerManagedBean.newStudent.password}" 
                                     required="true" requiredMessage="Please enter your password" 
-                                    placeholder="Password"/>
+                                    placeholder="Password"
+                                    validatorMessage="Password must be between 6-16 letters/numbers.">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]{6,16}$" />
+                        </p:password>
                     </label>
                 </div>
                 <div class="form-row">
                     <label>
                         <span>Email</span>
-                        <p:inputText styleClass="textInput" id="school" value="#{registerManagedBean.newStudent.email}" 
+                        <p:inputText styleClass="textInput" id="email" value="#{registerManagedBean.newStudent.email}" 
                                      required="true" requiredMessage="Please enter your email" 
                                      placeholder="Email"                                    
                                      validatorMessage="Email format is invalid."
@@ -76,7 +79,10 @@
                         <p:inputText styleClass="textInput" id="telephone" value="#{registerManagedBean.newStudent.telephone}" 
                                      required="true" requiredMessage="Please enter your telephone" 
                                      placeholder="Telephone"
-                                     />
+                                     validatorMessage="Should be numeric!">
+                            <f:validateRegex pattern="^[0-9]$"/>
+                        </p:inputText>
+
                     </label>
                 </div>
 

@@ -14,7 +14,7 @@
         <body>
             <h2>Student: Personal Profile</h2>
             <h:form id="viewProfile">
-                <p:panelGrid>
+                <p:panelGrid style="width:500px;height:500px;">
                     <f:facet name="header">
                         <p:row>
                             <p:column colspan="3">
@@ -148,11 +148,13 @@
 
             <h:form id="formUpdateProfile">
 
-                <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" header="Update Profile" closable="true">
+                <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" 
+                          header="Update Profile" closable="true"
+                          >
 
                     <p:messages id="messagesUpdateProfile" redisplay="false" />
 
-                    <p:panelGrid>
+                    <p:panelGrid style="width:500px;height:500px;">
 
                         <p:row>
                             <p:column>
@@ -186,7 +188,9 @@
                                 <p:outputLabel value="Email: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="email" value="#{settingManagedBean.student.email}" required="true" requiredMessage="Email is required" />
+                                <p:inputText id="email" value="#{settingManagedBean.student.email}" 
+                                             required="true" requiredMessage="Email is required"
+                                             validatorMessage="Email format is invalid."/>
                             </p:column>
                             <p:column>
                                 <p:message for="email" />
@@ -198,7 +202,10 @@
                                 <p:outputLabel value="Telephone: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="tele" value="#{settingManagedBean.student.telephone}" required="true" requiredMessage="Telephone is required" />
+                                <p:inputText id="tele" value="#{settingManagedBean.student.telephone}" required="true" requiredMessage="Telephone is required"
+                                             validatorMessage="Should be numeric!">
+                                    <f:validateRegex pattern="^[0-9]$"/>
+                                </p:inputText>
                             </p:column>
                             <p:column>
                                 <p:message for="tele" />

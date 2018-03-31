@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Administrator implements Serializable {
     private String name;
 
     @Column(length = 32, nullable = false, unique = true)
+    @Pattern(regexp = "\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")
     private String email;
 
     @Column(length = 13, nullable = false, unique = true)

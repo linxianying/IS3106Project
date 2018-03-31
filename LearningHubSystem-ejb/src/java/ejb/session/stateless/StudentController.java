@@ -6,13 +6,8 @@
 package ejb.session.stateless;
 
 import util.exception.StudentExistException;
-import entity.Administrator;
-import entity.Announcement;
-import entity.Lecturer;
 import entity.Module;
 import entity.Student;
-import entity.TeachingAssistant;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -23,8 +18,6 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
-import util.exception.LecturerExistException;
-import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 import util.exception.PasswordChangeException;
