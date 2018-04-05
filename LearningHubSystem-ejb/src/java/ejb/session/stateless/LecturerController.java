@@ -7,10 +7,8 @@ package ejb.session.stateless;
 
 import entity.Lecturer;
 import entity.Module;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,8 +33,14 @@ import util.exception.PasswordChangeException;
 
 public class LecturerController implements LecturerControllerLocal {
 
+    @EJB(name = "ModuleControllerLocal")
+    private ModuleControllerLocal moduleControllerLocal;
+
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
+    
+    
+    
     Lecturer lecturer;
 
     
@@ -185,6 +189,7 @@ public class LecturerController implements LecturerControllerLocal {
             lecToUpdate.setEmail(lec.getEmail());
             lecToUpdate.setDepartment(lec.getDepartment());
             lecToUpdate.setFaculty(lec.getFaculty());
+            em.merge(lecToUpdate);
             return lecToUpdate;
         } else {
             throw new LecturerNotFoundException("Lecturer ID not provided for profile to be updated");
@@ -203,26 +208,32 @@ public class LecturerController implements LecturerControllerLocal {
     }
     
     @Override 
-    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException{
-        List<Module> modules = lec.getModules();
+    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException, ModuleNotFoundException,LecturerNotFoundException{
+        
+        Module m = moduleControllerLocal.retrieveModuleById(mod.getId());
+        Lecturer l = retrieveLecturerById(lec.getId());
+        
+        
+        List<Module> modules = l.getModules();
         for(Module module:modules)   {
-            if (module.getModuleCode().equals(mod.getModuleCode())){
+            if (module.getModuleCode().equals(m.getModuleCode())){
                 throw new ModuleExistException("Module has already been registered.\n");
             }
         }
           
-            lec.getModules().add(mod);
-            mod.getLecturers().add(lec);
-            em.persist(lec);
-            em.persist(mod);
-            em.flush();
+            l.getModules().add(m);
+            m.getLecturers().add(l);
             
-            return mod;
+            return m;
     }
     
     @Override
-    public void dropModule(Lecturer lec, Module mod) throws ModuleNotFoundException{
+    public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException{
         Boolean registered = false;
+        
+        Module mod = moduleControllerLocal.retrieveModuleById(m.getId());
+        Lecturer lec = retrieveLecturerById(l.getId());
+        
         List<Module> modules = lec.getModules();
         for(Module module:modules)   {
             if (module.getModuleCode().equals(mod.getModuleCode())){
@@ -233,9 +244,7 @@ public class LecturerController implements LecturerControllerLocal {
         if(registered){
             lec.getModules().remove(mod);
             mod.getLecturers().remove(lec);
-            em.persist(lec);
-            em.persist(mod);
-            em.flush();
+            
         }
         
         else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");

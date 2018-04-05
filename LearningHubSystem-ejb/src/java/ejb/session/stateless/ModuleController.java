@@ -7,8 +7,6 @@ import entity.Student;
 import entity.TeachingAssistant;
 import java.io.File;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -159,6 +157,7 @@ public class ModuleController implements ModuleControllerLocal {
             moduleToUpdate.setModularCredit(module.getModularCredit());
             moduleToUpdate.setClassSize(module.getClassSize());
             moduleToUpdate.setExamDate(module.getExamDate());
+            em.merge(moduleToUpdate);
         }
         else
         {

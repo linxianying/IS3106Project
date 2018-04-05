@@ -18,11 +18,12 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
@@ -34,7 +35,7 @@ import util.exception.TANotFoundException;
  * @author Samango
  */
 @Named(value = "moduleAssignment")
-@RequestScoped
+@ViewScoped
 public class moduleAssignment implements Serializable {
 
     @EJB
@@ -45,163 +46,159 @@ public class moduleAssignment implements Serializable {
     private LecturerControllerLocal lecturerController;
     @EJB
     private ModuleControllerLocal moduleController;
-    
+
     private List<Student> students;
     private List<Student> filteredStudents;
     private List<Lecturer> lecturers;
     private List<TeachingAssistant> TAs;
-    
+
     private Module moduleToAssign;
     private Student studentToRg;
     private Lecturer lecturerToRg;
     private TeachingAssistant TAToRg;
-    
+
     private Long studentIdToRg;
     private Long lecturerIdToRg;
     private Long TAIdToRg;
-   
+
+    @PostConstruct
+    public void postConstruct() {
+
+        Long moduleToAssignId = (Long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("moduleToAssignId");
+
+        try {
+            moduleToAssign = moduleController.retrieveModuleById(moduleToAssignId);
+        } catch (ModuleNotFoundException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+
+        List<Student> allStudents = studentController.retrieveAllStudents();
+        allStudents.stream().filter((st) -> (st.getModules().contains(moduleToAssign))).forEachOrdered((st) -> {
+            students.add(st);
+        });
+
+        List<Lecturer> allLecturers = lecturerController.retrieveAllLecturers();
+        for (Lecturer lc : allLecturers) {
+            if (lc.getModules().contains(moduleToAssign)) {
+                lecturers.add(lc);
+            }
+        }
+
+        List<TeachingAssistant> allTAs = taController.retrieveAllTAs();
+
+        allTAs.stream().filter((ta) -> (ta.getModules().contains(moduleToAssign))).forEachOrdered((ta) -> {
+            TAs.add(ta);
+        });
+    }
 
     /**
      * Creates a new instance of moduleAssignment
      */
-    
     public moduleAssignment() {
         students = new ArrayList<>();
         filteredStudents = new ArrayList<>();
         lecturers = new ArrayList<>();
         TAs = new ArrayList<>();
-        
+
         moduleToAssign = new Module();
         studentToRg = new Student();
         lecturerToRg = new Lecturer();
         TAToRg = new TeachingAssistant();
-        
+
     }
-    
-    public void assignModule(ActionEvent event)throws IOException{
-        
-        FacesContext.getCurrentInstance().getExternalContext().redirect("adminModuleAssignment.xhtml");
-        moduleToAssign = (Module)event.getComponent().getAttributes().get("moduleToAssign");
-       
-        
-        List<Student> allStudents = studentController.retrieveAllStudents();
-        allStudents.stream().filter((st) -> (st.getModules().contains(moduleToAssign))).forEachOrdered((st) -> {
-            students.add(st);
-        });
-        filteredStudents = students;
-        
-        List<Lecturer> allLecturers= lecturerController.retrieveAllLecturers();
-        allLecturers.stream().filter((lc) -> (lc.getModules().contains(moduleToAssign))).forEachOrdered((lc) -> {
-            lecturers.add(lc);
-        });
-        
-        List<TeachingAssistant> allTAs = taController.retrieveAllTAs();
-        allTAs.stream().filter((ta) -> (ta.getModules().contains(moduleToAssign))).forEachOrdered((ta) -> {
-            TAs.add(ta);
-        });
-    }
-    
-    public void enrollStudent(ActionEvent event){
+
+    public void enrollStudent(ActionEvent event) throws ModuleNotFoundException {
         //Long studentId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("studentId");
         try {
-            
+
             studentToRg = studentController.retrieveStudentById(studentIdToRg);
             studentController.registerModule(studentToRg, moduleToAssign);
-            
+
             students.add(studentToRg);
             filteredStudents.add(studentToRg);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student has been added to module successfully", null));
-        
+
         } catch (StudentNotFoundException | ModuleExistException ex) {
-           
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));             
-        
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+
         }
     }
-    
-    public void enrollLecturer(ActionEvent event){
+
+    public void enrollLecturer(ActionEvent event) {
         //Long lecturerId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("lecturerId");
-        try {
-            
-            lecturerToRg = lecturerController.retrieveLecturerById(lecturerIdToRg);
-            lecturerController.registerModule(lecturerToRg, moduleToAssign);
-            
-            lecturers.add(lecturerToRg);
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer has been added to module successfully", null));
-        
-        } catch (LecturerNotFoundException | ModuleExistException ex) {
-           
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));             
-        
-        }
-    }
-    
-    public void enrollTA(ActionEvent event){
-        //Long taId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("taId");
         try {
 
             
+            lecturerToRg = lecturerController.retrieveLecturerById(lecturerIdToRg);
+            lecturerController.registerModule(lecturerToRg, moduleToAssign);
+
+            lecturers.add(lecturerToRg);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer has been added to module successfully", null));
+
+        } catch (LecturerNotFoundException | ModuleExistException | ModuleNotFoundException ex) {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+
+        }
+    }
+
+    public void enrollTA(ActionEvent event) throws ModuleNotFoundException {
+        //Long taId = (Long)FacesContext.getCurrentInstance().getExternalContext().getFlash().get("taId");
+        try {
+
             TAToRg = taController.retrieveTAById(TAIdToRg);
             taController.registerModule(TAToRg, moduleToAssign);
-            
+
             TAs.add(TAToRg);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "TA has been added to module successfully", null));
-        
+
         } catch (TANotFoundException | ModuleExistException ex) {
-           
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));             
-        
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+
         }
     }
-    
-    public void removeLecturer(ActionEvent event){
-        try
-        {
-            Lecturer lecturerToRemove = (Lecturer)event.getComponent().getAttributes().get("lecturerToRemove");
+
+    public void removeLecturer(ActionEvent event) throws LecturerNotFoundException {
+        try {
+            Lecturer lecturerToRemove = (Lecturer) event.getComponent().getAttributes().get("lecturerToRemove");
             lecturerController.dropModule(lecturerToRemove, moduleToAssign);
-            
+
             lecturers.remove(lecturerToRemove);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Lecturer has been removed from module successfully", null));
-        }
-        catch(ModuleNotFoundException ex)
-        {
+        } catch (ModuleNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
-    
-    public void removeTA(ActionEvent event){
-        try
-        {
-            TeachingAssistant taToRemove = (TeachingAssistant)event.getComponent().getAttributes().get("taToRemove");
+
+    public void removeTA(ActionEvent event) throws TANotFoundException {
+        try {
+            TeachingAssistant taToRemove = (TeachingAssistant) event.getComponent().getAttributes().get("taToRemove");
             taController.dropModule(taToRemove, moduleToAssign);
-            
+
             TAs.remove(taToRemove);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "TA has been removed from module successfully", null));
-        }
-        catch(ModuleNotFoundException ex)
-        {
+        } catch (ModuleNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
-    
-    public void removeStudent(ActionEvent event){
-        try
-        {
-            Student studentToRemove = (Student)event.getComponent().getAttributes().get("studentToRemove");
+
+    public void removeStudent(ActionEvent event) throws StudentNotFoundException {
+        try {
+            Student studentToRemove = (Student) event.getComponent().getAttributes().get("studentToRemove");
             studentController.dropModule(studentToRemove, moduleToAssign);
-            
+
             students.remove(studentToRemove);
             filteredStudents.remove(studentToRemove);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student has been removed from module successfully", null));
-        }
-        catch(ModuleNotFoundException ex)
-        {
+        } catch (ModuleNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
     }
@@ -293,9 +290,5 @@ public class moduleAssignment implements Serializable {
     public void setTAIdToRg(Long TAIdToRg) {
         this.TAIdToRg = TAIdToRg;
     }
-    
-    
-    
-   
-    
+
 }

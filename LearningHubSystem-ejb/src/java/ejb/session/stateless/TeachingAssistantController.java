@@ -7,9 +7,9 @@ package ejb.session.stateless;
 
 import javax.ejb.Stateless;
 import entity.Module;
-import entity.Student;
 import entity.TeachingAssistant;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,8 +21,6 @@ import util.exception.InvalidLoginCredentialException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 import util.exception.PasswordChangeException;
-import util.exception.StudentExistException;
-import util.exception.StudentNotFoundException;
 import util.exception.TAExistException;
 import util.exception.TANotFoundException;
 
@@ -34,8 +32,13 @@ import util.exception.TANotFoundException;
 @Local(TeachingAssistantControllerLocal.class)
 public class TeachingAssistantController implements TeachingAssistantControllerLocal {
 
+    @EJB
+    private ModuleControllerLocal moduleController;
+
     @PersistenceContext
     EntityManager em;
+    
+    
 
     TeachingAssistant teachingAssistant;
 
@@ -136,7 +139,9 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
             taToUpdate.setEmail(ta.getEmail());
             taToUpdate.setDepartment(ta.getDepartment());
             taToUpdate.setFaculty(ta.getFaculty());
+            em.merge(taToUpdate);
             return taToUpdate;
+            
         } else {
             throw new TANotFoundException("TA ID not provided for profile to be updated");
         }
@@ -184,7 +189,10 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
     }
     
     @Override 
-    public Module registerModule (TeachingAssistant ta, Module mod) throws ModuleExistException{
+    public Module registerModule (TeachingAssistant t, Module m) throws ModuleExistException, TANotFoundException, ModuleNotFoundException{
+        TeachingAssistant ta = retrieveTAById(t.getId());
+        Module mod = moduleController.retrieveModuleById(m.getId());
+        
         List<Module> modules = ta.getModules();
         for(Module module:modules)   {
             if (module.getModuleCode().equals(mod.getModuleCode())){
@@ -194,16 +202,16 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
           
             ta.getModules().add(mod);
             mod.getTAs().add(ta);
-            em.persist(ta);
-            em.persist(mod);
-            em.flush();
-            
+           
             return mod;
     }
     
     @Override
-    public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException{
+    public void dropModule(TeachingAssistant t, Module m) throws ModuleNotFoundException, TANotFoundException{
         Boolean registered = false;
+        TeachingAssistant ta = retrieveTAById(t.getId());
+        Module mod = moduleController.retrieveModuleById(m.getId());
+        
         List<Module> modules = ta.getModules();
         for(Module module:modules)   {
             if (module.getModuleCode().equals(mod.getModuleCode())){
@@ -213,10 +221,8 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         
         if(registered){
             ta.getModules().remove(mod);
-            mod.getTAs().add(ta);
-            em.persist(ta);
-            em.persist(mod);
-            em.flush();
+            mod.getTAs().remove(ta);
+            
         }
         
         else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");

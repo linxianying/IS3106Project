@@ -11,32 +11,37 @@
             <title>Learning Hub System Administrator Module Management Page</title>
         </h:head>
         <h1>Module Management:: Module Assignment</h1>
+
+        
+            
+        
         
         <h:form id="modLecturers">
             <p:menubar>                
                 <p:menuitem value="Add Lecturer" onclick="PF('dialogAddLecturer').show()" icon="ui-icon-plusthick" />                
             </p:menubar>
-            <p:dataTable id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}">
+            
+            <p:dataTable  id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}">
                 <p:column headerText="Id">
                     <h:outputText value="#{lec.id}" />
                 </p:column>
- 
+
                 <p:column headerText="Name">
                     <h:outputText value="#{lec.name}" />
                 </p:column>
- 
+
                 <p:column headerText="Faculty">
                     <h:outputText value="#{lec.faculty}" />
                 </p:column>
- 
+
                 <p:column headerText="Email">
                     <h:outputText value="#{lec.email}" />
                 </p:column>
-                
+
                 <p:column headerText="Telephone">
                     <h:outputText value="#{lec.telephone}" />
                 </p:column>
-                
+
                 <p:column headerText="Action">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeLecturer}" update=":modLecturers:dataTableLecturers">
                         <f:attribute name="lecturerToRemove" value="#{lec}" />
@@ -45,32 +50,35 @@
                 </p:column>
             </p:dataTable>
         </h:form>
+
+        
         
         <h:form id="modTAs">
             <p:menubar>                
                 <p:menuitem value="Add Teaching Assistant" onclick="PF('dialogAddTA').show()" icon="ui-icon-plusthick" />                
             </p:menubar>
+            
             <p:dataTable id="dataTableTAs" var="ta" value="#{moduleAssignment.TAs}">
                 <p:column headerText="Id">
                     <h:outputText value="#{ta.id}" />
                 </p:column>
- 
+
                 <p:column headerText="Name">
                     <h:outputText value="#{ta.name}" />
                 </p:column>
- 
+
                 <p:column headerText="Faculty">
                     <h:outputText value="#{ta.faculty}" />
                 </p:column>
- 
+
                 <p:column headerText="Email">
                     <h:outputText value="#{ta.email}" />
                 </p:column>
-                
+
                 <p:column headerText="Email">
                     <h:outputText value="#{ta.telephone}" />
                 </p:column>
-                
+
                 <p:column headerText="Action">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeTA}" update=":modTAs:dataTableTAs">
                         <f:attribute name="taToRemove" value="#{ta}" />
@@ -79,90 +87,93 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-        
+
         <h:form id="modStudents">
             <p:menubar>                
                 <p:menuitem value="Add Student" onclick="PF('dialogAddStudent').show()" icon="ui-icon-plusthick" />                
             </p:menubar>
             <p:dataTable id="dataTableStudents" var="stu" value="#{moduleAssignment.students}" widgetVar="studentsTable"
                          emptyMessage="No students found with given criteria" filteredValue="#{moduleAssignment.filteredStudents}">
- 
-        <f:facet name="header">
-            <p:outputPanel style="text-align: right;">
-                <h:outputText value="Search all fields:" />
-                <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-            </p:outputPanel>
-        </f:facet>
- 
-        <p:column filterBy="#{stu.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
-            <h:outputText value="#{stu.id}" />
-        </p:column>
- 
-        <p:column filterBy="#{stu.name}" headerText="Name" footerText="contains" filterMatchMode="contains">
-            <h:outputText value="#{stu.name}" />
-        </p:column>
-                
-        <p:column filterBy="#{stu.faculty}" headerText="Faculty" footerText="contains" filterMatchMode="contains">
-            <h:outputText value="#{stu.faculty}" />
-        </p:column>
-                
-        <p:column filterBy="#{stu.email}" headerText="Email" footerText="contains" filterMatchMode="contains">
-            <h:outputText value="#{stu.email}" />
-        </p:column> 
-                
-        <p:column headerText="Action">
+
+                <f:facet name="header">
+                    <p:outputPanel style="text-align: right;">
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column filterBy="#{stu.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                    <h:outputText value="#{stu.id}" />
+                </p:column>
+
+                <p:column filterBy="#{stu.name}" headerText="Name" footerText="contains" filterMatchMode="contains">
+                    <h:outputText value="#{stu.name}" />
+                </p:column>
+
+                <p:column filterBy="#{stu.faculty}" headerText="Faculty" footerText="contains" filterMatchMode="contains">
+                    <h:outputText value="#{stu.faculty}" />
+                </p:column>
+
+                <p:column filterBy="#{stu.email}" headerText="Email" footerText="contains" filterMatchMode="contains">
+                    <h:outputText value="#{stu.email}" />
+                </p:column> 
+
+                <p:column headerText="Action">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeStudent}" update=":modStudents:dataTableStudents">
                         <f:attribute name="studentToRemove" value="#{stu}" />
                         <p:confirm header="Confirmation" message="Are you sure you want to delete #{stu.id} ?" icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:column>
-    </p:dataTable>
+            </p:dataTable>
         </h:form>
-        
-    <h:form id="addLecturer">  
-    <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true">        
-     
-        <h:outputText value="Lecturer Id: " />
-        <p:inputText id="txtId" value="#{moduleAssignment.lecturerIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
-        
-        <p:commandButton value="Add Lecturer" update=":modLecturers:dataTableLecturers" actionListener="#{moduleAssignment.enrollLecturer}"  >
-         </p:commandButton>
-        
-    </p:dialog>
-    </h:form>
-        
-    <h:form id="addTA">  
-    <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">        
-     
-        <h:outputText value="TA Id: " />
-        <p:inputText id="txtId" value="#{moduleAssignment.TAIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
-        
-        <p:commandButton value="Add TA" update=":modTAs:dataTableTAs" actionListener="#{moduleAssignment.enrollTA}"  >
-         </p:commandButton>
-        
-    </p:dialog>
-    </h:form>
-        
-    <h:form id="addStudent">  
-    <p:dialog id="dialogAddStudent" widgetVar="dialogAddStudent" header="Assign Student" closable="true">        
-     
-        <h:outputText value="Student Id: " />
-        <p:inputText id="txtId" value="#{moduleAssignment.studentIdToRg}" required="true" requiredMessage="Student Id is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
-        
-        <p:commandButton value="Add Student" update=":modStudents:dataTableStudents" actionListener="#{moduleAssignment.enrollStudent}"  >
-         </p:commandButton>
-        
-    </p:dialog>
-    </h:form>
-       
-    
-   
-        
-        
+
+        <h:form id="addLecturer">  
+            <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true">        
+                
+                <p:messages id="messagesLecturer"/>
+                <h:outputText value="Lecturer Id: " />
+                <p:inputText id="txtId" value="#{moduleAssignment.lecturerIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
+                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+
+                <p:commandButton value="Add Lecturer" update=":modLecturers:dataTableLecturers @form:messagesLecturer" actionListener="#{moduleAssignment.enrollLecturer}"  >
+                </p:commandButton>
+
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addTA">  
+            <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">        
+                
+                <p:messages id="messagesTA" />
+                <h:outputText value="TA Id: " />
+                <p:inputText id="txtId" value="#{moduleAssignment.TAIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
+                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+
+                <p:commandButton value="Add TA" update=":modTAs:dataTableTAs @form:messagesTA" actionListener="#{moduleAssignment.enrollTA}"  >
+                </p:commandButton>
+
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addStudent">  
+            <p:dialog id="dialogAddStudent" widgetVar="dialogAddStudent" header="Assign Student" closable="true">        
+                
+                <p:messages id="messagesStudent" />
+                <h:outputText value="Student Id: " />
+                <p:inputText id="txtId" value="#{moduleAssignment.studentIdToRg}" required="true" requiredMessage="Student Id is required" />
+                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+
+                <p:commandButton value="Add Student" update=":modStudents:dataTableStudents @form:messagesStudent" actionListener="#{moduleAssignment.enrollStudent}"  >
+                </p:commandButton>
+
+            </p:dialog>
+        </h:form>
+
+
+
+
+
     </ui:define>
 </ui:composition>
-    
+
 

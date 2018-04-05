@@ -11,255 +11,272 @@
             <title>Learning Hub System Administrator User Management Page</title>
         </h:head>
         <h1>User Account Management</h1>
+        
+        
 
-<h:form id="viewLecturers">          
-    <p:dataTable id="dataTableViewLecturers" value="#{accountManagement.lecturers}" filteredValue="#{accountManagement.filteredLecturers}" var="lecturer" widgetVar="dataTableViewLecturers" rowKey="#{lecturer.id}" rowIndexVar="row"
-                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
-    
-        <f:facet name="header">
+        <h:form id="viewLecturers">   
+            <p:menubar>
+                <p:menuitem value="Create New Lecturer" onclick="PF('dialogCreateLec').show()" icon="ui-icon-plusthick" />
+            </p:menubar>
+            
+            <p:dataTable  id="dataTableViewLecturers" value="#{accountManagement.lecturers}" filteredValue="#{accountManagement.filteredLecturers}" var="lecturer" widgetVar="dataTableViewLecturers" rowKey="#{lecturer.id}" rowIndexVar="row"
+                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
+
+                <f:facet name="header">
+                    <h:outputText value="Lecturer" />
                     
                     <p:outputPanel style="text-align: right;">
-                        <p:menuitem value="Create New Lecturer" onclick="PF('dialogCreateLec').show()" icon="ui-icon-plusthick" />&nbsp;
-                        
+ 
                         <h:outputText value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter keyword"/>
                     </p:outputPanel>
-        </f:facet>
-        
-    <p:column headerText="Id" sortBy="#{lecturer.id}" filterBy="#{lecturer.id}" filterMatchMode="contains">
-        <h:outputText value="#{lecturer.id}"/>
-    </p:column>
- 
-    <p:column headerText="Name" sortBy="#{lecturer.username}" filterBy="#{lecturer.username}" filterMatchMode="contains">
-        <h:outputText value="#{lecturer.username}" />
-    </p:column>
-        
-    <p:column headerText="Department" sortBy="#{lecturer.password}" filterBy="#{lecturer.password}" filterMatchMode="contains">
-        <h:outputText value="#{lecturer.password}" />
-    </p:column>
-        
-    <p:column headerText="Action" >
-        <p:commandButton oncomplete="PF('lecDialog').show()" icon="ui-icon-document" title="ViewLecDetails">
-            <f:setPropertyActionListener value="#{lecturer}" target="#{accountManagement.lecToView}" />
-        </p:commandButton>
-        <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteLecturer}" update=":viewLecturers:dataTableViewLecturers">
-            <f:attribute name="lecturerToDelete" value="#{lecturer}" />
-                <p:confirm header="Confirmation" message="Are you sure you want to delete #{lecturer.id} ?" icon="ui-icon-alert" />
-        </p:commandButton>
-    </p:column>    
-    
-    </p:dataTable>
-    
-    <p:dialog header="Lecturer: Identity Information" widgetVar="lecDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-        <p:outputPanel id="lecDetail" style="text-align:center;">
-            <p:panelGrid  columns="3">
-                <f:facet name="header">
-                    <p:graphicImage name=""/> 
                 </f:facet>
- 
-                <h:outputText value="Name:" />
-                <h:outputText value="#{accountManagement.lecToView.name}" />
- 
-                <h:outputText value="Department:" />
-                <h:outputText value="#{accountManagement.lecToView.department}" />
- 
-                <h:outputText value="Faculty:" />
-                <h:outputText value="#{accountManagement.lecToView.faculty}" />
-                
-                <h:outputText value="Telephone:" />
-                <h:outputText value="#{accountManagement.lecToView.telephone}" />
- 
-                <h:outputText value="Email:" />
-                <h:outputText value="#{accountManagement.lecToView.email}" />
-                                                   
-            </p:panelGrid>
-        </p:outputPanel>
-    </p:dialog>
-</h:form> 
+
+                <p:column headerText="Id" sortBy="#{lecturer.id}" filterBy="#{lecturer.id}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.id}"/>
+                </p:column>
+
+                <p:column headerText="Name" sortBy="#{lecturer.username}" filterBy="#{lecturer.username}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.username}" />
+                </p:column>
+
+                <p:column headerText="Department" sortBy="#{lecturer.password}" filterBy="#{lecturer.password}" filterMatchMode="contains">
+                    <h:outputText value="#{lecturer.password}" />
+                </p:column>
+
+                <p:column headerText="Action" >
+                    <p:commandButton oncomplete="PF('lecDialog').show()" icon="ui-icon-document" title="View Lecuterer Details">
+                        <f:setPropertyActionListener value="#{lecturer}" target="#{accountManagement.lecToView}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteLecturer}" update=":viewLecturers:dataTableViewLecturers">
+                        <f:attribute name="lecturerToDelete" value="#{lecturer}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{lecturer.id} ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>    
+
+            </p:dataTable>
+
+            <p:dialog header="Lecturer: Identity Information" widgetVar="lecDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="lecDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <f:facet name="header">
+
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{accountManagement.lecToView.name}" />
+
+                        <h:outputText value="Department:" />
+                        <h:outputText value="#{accountManagement.lecToView.department}" />
+
+                        <h:outputText value="Faculty:" />
+                        <h:outputText value="#{accountManagement.lecToView.faculty}" />
+
+                        <h:outputText value="Telephone:" />
+                        <h:outputText value="#{accountManagement.lecToView.telephone}" />
+
+                        <h:outputText value="Email:" />
+                        <h:outputText value="#{accountManagement.lecToView.email}" />
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form> 
 
 
-<h:form id="viewStudents">          
-    <p:dataTable id="dataTableViewStudents" value="#{accountManagement.students}" filteredValue="#{accountManagement.filteredStudents}" var="student" widgetVar="dataTableViewStudents" rowKey="#{student.id}" rowIndexVar="row"
+        
+
+        <h:form id="viewTAs">  
+            <p:menubar>
+                <p:menuitem value="Create New Teaching Assistant" onclick="PF('dialogCreateTA').show()" icon="ui-icon-plusthick" />
+            </p:menubar>
+            
+            <p:dataTable id="dataTableViewTAs" value="#{accountManagement.TAs}" filteredValue="#{accountManagement.filteredTAs}" var="ta" widgetVar="dataTableViewTAs" rowKey="#{ta.id}" rowIndexVar="row"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
-    
-        <f:facet name="header">
+
+                <f:facet name="header">
                     
+                    <h:outputText value="Teaching Assistant" />
+
+                        <p:outputPanel style="text-align: right;">
+
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('dataTableViewTAs').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                </f:facet>
+
+                <p:column headerText="Id" sortBy="#{ta.id}" filterBy="#{ta.id}" filterMatchMode="contains">
+                    <h:outputText value="#{ta.id}"/>
+                </p:column>
+
+                <p:column headerText="Name" sortBy="#{ta.username}" filterBy="#{ta.username}" filterMatchMode="contains">
+                    <h:outputText value="#{ta.username}" />
+                </p:column>
+
+                <p:column headerText="Department" sortBy="#{ta.password}" filterBy="#{ta.password}" filterMatchMode="contains">
+                    <h:outputText value="#{ta.password}" />
+                </p:column>
+
+                <p:column headerText="Action" >
+                    <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="View TA Details">
+                        <f:setPropertyActionListener value="#{ta}" target="#{accountManagement.taToView}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteTA}" update=":viewTAs:dataTableViewTAs">
+                        <f:attribute name="taToDelete" value="#{ta}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{ta.id} ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>    
+
+            </p:dataTable>
+
+            <p:dialog header="Teaching Assistant: Identity Information" widgetVar="taDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="taDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <f:facet name="header">
+
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{accountManagement.taToView.name}" />
+
+                        <h:outputText value="Department:" />
+                        <h:outputText value="#{accountManagement.taToView.department}" />
+
+                        <h:outputText value="Faculty:" />
+                        <h:outputText value="#{accountManagement.taToView.faculty}" />
+
+                        <h:outputText value="Telephone:" />
+                        <h:outputText value="#{accountManagement.taToView.telephone}"/>
+
+                        <h:outputText value="Email:" />
+                        <h:outputText value="#{accountManagement.taToView.email}"/>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form> 
+        
+        
+        <h:form id="viewStudents">   
+            <p:menubar />
+            <p:dataTable id="dataTableViewStudents" value="#{accountManagement.students}" filteredValue="#{accountManagement.filteredStudents}" var="student" widgetVar="dataTableViewStudents" rowKey="#{student.id}" rowIndexVar="row"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
+
+                <f:facet name="header">
+                    <h:outputText value="Student" />
                     <p:outputPanel style="text-align: right;">
-                        
+
                         <h:outputText value="Search all fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('dataTableViewStudents').filter()" style="width:150px" placeholder="Enter keyword"/>
                     </p:outputPanel>
-        </f:facet>
-        
-    <p:column headerText="Id" sortBy="#{student.id}" filterBy="#{student.id}" filterMatchMode="contains">
-        <h:outputText value="#{student.id}"/>
-    </p:column>
- 
-    <p:column headerText="Name" sortBy="#{student.username}" filterBy="#{student.username}" filterMatchMode="contains">
-        <h:outputText value="#{student.username}" />
-    </p:column>
-        
-    <p:column headerText="Department" sortBy="#{student.password}" filterBy="#{student.password}" filterMatchMode="contains">
-        <h:outputText value="#{student.password}" />
-    </p:column>
-        
-    <p:column headerText="Action" >
-        <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="ViewStuDetails">
-            <f:setPropertyActionListener value="#{student}" target="#{accountManagement.stuToView}" />
-        </p:commandButton>
-        <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteStudent}" update=":viewStudents:dataTableViewStudents">
-            <f:attribute name="studentToDelete" value="#{student}" />
-                <p:confirm header="Confirmation" message="Are you sure you want to delete #{student.id} ?" icon="ui-icon-alert" />
-        </p:commandButton>
-    </p:column>    
-    
-    </p:dataTable>
-    
-    <p:dialog header="Student: Identity Information" widgetVar="stuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-        <p:outputPanel id="stuDetail" style="text-align:center;">
-            <p:panelGrid  columns="3">
-                <f:facet name="header">
-                    <p:graphicImage name=""/> 
                 </f:facet>
- 
-                <h:outputText value="Name:" />
-                <h:outputText value="#{accountManagement.stuToView.name}" />
- 
-                <h:outputText value="Department:" />
-                <h:outputText value="#{accountManagement.stuToView.department}" />
- 
-                <h:outputText value="Faculty:" />
-                <h:outputText value="#{accountManagement.stuToView.faculty}" />
-                
-                <h:outputText value="Telephone:" />
-                <h:outputText value="#{accountManagement.stuToView.telephone}"/>
- 
-                <h:outputText value="Email:" />
-                <h:outputText value="#{accountManagement.stuToView.email}"/>
-                                                   
-            </p:panelGrid>
-        </p:outputPanel>
-    </p:dialog>
-</h:form> 
 
-<h:form id="viewTAs">          
-    <p:dataTable id="dataTableViewTAs" value="#{accountManagement.TAs}" filteredValue="#{accountManagement.filteredTAs}" var="ta" widgetVar="dataTableViewTAs" rowKey="#{ta.id}" rowIndexVar="row"
-                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
-    
-        <f:facet name="header">
-                    <p:outputPanel style="text-align: right;">
-                        
-                        <p:menuitem value="Create New Teaching Assistant" onclick="PF('dialogCreateTA').show()" icon="ui-icon-plusthick" />
-                        &nbsp;
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('dataTableViewTAs').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-        </f:facet>
-        
-    <p:column headerText="Id" sortBy="#{ta.id}" filterBy="#{ta.id}" filterMatchMode="contains">
-        <h:outputText value="#{ta.id}"/>
-    </p:column>
- 
-    <p:column headerText="Name" sortBy="#{ta.username}" filterBy="#{ta.username}" filterMatchMode="contains">
-        <h:outputText value="#{ta.username}" />
-    </p:column>
-        
-    <p:column headerText="Department" sortBy="#{ta.password}" filterBy="#{ta.password}" filterMatchMode="contains">
-        <h:outputText value="#{ta.password}" />
-    </p:column>
-        
-    <p:column headerText="Action" >
-        <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="ViewTADetails">
-            <f:setPropertyActionListener value="#{ta}" target="#{accountManagement.taToView}" />
-        </p:commandButton>
-        <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteTA}" update=":viewTAs:dataTableViewTAs">
-            <f:attribute name="taToDelete" value="#{ta}" />
-                <p:confirm header="Confirmation" message="Are you sure you want to delete #{ta.id} ?" icon="ui-icon-alert" />
-        </p:commandButton>
-    </p:column>    
-    
-    </p:dataTable>
-    
-    <p:dialog header="Teaching Assistant: Identity Information" widgetVar="taDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-        <p:outputPanel id="taDetail" style="text-align:center;">
-            <p:panelGrid  columns="3">
-                <f:facet name="header">
-                    <p:graphicImage name=""/> 
-                </f:facet>
- 
-                <h:outputText value="Name:" />
-                <h:outputText value="#{accountManagement.taToView.name}" />
- 
-                <h:outputText value="Department:" />
-                <h:outputText value="#{accountManagement.taToView.department}" />
- 
-                <h:outputText value="Faculty:" />
-                <h:outputText value="#{accountManagement.taToView.faculty}" />
-                
-                <h:outputText value="Telephone:" />
-                <h:outputText value="#{accountManagement.taToView.telephone}"/>
- 
-                <h:outputText value="Email:" />
-                <h:outputText value="#{accountManagement.taToView.email}"/>
-                                                   
-            </p:panelGrid>
-        </p:outputPanel>
-    </p:dialog>
-</h:form> 
-        
-  <h:form id="createLecturer">  
-    <p:dialog id="dialogCreateLec" widgetVar="dialogCreateLec" header="Create Lecturer Account:: Lecturer Information" closable="true">        
-      
-               
-    <h:panelGrid columns="3">
-        <h:outputText value="Lecturer Username: " />
-        <p:inputText id="txtUsername" value="#{accountManagement.newLecturer.username}" required="true" requiredMessage="Username is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtUsername" />
-        
-        <h:outputText value="Lecturer Password: " />
-        <p:inputText id="txtPassword" value="#{accountManagement.newLecturer.password}" required="true" requiredMessage="Password is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtPassword" />
-    
-    </h:panelGrid>    
-     
-        <p:commandButton type="reset" value="Clear" />&nbsp;
-     
-        <p:commandButton value="Create Account" update=":viewLecturers:dataTableViewLecturers" actionListener="#{accountManagement.createLecturer}" >
-        </p:commandButton>
-        
-        </p:dialog>
+                <p:column headerText="Id" sortBy="#{student.id}" filterBy="#{student.id}" filterMatchMode="contains">
+                    <h:outputText value="#{student.id}"/>
+                </p:column>
 
+                <p:column headerText="Name" sortBy="#{student.username}" filterBy="#{student.username}" filterMatchMode="contains">
+                    <h:outputText value="#{student.username}" />
+                </p:column>
 
- </h:form>
-        
-        
-  <h:form id="createTA">  
-    <p:dialog id="dialogCreateTA" widgetVar="dialogCreateTA" header="Create Teaching Assistant Account:: Teaching Assistant Information" closable="true">        
-      
-               
-    <h:panelGrid columns="3">
-        <h:outputText value="TA Username: " />
-        <p:inputText id="txtUsername" value="#{accountManagement.newTA.username}" required="true" requiredMessage="Username is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtUsername" />
-        
-        <h:outputText value="TA Password: " />
-        <p:inputText id="txtPassword" value="#{accountManagement.newTA.password}" required="true" requiredMessage="Password is required" />
-        <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtPassword" />
-    
-    </h:panelGrid>    
-     
-        <p:commandButton type="reset" value="Clear" />&nbsp;
-     
-        <p:commandButton value="Create Account" update=":viewTAs:dataTableViewTAs" actionListener="#{accountManagement.createTA}" >
-        </p:commandButton>
-        
-        </p:dialog>
+                <p:column headerText="Department" sortBy="#{student.password}" filterBy="#{student.password}" filterMatchMode="contains">
+                    <h:outputText value="#{student.password}" />
+                </p:column>
 
+                <p:column headerText="Action" >
+                    <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="View Student Details">
+                        <f:setPropertyActionListener value="#{student}" target="#{accountManagement.stuToView}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteStudent}" update=":viewStudents:dataTableViewStudents">
+                        <f:attribute name="studentToDelete" value="#{student}" />
+                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{student.id} ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </p:column>    
 
- </h:form>
+            </p:dataTable>
+
+            <p:dialog header="Student: Identity Information" widgetVar="stuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="stuDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <f:facet name="header">
+
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{accountManagement.stuToView.name}" />
+
+                        <h:outputText value="Department:" />
+                        <h:outputText value="#{accountManagement.stuToView.department}" />
+
+                        <h:outputText value="Faculty:" />
+                        <h:outputText value="#{accountManagement.stuToView.faculty}" />
+
+                        <h:outputText value="Telephone:" />
+                        <h:outputText value="#{accountManagement.stuToView.telephone}"/>
+
+                        <h:outputText value="Email:" />
+                        <h:outputText value="#{accountManagement.stuToView.email}"/>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form> 
+        
         
 
-        
-</ui:define>
+        <h:form id="createLecturer">  
+            <p:dialog id="dialogCreateLec" widgetVar="dialogCreateLec" header="Create Lecturer Account:: Lecturer Information" closable="true">        
+
+                <p:messages id="messagesLec" />
+                <h:panelGrid columns="3">
+                    <h:outputText value="Lecturer Username: " />
+                    <p:inputText id="txtUsername" value="#{accountManagement.newLecturer.username}" required="true" requiredMessage="Username is required" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtUsername" />
+
+                    <h:outputText value="Lecturer Password: " />
+                    <p:inputText id="txtPassword" value="#{accountManagement.newLecturer.password}" required="true" requiredMessage="Password is required" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtPassword" />
+
+                </h:panelGrid>    
+
+                <p:commandButton type="reset" value="Clear" />&nbsp;
+
+                <p:commandButton value="Create Account" update=":viewLecturers:dataTableViewLecturers @form:messagesLec" actionListener="#{accountManagement.createLecturer}" >
+                </p:commandButton>
+
+            </p:dialog>
+
+
+        </h:form>
+
+
+        <h:form id="createTA">  
+            <p:dialog id="dialogCreateTA" widgetVar="dialogCreateTA" header="Create Teaching Assistant Account:: Teaching Assistant Information" closable="true">        
+
+                <p:messages id="messagesTA" />
+                <h:panelGrid columns="3">
+                    <h:outputText value="TA Username: " />
+                    <p:inputText id="txtUsername" value="#{accountManagement.newTA.username}" required="true" requiredMessage="Username is required" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtUsername" />
+
+                    <h:outputText value="TA Password: " />
+                    <p:inputText id="txtPassword" value="#{accountManagement.newTA.password}" required="true" requiredMessage="Password is required" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtPassword" />
+
+                </h:panelGrid>    
+
+                <p:commandButton type="reset" value="Clear" />&nbsp;
+
+                <p:commandButton value="Create Account" update=":viewTAs:dataTableViewTAs @form:messagesTA" actionListener="#{accountManagement.createTA}" >
+                </p:commandButton>
+
+            </p:dialog>
+
+
+        </h:form>
+
+
+
+    </ui:define>
 </ui:composition>
 

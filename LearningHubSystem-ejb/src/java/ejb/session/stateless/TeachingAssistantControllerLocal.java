@@ -42,9 +42,9 @@ public interface TeachingAssistantControllerLocal {
 
     public void deleteTA (TeachingAssistant ta) throws TANotFoundException;
 
-    public Module registerModule(TeachingAssistant ta, Module mod) throws ModuleExistException;
+    public Module registerModule (TeachingAssistant t, Module m) throws ModuleExistException, TANotFoundException, ModuleNotFoundException;
 
-    public void dropModule(TeachingAssistant ta, Module mod) throws ModuleNotFoundException;
+    public void dropModule(TeachingAssistant t, Module m) throws ModuleNotFoundException, TANotFoundException;
 
     public void changePassword(String currentPassword, String newPassword, Long TAId) throws TANotFoundException, PasswordChangeException;
 

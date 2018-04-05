@@ -45,7 +45,7 @@ public interface LecturerControllerLocal {
     
     public void deleteLecturer (Lecturer lec) throws LecturerNotFoundException;
     
-    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException;
+    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException, ModuleNotFoundException, LecturerNotFoundException;
     
-    public void dropModule(Lecturer lec, Module mod) throws ModuleNotFoundException;
+    public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException;
 }

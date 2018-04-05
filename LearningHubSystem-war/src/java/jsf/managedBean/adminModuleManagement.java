@@ -10,7 +10,6 @@ import entity.Module;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -54,7 +53,9 @@ public class adminModuleManagement implements Serializable{
     {
         modules = moduleControllerLocal.retrieveAllModules();
         //System.err.println("*********** modules: " + modules.size());
-        filteredModules = modules;
+        
+        for(Module m:modules)
+            filteredModules.add(m);
     }
     
     
@@ -108,6 +109,7 @@ public class adminModuleManagement implements Serializable{
     }
     
     public void assignModule(ActionEvent event) throws IOException{
+        moduleToAssign = (Module)event.getComponent().getAttributes().get("moduleToAssign");
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("moduleToAssignId",moduleToAssign.getId());
         FacesContext.getCurrentInstance().getExternalContext().redirect("adminModuleAssignment.xhtml");
     }

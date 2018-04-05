@@ -9,6 +9,7 @@ import util.exception.StudentExistException;
 import entity.Module;
 import entity.Student;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,10 +32,15 @@ import util.exception.StudentNotFoundException;
 @Local(StudentControllerLocal.class)
 public class StudentController implements StudentControllerLocal {
 
+    @EJB
+    private ModuleControllerLocal moduleController;
+
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
 
     Student student;
+    
+    
 
 //    
 //    @Override
@@ -180,28 +186,35 @@ public class StudentController implements StudentControllerLocal {
     }
 
     @Override
-    public Module registerModule(Student stu, Module mod) throws ModuleExistException {
-        List<Module> modules = stu.getModules();
-        for (Module module : modules) {
-            if (module.getModuleCode().equals(mod.getModuleCode())) {
-                throw new ModuleExistException("Module has already been registered.\n");
-            }
+    public void registerModule(Student student, Module moduleToRegister) throws ModuleExistException,StudentNotFoundException, ModuleNotFoundException {
+        try {
+            Student stu = retrieveStudentById(student.getId());
+            Module mod = moduleController.retrieveModuleById(moduleToRegister.getId());
+             List<Module> modules = stu.getModules();
+                for (Module module: modules) {
+                    if (module.getId().equals(mod.getId())) {
+                        throw new ModuleExistException("Module has already been registered.\n");
+                    }
+                }
+
+            stu.getModules().add(mod);
+            mod.getStduents().add(stu);
+            
+        } catch (StudentNotFoundException ex) {
+            throw new StudentNotFoundException ("student not found");
         }
+       
 
-        stu.getModules().add(mod);
-        mod.getStduents().add(stu);
-        em.persist(stu);
-        em.persist(mod);
-        em.flush();
-
-        return mod;
     }
 
     @Override
-    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException {
+    public void dropModule(Student student, Module m) throws ModuleNotFoundException,StudentNotFoundException {
         Boolean registered = false;
+        Student stu = retrieveStudentById(student.getId());
+        Module mod = moduleController.retrieveModuleById(m.getId());
+        
         List<Module> modules = stu.getModules();
-        for (Module module : modules) {
+        for (Module module: modules) {
             if (module.getModuleCode().equals(mod.getModuleCode())) {
                 registered = true;
             }
@@ -210,9 +223,7 @@ public class StudentController implements StudentControllerLocal {
         if (registered) {
             stu.getModules().remove(mod);
             mod.getStduents().remove(stu);
-            em.persist(stu);
-            em.persist(mod);
-            em.flush();
+           
         } else {
             throw new ModuleNotFoundException("Module: " + mod.getModuleCode() + " wasn't found in the module list.");
         }
@@ -228,6 +239,7 @@ public class StudentController implements StudentControllerLocal {
             studentToUpdate.setEmail(stu.getEmail());
             studentToUpdate.setDepartment(stu.getDepartment());
             studentToUpdate.setFaculty(stu.getFaculty());
+            em.merge(studentToUpdate);
             return studentToUpdate;
         } else {
             throw new StudentNotFoundException("Student ID not provided for profile to be updated");
@@ -251,6 +263,14 @@ public class StudentController implements StudentControllerLocal {
         } catch (StudentNotFoundException ex) {
             throw new StudentNotFoundException("Student with ID " + studentId + "does not exist.");
         }
+    }
+
+    public void persist(Object object) {
+        em.persist(object);
+    }
+
+    public void persist1(Object object) {
+        em.persist(object);
     }
 
 }

@@ -43,9 +43,9 @@ public interface StudentControllerLocal {
 
     public void deleteStudent (Student stu) throws StudentNotFoundException;
 
-    public Module registerModule(Student stu, Module mod) throws ModuleExistException;
+    public void registerModule(Student student, Module moduleToRegister) throws ModuleExistException,StudentNotFoundException, ModuleNotFoundException;
 
-    public void dropModule(Student stu, Module mod) throws ModuleNotFoundException;
+    public void dropModule(Student student, Module m) throws ModuleNotFoundException,StudentNotFoundException;
 
     public Student updateStudent(Student stu) throws StudentNotFoundException;
 
