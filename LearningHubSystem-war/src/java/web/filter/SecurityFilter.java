@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "SecurityFilter", urlPatterns = {"/*"})
 
 public class SecurityFilter implements Filter {
 
@@ -33,7 +33,7 @@ public class SecurityFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession httpSession = httpServletRequest.getSession(true);
         String requestServletPath = httpServletRequest.getServletPath();
-        
+
         System.err.println("********** requestServletPath: " + requestServletPath);
 
         if (httpSession.getAttribute("isLogin") == null) {
@@ -108,8 +108,8 @@ public class SecurityFilter implements Filter {
             } else {
                 return false;
             }
-            
-        }else if (currentRole.equals("admin")) {
+
+        } else if (currentRole.equals("admin")) {
             if (path.equals("/adminDashboard.xhtml")
                     || path.equals("/adminModuleManagement.xhtml")
                     || path.equals("/adminModuleAssignment.xhtml")
@@ -120,10 +120,8 @@ public class SecurityFilter implements Filter {
                 return false;
             }
         }
-            return false;
-        }
-
-    
+        return false;
+    }
 
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")

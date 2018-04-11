@@ -9,6 +9,9 @@ import ejb.session.stateless.FileEntityControllerLocal;
 import ejb.session.stateless.ModuleControllerLocal;
 import entity.FileEntity;
 import entity.Module;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.io.InputStream;
@@ -75,19 +78,31 @@ public class fileDownloadManagedBean implements Serializable {
 
             String filePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + getSelectedFile().getModule().getModuleCode() + System.getProperty("file.separator") + getSelectedFile().getFileName();
 
-            InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(filePath);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("downloadFilePath", filePath);
             
-            System.err.println("********* filePath: " + filePath);
-
-            file = new DefaultStreamedContent(stream, "image/png", getSelectedFile().getFileName());
-            System.err.println("********* file: " + file.getContentLength());
+            
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.err.println("expeciotng*******");
         }
     }
 
     public StreamedContent getFile() {
+        
+        String filePath = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("downloadFilePath");
+        
+        if(filePath != null && filePath.trim().length() > 0)
+        {
+            try
+            {            
+                FileInputStream stream = new FileInputStream(new File(filePath));
+                file = new DefaultStreamedContent(stream, "image/png", getSelectedFile().getFileName());
+            }
+            catch(FileNotFoundException ex)
+            {
+                
+            }
+        }
+        
         return file;
     }
 
