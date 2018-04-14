@@ -41,6 +41,7 @@ public class ModuleResource {
         moduleController = lookupModuleControllerLocal();
     }
 
+    
     @Path("retrieveEnrolledModules/{username}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
