@@ -46,4 +46,8 @@ public interface ModuleControllerLocal {
     public List<Announcement> retrieveAnnoucements(Long moduleId);
 
     List<Lecturer> retrieveLecturers(Long moduleId);
+
+    public List<Student> retrieveStudents(Long moduleId) throws ModuleNotFoundException;
+
+    public List<TeachingAssistant> retrieveTAs(Long moduleId) throws ModuleNotFoundException;
 }

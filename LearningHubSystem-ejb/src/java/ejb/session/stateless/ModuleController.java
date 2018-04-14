@@ -106,7 +106,22 @@ public class ModuleController implements ModuleControllerLocal {
         }
         return new ArrayList<>();
     }
-
+    
+    @Override 
+    public List<TeachingAssistant> retrieveTAs(Long moduleId) throws ModuleNotFoundException{
+        Module module = retrieveModuleById(moduleId);
+        List<TeachingAssistant> tas = module.getTAs();
+            return tas;
+           
+    }
+    
+    @Override
+    public List<Student> retrieveStudents(Long moduleId) throws ModuleNotFoundException{
+        Module module = retrieveModuleById(moduleId);
+        List<Student> students = module.getStduents();
+        return students;
+    }
+    
     @Override
     public Module createNewModule(Module newModule) throws ModuleExistException {
         List<Module> moduleList = retrieveAllModules();

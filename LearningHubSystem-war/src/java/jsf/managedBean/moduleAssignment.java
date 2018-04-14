@@ -13,7 +13,6 @@ import entity.Lecturer;
 import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
-import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
