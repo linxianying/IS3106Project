@@ -70,34 +70,42 @@ public class ModuleController implements ModuleControllerLocal {
         System.err.println("modules list is null!!!!!!!!!!!");
         return new ArrayList<Module>();
     }
-    
+
     @Override
-    public List<Student> retrieveClassAndGroups (Long moduleId){
-        try{
-            Module module=retrieveModuleById(moduleId);
-            List<Student> classAndGroups=module.getStduents();
+    public List<Student> retrieveClassAndGroups(Long moduleId) {
+        try {
+            Module module = retrieveModuleById(moduleId);
+            List<Student> classAndGroups = module.getStduents();
             return classAndGroups;
-        }
-        catch(ModuleNotFoundException ex){
+        } catch (ModuleNotFoundException ex) {
             ex.getMessage();
         }
         return new ArrayList<>();
     }
-    
-    
+
     @Override
-    public List<Announcement> retrieveAnnoucements (Long moduleId){
-        try{
-            Module module=retrieveModuleById(moduleId);
-            List<Announcement> classAndGroups=module.getAnnouncements();
+    public List<Announcement> retrieveAnnoucements(Long moduleId) {
+        try {
+            Module module = retrieveModuleById(moduleId);
+            List<Announcement> classAndGroups = module.getAnnouncements();
             return classAndGroups;
-        }
-        catch(ModuleNotFoundException ex){
+        } catch (ModuleNotFoundException ex) {
             ex.getMessage();
         }
         return new ArrayList<>();
     }
-    
+
+    @Override
+    public List<Lecturer> retrieveLecturers(Long moduleId) {
+        try{
+            Module module = retrieveModuleById(moduleId);
+            List<Lecturer> lecturers = module.getLecturers();
+            return lecturers;
+        }catch (ModuleNotFoundException ex) {
+            ex.getMessage();
+        }
+        return new ArrayList<>();
+    }
 
     @Override
     public Module createNewModule(Module newModule) throws ModuleExistException {

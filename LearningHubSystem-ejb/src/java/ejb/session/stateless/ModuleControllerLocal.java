@@ -44,4 +44,6 @@ public interface ModuleControllerLocal {
     public List<Student> retrieveClassAndGroups(Long moduleId);
 
     public List<Announcement> retrieveAnnoucements(Long moduleId);
+
+    List<Lecturer> retrieveLecturers(Long moduleId);
 }
