@@ -10,6 +10,7 @@ import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.Student;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -19,15 +20,20 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBElement;
+import ws.restful.datamodel.CreateStudentReq;
+import ws.restful.datamodel.CreateStudentRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.StudentLoginRsp;
+import ws.restful.datamodel.UpdateStudentReq;
 
 /**
  * REST Web Service
@@ -87,6 +93,71 @@ public class Login_logoutResource {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+
+    
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createStudent(JAXBElement<CreateStudentReq> jaxbCreateStudentReq)
+    {
+        if((jaxbCreateStudentReq != null) && (jaxbCreateStudentReq.getValue() != null))
+        {
+            try
+            {
+                CreateStudentReq createStudentReq = jaxbCreateStudentReq.getValue();
+                
+                Student student = studentController.createStudent(createStudentReq.getStudent());
+                CreateStudentRsp createStudentRsp = new CreateStudentRsp(student.getId());
+                
+                return Response.status(Response.Status.OK).entity(createStudentRsp).build();
+            }
+            
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid create student request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateStudent(JAXBElement<UpdateStudentReq> jaxbUpdateStudentReq)
+    {
+        if((jaxbUpdateStudentReq != null) && (jaxbUpdateStudentReq.getValue() != null))
+        {
+            try
+            {
+                UpdateStudentReq updateStudentReq = jaxbUpdateStudentReq.getValue();
+                
+                studentController.updateStudent(updateStudentReq.getStudent());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update admin request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
     
