@@ -18,13 +18,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import ws.restful.datamodel.ClassAndGroupsRsp;
 import ws.restful.datamodel.ErrorRsp;
-import ws.restful.datamodel.RetrieveAnnouncementsRsp;
-import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
-import ws.restful.datamodel.RetrieveSpecificModuleRsp;
 
 /**
  * REST Web Service
