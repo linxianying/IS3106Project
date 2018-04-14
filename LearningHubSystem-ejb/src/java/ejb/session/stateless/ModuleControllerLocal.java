@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Announcement;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
@@ -37,4 +38,10 @@ public interface ModuleControllerLocal {
     public void updateModule(Module module) throws ModuleNotFoundException;
 
     public Module retrieveModuleById(Long id) throws ModuleNotFoundException;
+
+    public List<Module> retrieveModulesByStudentUsername(String username);
+
+    public List<Student> retrieveClassAndGroups(Long moduleId);
+
+    public List<Announcement> retrieveAnnoucements(Long moduleId);
 }
