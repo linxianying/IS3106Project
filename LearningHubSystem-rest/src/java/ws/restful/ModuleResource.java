@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import ws.restful.datamodel.ClassAndGroupsRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveAnnouncementsRsp;
+import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificModuleRsp;
 
@@ -57,10 +58,11 @@ public class ModuleResource {
         }
     }
 
+
     @Path("retrieveSpecificModule/{moduleId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveretrieveSpecificModule(@PathParam("moduleId") Long moduleId) {
+    public Response retrieveSpecificModule(@PathParam("moduleId") Long moduleId) {
         try {
             RetrieveSpecificModuleRsp retrieveSpecificModuleRsp = new RetrieveSpecificModuleRsp(moduleController.retrieveModuleById(moduleId));
 
@@ -102,6 +104,22 @@ public class ModuleResource {
         }
     }
 
+    
+    @Path("retrieveLecturers/{moduleId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveLecturers(@PathParam("moduleId") Long moduleId) {
+        try {
+            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(moduleController.retrieveLecturers(moduleId));
+
+            return Response.status(Response.Status.OK).entity(retrieveLecturersRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
     private ModuleControllerLocal lookupModuleControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();

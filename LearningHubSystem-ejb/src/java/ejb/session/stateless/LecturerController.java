@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.Lecturer;
 import entity.Module;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -249,6 +250,19 @@ public class LecturerController implements LecturerControllerLocal {
         
         else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
-       
+
+    @Override
+    public List<Module> retrieveEnrolledModules(Long lecturerId) {
+        try{
+            Lecturer lecturer = retrieveLecturerById(lecturerId);
+            return lecturer.getModules();
+        }
+        catch(LecturerNotFoundException ex){
+            ex.getMessage();
+        }
+        return new ArrayList<>();
+    }
+
+    
 
 }
