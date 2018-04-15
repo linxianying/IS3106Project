@@ -79,7 +79,7 @@ public class AdminResource {
         }
     }
     
-    
+    @Path("updateAdmin/{administrator}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,6 +110,7 @@ public class AdminResource {
         }
     }
     
+    @Path("createModule/{module}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -141,6 +142,7 @@ public class AdminResource {
         }
     }
     
+    @Path("updateModule/{administrator}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
