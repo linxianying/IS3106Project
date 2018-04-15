@@ -179,7 +179,7 @@ public class Login_logoutResource {
     private StudentControllerLocal lookupStudentControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (StudentControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/StudentControllerLocal!ejb.session.stateless.StudentControllerLocal");
+            return (StudentControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/StudentController!ejb.session.stateless.StudentControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
@@ -189,7 +189,7 @@ public class Login_logoutResource {
     private LecturerControllerLocal lookupLecturerControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (LecturerControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/LecturerControllerLocal!ejb.session.stateless.LecturerControllerLocal");
+            return (LecturerControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/LecturerController!ejb.session.stateless.LecturerControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
@@ -199,7 +199,7 @@ public class Login_logoutResource {
     private AdministratorControllerLocal lookupAdminControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (AdministratorControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/AdministratorControllerLocal!ejb.session.stateless.AdministratorControllerLocal");
+            return (AdministratorControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/AdministratorController!ejb.session.stateless.AdministratorControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
@@ -209,7 +209,7 @@ public class Login_logoutResource {
     private TeachingAssistantControllerLocal lookupTAControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (TeachingAssistantControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TeachingAssistantControllerLocal!ejb.session.stateless.TeachingAssistantControllerLocal");
+            return (TeachingAssistantControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TeachingAssistantController!ejb.session.stateless.TeachingAssistantControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

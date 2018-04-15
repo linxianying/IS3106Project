@@ -19,7 +19,7 @@
 
                 <ui:repeat value="#{moduleManagedBean.modules}" var="module">
                     <p:panel header="#{module.moduleCode}">
-                    <p:commandLink actionListener="#{moduleManagedBean.viewModuleDetails}" value="#{module.moduleName}">
+                    <p:commandLink style="color:black" actionListener="#{moduleManagedBean.viewModuleDetails}" value="#{module.moduleName}">
                         <f:attribute value="#{module.id}" name="ModuleIdToView"/>
                     </p:commandLink><br/>
                     <h:outputText value="#{module.modularCredit}" /><br/>

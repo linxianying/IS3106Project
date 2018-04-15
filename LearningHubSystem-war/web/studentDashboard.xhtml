@@ -17,22 +17,10 @@
                 </p:growl>
 
                 <p:panelMenu style="width:300px">
-                    <p:submenu label="My Profile">
-                        <p:menuitem value="Save" actionListener="#{moduleManagedBean.save}" icon="ui-icon-disk" />
-                        <p:menuitem value="Update" actionListener="#{menuView.update}"  icon="ui-icon-arrowrefresh-1-w" />
-                    </p:submenu>
+                    
 
-                    <p:separator />
-                    <p:submenu label="Navigations" >
-                        <p:submenu label="Links" icon="ui-icon-extlink">
-                            <p:submenu label="PrimeFaces" icon="ui-icon-heart">
-                                <p:menuitem value="Home" url="index.xhtml" icon="ui-icon-home" />
-                                <p:menuitem value="Modules Enrolled" url="studetnModule.xhtml" icon="ui-icon-document" />
-
-                            </p:submenu>
-                        </p:submenu>
-    <!--                    <p:menuitem value="Mobile" outcome="/mobile/index" icon="ui-icon-signal" />-->
-                    </p:submenu>
+                    
+                    
                 </p:panelMenu>
             </h:form>
         </h:body>
