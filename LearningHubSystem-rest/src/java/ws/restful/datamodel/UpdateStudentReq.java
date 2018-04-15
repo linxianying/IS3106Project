@@ -33,7 +33,7 @@ public class UpdateStudentReq {
         return student;
     }
 
-    public void setStudent(Student admin) {
+    public void setStudent(Student student) {
         this.student = student;
     }
     
