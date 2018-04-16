@@ -6,6 +6,8 @@
 package ws.restful;
 
 import ejb.session.stateless.ModuleControllerLocal;
+import entity.Lecturer;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -113,7 +115,14 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveLecturers(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(moduleController.retrieveLecturers(moduleId));
+            List<Lecturer> lecturers = moduleController.retrieveLecturers(moduleId);
+            for(Lecturer each: lecturers){
+                each.getAnnouncements().clear();
+                each.getModules().clear();
+                each.getTimeEntries().clear();
+            }
+                    
+            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(lecturers);
 
             return Response.status(Response.Status.OK).entity(retrieveLecturersRsp).build();
         } catch (Exception ex) {
