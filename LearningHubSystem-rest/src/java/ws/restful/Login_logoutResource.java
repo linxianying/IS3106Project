@@ -7,9 +7,10 @@ package ws.restful;
 
 import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
-import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.Lecturer;
+import entity.Module;
 import entity.Student;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +32,6 @@ import ws.restful.datamodel.CreateStudentReq;
 import ws.restful.datamodel.CreateStudentRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
-import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.StudentLoginRsp;
 import ws.restful.datamodel.UpdateStudentReq;
 
@@ -88,6 +88,9 @@ public class Login_logoutResource {
         try {
             Student student = studentController.login(username, password);
             if(student!=null){
+                student.getModules().clear();
+                student.getTimeEntries().clear();
+                
                 StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
                 return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
             }else{
@@ -172,7 +175,12 @@ public class Login_logoutResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
-            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturerController.login(username, password));
+            Lecturer lecturer = lecturerController.login(username, password);
+            lecturer.getModules().clear();
+            lecturer.getTimeEntries().clear();
+            lecturer.getAnnouncements().clear();
+            
+            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
             System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
             return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
         } catch (Exception ex) {
