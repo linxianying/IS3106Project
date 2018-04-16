@@ -6,6 +6,14 @@
 package ws.restful;
 
 import ejb.session.stateless.TimeEntryControllerLocal;
+import entity.Module;
+import entity.TimeEntry;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -37,6 +45,7 @@ public class ScheduleResource {
      * Creates a new instance of ScheduleResource
      */
     public ScheduleResource() {
+        timeEntryController = lookupTimeEntryControllerLocal();
     }
 
     /**
@@ -64,9 +73,14 @@ public class ScheduleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveTimeEntryByName(@PathParam("username") String username) {
         try {
+            List<TimeEntry> timeEntries = timeEntryController.retrieveTimeEntrysByName(username);
+            System.err.println("timeEntries!!!!!!!!!"+timeEntries.size());
+            for(TimeEntry t:timeEntries){
+            }
             RetrieveTimeEntryByNameRsp retrieveTimeEntryByNameRsp = 
-                    new RetrieveTimeEntryByNameRsp(timeEntryController.retrieveTimeEntrysByName(username));
-
+                    new RetrieveTimeEntryByNameRsp(timeEntries);
+            
+            System.out.println(Response.status(Response.Status.OK).entity(retrieveTimeEntryByNameRsp).build());
             return Response.status(Response.Status.OK).entity(retrieveTimeEntryByNameRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
@@ -87,6 +101,16 @@ public class ScheduleResource {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    private TimeEntryControllerLocal lookupTimeEntryControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (TimeEntryControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TimeEntryController!ejb.session.stateless.TimeEntryControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

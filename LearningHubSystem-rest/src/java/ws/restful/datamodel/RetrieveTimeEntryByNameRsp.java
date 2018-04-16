@@ -7,6 +7,7 @@ package ws.restful.datamodel;
 
 import entity.TimeEntry;
 import java.util.Collection;
+import java.util.List;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -14,23 +15,23 @@ import javax.xml.bind.annotation.XmlType;
  * @author lxy
  */
 @XmlType(name = "retrieveTimeEntryByNameRsp", propOrder = {
-    "timeEntry"
+    "timeEntrys"
 })
 public class RetrieveTimeEntryByNameRsp {
-    private Collection<TimeEntry> timeEntrys;
+    private List<TimeEntry> timeEntrys;
 
     public RetrieveTimeEntryByNameRsp() {
     }
 
-    public RetrieveTimeEntryByNameRsp(Collection<TimeEntry> timeEntrys) {
+    public RetrieveTimeEntryByNameRsp(List<TimeEntry> timeEntrys) {
         this.timeEntrys = timeEntrys;
     }
 
-    public Collection<TimeEntry> getTimeEntrys() {
+    public List<TimeEntry> getTimeEntrys() {
         return timeEntrys;
     }
 
-    public void setTimeEntrys(Collection<TimeEntry> timeEntrys) {
+    public void setTimeEntrys(List<TimeEntry> timeEntrys) {
         this.timeEntrys = timeEntrys;
     }
 
