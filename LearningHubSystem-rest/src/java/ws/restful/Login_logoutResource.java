@@ -87,7 +87,7 @@ public class Login_logoutResource {
     public Response studentLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
             Student student = studentController.login(username, password);
-            if(student!=null){
+            if(student!=null&&student.getIsPremium()==true){
                 student.getModules().clear();
                 student.getTimeEntries().clear();
                 
