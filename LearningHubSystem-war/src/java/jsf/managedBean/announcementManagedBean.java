@@ -46,6 +46,7 @@ public class announcementManagedBean implements Serializable{
     private Lecturer lecturer;
     private List<Announcement> announcements;
     private Announcement newAnnouncement;
+    private Announcement selectedAnnouncement;
     FacesContext context;
     HttpSession session;
 
@@ -62,15 +63,17 @@ public class announcementManagedBean implements Serializable{
         moduleId = (Long) session.getAttribute("moduleIdToView");
         System.err.println(moduleId);
         try {
-            Module module = moduleController.retrieveModuleById(moduleId);
+            module = moduleController.retrieveModuleById(moduleId);
             announcements = module.getAnnouncements();
             if(announcements.size()==0) {
                 System.err.println("empty!!!!!!!!!!!!");
             }
-            if(session.getAttribute("role").equals("currentLecturer")){
+            if(session.getAttribute("role").equals("lecturer")){
             lecturer = (Lecturer) session.getAttribute("currentLecturer");
+                
             }
-            
+            System.err.println("!!!!!!!!!!!!!!!lecturer");
+            System.err.println(lecturer);
             
         } catch (ModuleNotFoundException ex) {
             ex.printStackTrace();
@@ -85,7 +88,7 @@ public class announcementManagedBean implements Serializable{
             Announcement a = announcementController.createNewAnnouncement(newAnnouncement, lecturer, module);
             announcements.add(a);
             newAnnouncement = new Announcement();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New announcement created successfully (Product ID: " + a.getId() + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New announcement created successfully (Announcement ID: " + a.getId() + ")", null));
         } catch (AnnouncementExistException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new announcement: name of announcement must be unique. " + ex.getMessage(), null));
         }
@@ -118,6 +121,20 @@ public class announcementManagedBean implements Serializable{
      */
     public void setNewAnnouncement(Announcement newAnnouncement) {
         this.newAnnouncement = newAnnouncement;
+    }
+
+    /**
+     * @return the selectedAnnouncement
+     */
+    public Announcement getSelectedAnnouncement() {
+        return selectedAnnouncement;
+    }
+
+    /**
+     * @param selectedAnnouncement the selectedAnnouncement to set
+     */
+    public void setSelectedAnnouncement(Announcement selectedAnnouncement) {
+        this.selectedAnnouncement = selectedAnnouncement;
     }
 
 }

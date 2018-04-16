@@ -59,7 +59,7 @@ public class ModuleResource {
     @Path("retrieveSpecificModule/{moduleId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveretrieveSpecificModule(@PathParam("moduleId") Long moduleId) {
+    public Response retrieveSpecificModule(@PathParam("moduleId") Long moduleId) {
         try {
             RetrieveSpecificModuleRsp retrieveSpecificModuleRsp = new RetrieveSpecificModuleRsp(moduleController.retrieveModuleById(moduleId));
 

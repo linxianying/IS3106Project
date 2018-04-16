@@ -103,8 +103,12 @@ public class dataInitialization {
         try {
             Lecturer twk = lecturerControllerLocal.retrieveLecturerByUsername("lecturer1");
             Module is3106 = moduleControllerLocal.retrieveModuleByModuleCode("IS3106");
-            Announcement newAnnouncement = new Announcement("test", "testing annoucement functionality", new Timestamp(2018, 4, 30, 13, 0, 0, 0), twk, is3106);
-            em.persist(newAnnouncement);
+            Announcement newAnnouncement1 = new Announcement("test1", "testing annoucement functionality", new Timestamp(118, 4, 30, 15, 0, 0, 0), twk, is3106);
+
+            Announcement newAnnouncement2 = new Announcement("test2", "testing annoucement functionality", new Timestamp(118, 4, 30, 13, 0, 0, 0), twk, is3106);
+            em.persist(newAnnouncement1);
+            em.persist(newAnnouncement2);
+
         } catch (LecturerNotFoundException | ModuleNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -131,20 +135,20 @@ public class dataInitialization {
     private void loadModuleData() {
         Timestamp timestamp = new Timestamp(118, 5, 3, 9, 0, 0, 0);
         Module newModule1 = new Module("Database Systems", "CS2102", 4, 177,
-                "The aim of this module is to introduce the fundamental concepts and techniques", timestamp);
+                "The aim of this module is to introduce the fundamental concepts and techniques necessary for the understanding and practice of design and implementation of database applications and of the management of data with relational database management systems. The module covers practical and theoretical aspects of design with entity-relationship model, theory of functional dependencies and normalisation by decomposition in second, third and Boyce-Codd normal forms. The module covers practical and theoretical aspects of programming with SQL data definition and manipulation sublanguages, relational tuple calculus, relational domain calculus and relational algebra.", timestamp);
         em.persist(newModule1);
         Timestamp timestamp2 = new Timestamp(118, 4, 30, 13, 0, 0, 0);
         Module newModule2 = new Module("Enterprise Systems Interface Design and Development", "IS3106", 4, 60,
-                "This module aims to train students to be conversant in front-end development for Enterprise Systems.", timestamp2);
+                "This module aims to train students to be conversant in front-end development for Enterprise Systems. It complements IS2103 which focuses on backend development aspects for Enterprise Systems. Topics covered include: web development scripting languages, web templating design and component design, integrating with backend application, and basic mobile application development.", timestamp2);
         em.persist(newModule2);
         Timestamp timestamp3 = new Timestamp(118, 4, 30, 13, 0, 0, 0);
         Module newModule3 = new Module("Regression Analysis", "ST3131", 4, 232,
-                "This module focuses on data analysis using multiple re", timestamp3);
+                "This module focuses on data analysis using multiple regression models. Topics include simple linear regression, multiple regression, model building and regression diagnostics. One and two factor analysis of variance, analysis of covariance, linear model as special case of generalized linear model. This module is targeted at students who are interested in Statistics and are able to meet the pre-requisites.", timestamp3);
         em.persist(newModule3);
 
         //create folder for uploading files
         List<Module> modules = moduleControllerLocal.retrieveAllModules();
-        
+
         for (Module each : modules) {
             Boolean success = (new File("/Applications/NetBeans/glassfish-4.1.1-uploadedfiles/uploadedFiles/" + each.getModuleCode())).mkdirs();
             if (!success) {
@@ -220,25 +224,25 @@ public class dataInitialization {
             Module cs2102 = moduleControllerLocal.retrieveModuleByModuleCode("CS2102");
             Module st3131 = moduleControllerLocal.retrieveModuleByModuleCode("ST3131");
 
-            Announcement announcement = announcementControllerLocal.retrieveAnnouncementByName("test");
+            Announcement announcement1 = announcementControllerLocal.retrieveAnnouncementByName("test1");
+            Announcement announcement2 = announcementControllerLocal.retrieveAnnouncementByName("test2");
 
             twk.getModules().add(is3106);
             ta1.getModules().add(is3106);
             is3106.getLecturers().add(twk);
             is3106.getTAs().add(ta1);
-            is3106.getAnnouncements().add(announcement);
+            is3106.getAnnouncements().add(announcement1);
+            is3106.getAnnouncements().add(announcement2);
 
             lhh.getModules().add(cs2102);
             ta2.getModules().add(cs2102);
             cs2102.getLecturers().add(lhh);
             cs2102.getTAs().add(ta2);
-            cs2102.getAnnouncements().add(announcement);
 
             tsc.getModules().add(st3131);
             ta3.getModules().add(st3131);
             st3131.getLecturers().add(tsc);
             st3131.getTAs().add(ta3);
-            st3131.getAnnouncements().add(announcement);
 
         } catch (LecturerNotFoundException | ModuleNotFoundException | TANotFoundException | AnnouncementNotFoundException ex) {
             ex.getMessage();

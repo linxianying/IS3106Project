@@ -12,7 +12,7 @@
             <title>Learning Hub System:: Student:: Announcement Page</title>
         </h:head>
         <h:body>
-            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
+<!--            <h:panelGroup rendered="#{sessionScope['isLogin']}">          
                 <h2>Announcements</h2>
                 <br/>
 
@@ -26,7 +26,60 @@
                     <br/>
 
                 </ui:repeat>
+            </h:panelGroup>-->
+
+            <h:panelGroup>          
+                <h2>Announcements</h2>
+                <br/>
+                <h:form id="form">
+
+                    <p:dataGrid value="#{announcementManagedBean.announcements}" var="a">
+
+                        <p:panel header="#{a.name}" style="text-align:center">
+                            <p:panelGrid>
+                                <h:outputText value="#{utilManagedBean.formatDate(a.date)}" />
+                                <p:commandLink update=":form:announcementDetail" oncomplete="PF('announcementDialog').show()" title="View Detail">
+                                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                    <f:setPropertyActionListener value="#{a}" target="#{announcementManagedBean.selectedAnnouncement}" />
+                                </p:commandLink>
+                            </p:panelGrid>
+                        </p:panel>
+
+                    </p:dataGrid>
+
+                    <p:dialog header="Announcement Info" widgetVar="announcementDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="announcementDetail" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty announcementManagedBean.selectedAnnouncement}" columnClasses="label,value">
+
+
+                                <h:outputText value="Title:" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.name}" />
+
+                                <h:outputText value="Lecturer" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.lecturer.name}" />
+
+                                <h:outputText value="Content" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.description}" />
+
+                                <h:outputText value="Date" />
+                                <h:outputText value="#{utilManagedBean.formatDate(announcementManagedBean.selectedAnnouncement.date)}" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+
+<!--                <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
+
+                    <p:panel header="#{utilManagedBean.formatDate(announcement.date)}" closable="true">
+                        <h:outputText value="#{announcement.name}" />
+                        <h:outputText value="#{announcement.lecturer}" />
+                        <h:outputText value="#{announcement.description}" />
+                    </p:panel>
+                    <br/>
+
+                </ui:repeat>-->
+                </h:form>
             </h:panelGroup>
+
 
 
         </h:body>

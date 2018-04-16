@@ -4,7 +4,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
                 template="./layout/lecturerLayout.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <h:head>
             <title>Learning Hub System:: Lecturer:: Announcement Page</title>
@@ -12,7 +13,7 @@
         <h:body>
             <h:form>
                 <p:menubar>
-                    <p:submenu label="File" icon="ui-icon-document">
+                    <p:submenu label="New" icon="ui-icon-document">
                         <p:menuitem value="Create New Announcement" onclick="PF('dialogCreateNewAnnouncement').show()" icon="ui-icon-plusthick" />
                     </p:submenu>
                 </p:menubar>
@@ -23,7 +24,7 @@
 
                 <p:dialog id="dialogCreateNewAnnouncement" widgetVar="dialogCreateNewAnnouncement" header="Create New Announcement" closable="true">
 
-                    <p:messages id="messagesCreateNewProduct" redisplay="false" />
+                    <p:messages id="messagesCreateNewAnnouncement" redisplay="false" />
 
                     <p:panelGrid>
 
@@ -38,7 +39,7 @@
                                 <p:message for="name" />
                             </p:column>
                         </p:row>
-                        
+
                         <p:row>
                             <p:column>
                                 <p:outputLabel for="description" value="Description: " />
@@ -50,24 +51,59 @@
                                 <p:message for="description" />
                             </p:column>
                         </p:row>
-                        
+
                         <p:row>
-                        <p:column colspan="3">
-                            <p:commandButton type="reset" value="Clear" /> 
-                            <p:commandButton value="Create New Announcement"  actionListener="#{announcementManagedBean.createNewAnnouncement()}" oncomplete="PF('dialogCreateNewAnnouncement').show();" />
-                        </p:column>
-                    </p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear" /> 
+                                <p:commandButton value="Create New Announcement"  actionListener="#{announcementManagedBean.createNewAnnouncement}" oncomplete="PF('dialogCreateNewAnnouncement').show();" update="form formCreateNewAnnouncement:messagesCreateNewAnnouncement"/>
+                            </p:column>
+                        </p:row>
                     </p:panelGrid>
                 </p:dialog>
             </h:form>
-            
-            
-            
+
+
+
             <h:panelGroup>          
                 <h2>Announcements</h2>
                 <br/>
+                <h:form id="form">
 
-                <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
+                    <p:dataGrid value="#{announcementManagedBean.announcements}" var="a">
+
+                        <p:panel header="#{a.name}" style="text-align:center">
+                            <p:panelGrid>
+                                <h:outputText value="#{utilManagedBean.formatDate(a.date)}" />
+                                <p:commandLink update=":form:announcementDetail" oncomplete="PF('announcementDialog').show()" title="View Detail">
+                                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                                    <f:setPropertyActionListener value="#{a}" target="#{announcementManagedBean.selectedAnnouncement}" />
+                                </p:commandLink>
+                            </p:panelGrid>
+                        </p:panel>
+
+                    </p:dataGrid>
+
+                    <p:dialog header="Announcement Info" widgetVar="announcementDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                        <p:outputPanel id="announcementDetail" style="text-align:center;">
+                            <p:panelGrid  columns="2" rendered="#{not empty announcementManagedBean.selectedAnnouncement}" columnClasses="label,value">
+
+
+                                <h:outputText value="Title:" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.name}" />
+
+                                <h:outputText value="Lecturer" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.lecturer.name}" />
+
+                                <h:outputText value="Content" />
+                                <h:outputText value="#{announcementManagedBean.selectedAnnouncement.description}" />
+
+                                <h:outputText value="Date" />
+                                <h:outputText value="#{utilManagedBean.formatDate(announcementManagedBean.selectedAnnouncement.date)}" />
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
+
+<!--                <ui:repeat value="#{announcementManagedBean.announcements} " var="announcement">
 
                     <p:panel header="#{utilManagedBean.formatDate(announcement.date)}" closable="true">
                         <h:outputText value="#{announcement.name}" />
@@ -76,12 +112,13 @@
                     </p:panel>
                     <br/>
 
-                </ui:repeat>
+                </ui:repeat>-->
+                </h:form>
             </h:panelGroup>
 
         </h:body>
 
-         <p:stack icon="resources/images/icon/stack.png" expanded="true">
+        <p:stack icon="resources/images/icon/stack.png" expanded="true">
             <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/lecturerAnnouncement.xhtml"/>
             <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/lecturerFacilitators.xhtml"/>
             <p:menuitem value="Class" icon="/resources/images/icon/students.png" url="/lecturerClassAndGroups.xhtml"/>
