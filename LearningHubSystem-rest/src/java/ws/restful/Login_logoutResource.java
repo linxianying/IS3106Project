@@ -81,14 +81,20 @@ public class Login_logoutResource {
     public void putXml(String content) {
     }
     
-    @Path("studentLogin/{usernam}/{password}")
+    @Path("studentLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response studentLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
-            StudentLoginRsp studentLoginRsp = new StudentLoginRsp(studentController.login(username, password));
+            Student student = studentController.login(username, password);
+            if(student!=null){
+                StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
+                return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
+            }else{
+                ErrorRsp errorRsp = new ErrorRsp();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
 
-            return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
+            }
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
@@ -167,7 +173,7 @@ public class Login_logoutResource {
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
             LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturerController.login(username, password));
-
+            System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
             return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
