@@ -81,7 +81,7 @@ public class Login_logoutResource {
     public void putXml(String content) {
     }
     
-    @Path("studentLogin/{username,password}")
+    @Path("studentLogin/{usernam}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response studentLogin(@PathParam("username") String username, @PathParam("password") String password ) {
@@ -161,7 +161,7 @@ public class Login_logoutResource {
         }
     }
     
-    @Path("lecturerLogin/{username,password}")
+    @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password ) {
