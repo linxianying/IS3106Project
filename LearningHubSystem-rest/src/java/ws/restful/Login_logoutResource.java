@@ -61,31 +61,14 @@ public class Login_logoutResource {
         taController = lookupTAControllerLocal();
     }
 
-    /**
-     * Retrieves representation of an instance of ws.restful.Login_logoutResource
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public String getXml() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * PUT method for updating or creating an instance of Login_logoutResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    public void putXml(String content) {
-    }
     
-    @Path("studentLogin/{username,password}")
+    
+    @Path("studentLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response studentLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
+            System.err.println("********* studentLogin: " + username + "; " + password);
             StudentLoginRsp studentLoginRsp = new StudentLoginRsp(studentController.login(username, password));
 
             return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
@@ -161,7 +144,7 @@ public class Login_logoutResource {
         }
     }
     
-    @Path("lecturerLogin/{username,password}")
+    @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password ) {
