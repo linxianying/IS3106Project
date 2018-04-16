@@ -11,6 +11,7 @@ import entity.Lecturer;
 import entity.TimeEntry;
 import java.util.List;
 import entity.Student;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Local;
@@ -21,6 +22,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
+import util.exception.StudentNotFoundException;
 import util.exception.TimeEntryExistException;
 import util.exception.TimeEntryNotFoundException;
 
@@ -81,6 +83,35 @@ public class TimeEntryController implements TimeEntryControllerLocal {
         Query query = em.createQuery("SELECT s FROM TimeEntry s");
         return (List<TimeEntry>) query.getResultList();
         
+    }
+    
+    @Override
+    //for students
+    public Collection<TimeEntry> retrieveTimeEntrysByName(String username){
+        try {
+            Student s = retrieveStudentByUsername(username);
+            if(s!=null)
+                return s.getTimeEntries();
+        } catch (StudentNotFoundException ex) {
+            Logger.getLogger(TimeEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
+    }
+    
+    public Student retrieveStudentByUsername(String username) throws StudentNotFoundException {
+        Student student = null;
+        try {
+            Query q = em.createQuery("SELECT s FROM Student s WHERE s.username=:username");
+            q.setParameter("username", username);
+            student = (Student) q.getSingleResult();
+            System.out.println("Student " + username + " found.");
+        } catch (NoResultException e) {
+            throw new StudentNotFoundException("Student with specified ID not found");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return student;
     }
     
     @Override

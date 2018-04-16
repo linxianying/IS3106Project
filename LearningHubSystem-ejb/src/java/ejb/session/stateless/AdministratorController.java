@@ -8,15 +8,12 @@ package ejb.session.stateless;
 import javax.ejb.Stateless;
 import entity.Administrator;
 import java.util.List;
-import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.AdminExistException;
 import util.exception.AdminNotFoundException;
-import util.exception.GeneralException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.PasswordChangeException;
 /**

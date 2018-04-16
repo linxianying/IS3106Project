@@ -18,11 +18,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.exception.ModuleNotFoundException;
 import ws.restful.datamodel.ClassAndGroupsRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveAnnouncementsRsp;
+import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificModuleRsp;
+import ws.restful.datamodel.RetrieveStudentsRsp;
+import ws.restful.datamodel.RetrieveTAsRsp;
 
 /**
  * REST Web Service
@@ -41,6 +45,7 @@ public class ModuleResource {
         moduleController = lookupModuleControllerLocal();
     }
 
+    
     @Path("retrieveEnrolledModules/{username}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +60,7 @@ public class ModuleResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+
 
     @Path("retrieveSpecificModule/{moduleId}")
     @GET
@@ -101,6 +107,54 @@ public class ModuleResource {
         }
     }
 
+    
+    @Path("retrieveLecturers/{moduleId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveLecturers(@PathParam("moduleId") Long moduleId) {
+        try {
+            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(moduleController.retrieveLecturers(moduleId));
+
+            return Response.status(Response.Status.OK).entity(retrieveLecturersRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("retrieveStudents/{moduleId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveStudents(@PathParam("moduleId") Long moduleId) {
+        try {
+            RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(moduleController.retrieveStudents(moduleId));
+
+            return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
+        } catch (ModuleNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("retrieveTAs/{moduleId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveTAs(@PathParam("moduleId") Long moduleId) {
+        try {
+            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(moduleController.retrieveTAs(moduleId));
+
+            return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
+        } catch (ModuleNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    
+    
     private ModuleControllerLocal lookupModuleControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();

@@ -11,6 +11,7 @@ import entity.Lecturer;
 import entity.Student;
 import entity.TimeEntry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.GeneralException;
@@ -33,6 +34,7 @@ public interface TimeEntryControllerLocal {
             throws TimeEntryExistException,GeneralException;
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException;
     public List<TimeEntry> retrieveAllTimeEntrys() ;
+    public Collection<TimeEntry> retrieveTimeEntrysByName(String username) ;
     public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details);
     public boolean deleteTimeEntry(Long id, Student student);
     public boolean deleteTimeEntry(Long id, Lecturer lecturer);

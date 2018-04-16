@@ -48,4 +48,6 @@ public interface LecturerControllerLocal {
     public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException, ModuleNotFoundException, LecturerNotFoundException;
     
     public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException;
+
+    List<Module> retrieveEnrolledModules(Long lecturerId);
 }
