@@ -230,6 +230,7 @@ public class LecturerController implements LecturerControllerLocal {
     
     @Override
     public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException{
+        System.out.println("enter controller");
         Boolean registered = false;
         
         Module mod = moduleControllerLocal.retrieveModuleById(m.getId());
@@ -246,6 +247,8 @@ public class LecturerController implements LecturerControllerLocal {
         if(registered){
             lec.getModules().remove(mod);
             mod.getLecturers().remove(lec);
+            
+            System.out.println("drop module");
             
         }
         

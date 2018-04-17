@@ -82,6 +82,22 @@ public class ModuleResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+    @Path("retrieveAllModules")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveAllModules()
+    {
+        try
+        {
+            return Response.status(Response.Status.OK).entity(new RetrieveModulesRsp(moduleController.retrieveAllModules())).build();
+        }
+        catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
 
     @Path("retrieveSpecificModule/{moduleId}")
     @GET
@@ -196,7 +212,7 @@ public class ModuleResource {
         }
     }
 
-    @Path("createModule/{module}")
+    @Path("createModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -221,7 +237,7 @@ public class ModuleResource {
         }
     }
 
-    @Path("deleteModule/{module}")
+    @Path("deleteModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

@@ -164,6 +164,7 @@ public class moduleAssignment implements Serializable {
 
     public void removeLecturer(ActionEvent event) throws LecturerNotFoundException {
         try {
+            System.out.println("enter method");
            
             Lecturer lecturerToRemove = (Lecturer) event.getComponent().getAttributes().get("lecturerToRemove");
             lecturerController.dropModule(lecturerToRemove, moduleToAssign);

@@ -37,6 +37,7 @@ public class adminModuleManagement implements Serializable{
     private Module newModule;
     private Module moduleToUpdate;
     private Module moduleToAssign;
+    private Module moduleToView;
     /**
      * Creates a new instance of moduleManagementManagedBean
      */
@@ -46,6 +47,7 @@ public class adminModuleManagement implements Serializable{
         newModule = new Module();
         moduleToUpdate = new Module();
         moduleToAssign = new Module();
+        moduleToView = new Module();
     }
     
     @PostConstruct
@@ -155,6 +157,16 @@ public class adminModuleManagement implements Serializable{
     public void setModuleToAssign(Module moduleToAssign) {
         this.moduleToAssign = moduleToAssign;
     }
+
+    public Module getModuleToView() {
+        return moduleToView;
+    }
+
+    public void setModuleToView(Module moduleToView) {
+        this.moduleToView = moduleToView;
+    }
+    
+    
     
    
     

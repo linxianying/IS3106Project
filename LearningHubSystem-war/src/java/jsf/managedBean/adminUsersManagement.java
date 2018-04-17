@@ -84,9 +84,12 @@ public class adminUsersManagement implements Serializable {
         students = studentController.retrieveAllStudents();
         TAs = taController.retrieveAllTAs();
         
-        filteredLecturers = lecturers;
-        filteredStudents = students;
-        filteredTAs = TAs;
+        for(Lecturer l: lecturers)
+            filteredLecturers.add(l);
+        for(Student s: students)
+            filteredStudents.add(s);
+        for(TeachingAssistant t:TAs)
+            filteredTAs.add(t);
     }
     
     public void createLecturer(ActionEvent event) throws GeneralException {
