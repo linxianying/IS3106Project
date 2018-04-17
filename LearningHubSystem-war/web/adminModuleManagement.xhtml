@@ -20,9 +20,16 @@
 
         </h:form>
 
-        <h:form id="viewMods">          
+
+
+        <h:form id="viewMods">  
+
+
+
             <p:dataTable id="dataTableViewMods" value="#{moduleManagementManagedBean.modules}" filteredValue="#{moduleManagementManagedBean.filteredModules}" var="module" widgetVar="dataTableViewMods" rowKey="#{module.id}" rowIndexVar="row"
                          rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,30">
+
+
 
                 <f:facet name="header">
                     <p:outputPanel style="text-align: right;">
@@ -47,10 +54,6 @@
                     <h:outputText value="#{module.classSize}" />
                 </p:column>
 
-                <p:column headerText="Description" sortBy="#{module.description}" filterBy="#{module.description}" filterMatchMode="contains">
-                    <h:outputText value="#{module.description}" />
-                </p:column>
-
                 <p:column headerText="Exam Date" sortBy="#{module.examDate}" filterBy="#{module.examDate}" filterMatchMode="contains">
                     <h:outputText value="#{module.examDate}" />
                 </p:column>
@@ -66,15 +69,24 @@
                     <p:commandButton icon="ui-icon-edit" actionListener="#{moduleManagementManagedBean.assignModule}" title="Module Assignment">
                         <f:attribute name="moduleToAssign" value="#{module}" />
                     </p:commandButton>
+                    <p:commandButton oncomplete="PF('descriptionDialog').show()" icon="ui-icon-document" title="View Module:: Module Description">
+                        <f:setPropertyActionListener value="#{module}" target="#{moduleManagementManagedBean.moduleToView}" />
+                    </p:commandButton>
                 </p:column>    
 
             </p:dataTable>
-            
-             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-            
+
+            <p:dialog header="Module Description" widgetVar="descriptionDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"  width="200">
+                <h:outputText value="#{moduleManagementManagedBean.moduleToView.description}" />
+            </p:dialog>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
         </h:form> 
 
         <h:form id="createMod">  
@@ -83,7 +95,7 @@
             <p:dialog id="dialogCreateMod" widgetVar="dialogCreateMod" header="Create Module:: Module Information" closable="true">        
 
                 <p:messages id="messagesCreate" />
-                
+
                 <h:panelGrid columns="3">
                     <h:outputText value="Module Name: " />
                     <p:inputText id="txtName" value="#{moduleManagementManagedBean.newModule.moduleName}" required="true" requiredMessage="Module name is required" />
@@ -101,13 +113,13 @@
                     <p:inputText id="txtSize" value="#{moduleManagementManagedBean.newModule.classSize}" required="true" requiredMessage="Class size is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtSize" />
 
-                    <h:outputText value="Description: " />
-                    <p:inputText id="txtDescription" value="#{moduleManagementManagedBean.newModule.description}" required="true" requiredMessage="Description is required" />
-                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDescription" />
-
                     <h:outputText value="Exam Date " />
                     <p:calendar id="calendarExamDate" value="#{moduleManagementManagedBean.newModule.examDate}" pattern="MM/dd/yyyy HH:mm:ss" required="true" requiredMessage="Exam Date is required"/>
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="calendarExamDate" />
+
+                    <h:outputText value="Description: " />
+                    <p:inputTextarea id="txtDescription" value="#{moduleManagementManagedBean.newModule.description}" required="true" requiredMessage="Description is required" rows="6" cols="33" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDescription" />
 
                 </h:panelGrid>    
 
@@ -115,8 +127,8 @@
 
                 <p:commandButton value="Create Module" update=":viewMods:dataTableViewMods :createMod:messagesCreate" actionListener="#{moduleManagementManagedBean.createModule}"  >   
                 </p:commandButton>
-                
-                
+
+
 
             </p:dialog>
 
@@ -127,7 +139,7 @@
             <p:dialog id="dialogUpdateMod" widgetVar="dialogUpdateMod" header="Update Module:: Module Information" closable="true"  >
 
                 <p:messages id="messagesUpdate" />
-                
+
                 <h:panelGrid columns="3">
                     <h:outputText value="Module Name: " />
                     <p:inputText id="txtName" value="#{moduleManagementManagedBean.moduleToUpdate.moduleName}" required="true" requiredMessage="Module name is required" />
@@ -145,13 +157,14 @@
                     <p:inputText id="txtSize" value="#{moduleManagementManagedBean.moduleToUpdate.classSize}" required="true" requiredMessage="Class size is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtSize" />
 
-                    <h:outputText value="Description: " />
-                    <p:inputText id="txtDescription" value="#{moduleManagementManagedBean.moduleToUpdate.description}" required="true" requiredMessage="Description is required" />
-                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDescription" />
-
                     <h:outputText value="Exam Date " />
                     <p:calendar id="calendarExamDate" value="#{moduleManagementManagedBean.moduleToUpdate.examDate}" required="true" requiredMessage="Exam Date is required"/>
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="calendarExamDate" />
+
+                    <h:outputText value="Description: " />
+                    <p:inputTextarea id="txtDescription" value="#{moduleManagementManagedBean.moduleToUpdate.description}" required="true" requiredMessage="Description is required" rows="6" cols="33" />
+                    <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDescription" />
+
 
                 </h:panelGrid>    
 
