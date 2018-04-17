@@ -120,15 +120,15 @@ public class dataInitialization {
     }
 
     private void loadLecturerData() {
-        Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
+        Lecturer newLecturer1 = new Lecturer("Tan Wee Kek", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
         em.persist(newLecturer1);
-        Lecturer newLecturer2 = new Lecturer("lecturer2", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
+        Lecturer newLecturer2 = new Lecturer("Lek Hisang Hui", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
         em.persist(newLecturer2);
-        Lecturer newLecturer3 = new Lecturer("lecturer3", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");
+        Lecturer newLecturer3 = new Lecturer("Oh Lih Bin", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");
         em.persist(newLecturer3);
-        Lecturer newLecturer4 = new Lecturer("lecturer4", "password4", "tsc", "tsc@sci.nus", "Science", "Physics", "45678901");
+        Lecturer newLecturer4 = new Lecturer("Tay Sheng Chuan", "password4", "tsc", "tsc@sci.nus", "Science", "Physics", "45678901");
         em.persist(newLecturer4);
-        Lecturer newLecturer5 = new Lecturer("lecturer5", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
+        Lecturer newLecturer5 = new Lecturer("lecturer", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
         em.persist(newLecturer5);
     }
 
@@ -181,7 +181,7 @@ public class dataInitialization {
         em.persist(teachingAssistant2);
         TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
         em.persist(teachingAssistant3);
-
+        
     }
 
     private void loadTEData() {
