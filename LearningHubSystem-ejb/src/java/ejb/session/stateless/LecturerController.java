@@ -239,6 +239,7 @@ public class LecturerController implements LecturerControllerLocal {
         for(Module module:modules)   {
             if (module.getModuleCode().equals(mod.getModuleCode())){
                 registered = true;
+                break;
             }
         }
         

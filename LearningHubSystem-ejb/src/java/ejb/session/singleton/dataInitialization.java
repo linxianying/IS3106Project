@@ -166,8 +166,10 @@ public class dataInitialization {
         student2.setIsPremium(true);
         em.persist(student2);
         Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
+        student3.setIsPremium(true);
         em.persist(student3);
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
+        student4.setIsPremium(true);
         em.persist(student4);
 
     }
