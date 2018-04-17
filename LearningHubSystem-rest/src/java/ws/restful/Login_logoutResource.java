@@ -71,7 +71,7 @@ public class Login_logoutResource {
             Student student = studentController.login(username, password);
             if(student!=null&&student.getIsPremium()==true){
                 student.getModules().clear();
-                student.getTimeEntries().clear();
+//                student.getTimeEntries().clear();
                 
                 StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
                 return Response.status(Response.Status.OK).entity(studentLoginRsp).build();

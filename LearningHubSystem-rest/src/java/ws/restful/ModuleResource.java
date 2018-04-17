@@ -133,6 +133,7 @@ public class ModuleResource {
             List<Announcement> announcements=moduleController.retrieveAnnoucements(moduleId);
             for(Announcement a:announcements){
             a.setLecturer(null);
+            a.setModule(null);
         }
             RetrieveAnnouncementsRsp retrieveAnnouncementsRsp = new RetrieveAnnouncementsRsp(announcements);
 
