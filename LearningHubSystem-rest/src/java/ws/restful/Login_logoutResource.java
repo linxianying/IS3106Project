@@ -9,6 +9,7 @@ import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.Administrator;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
@@ -28,10 +29,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
+import ws.restful.datamodel.AdminLoginRsp;
 import ws.restful.datamodel.CreateStudentReq;
 import ws.restful.datamodel.CreateStudentRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
+import ws.restful.datamodel.RetrieveStudentRsp;
 import ws.restful.datamodel.StudentLoginRsp;
 import ws.restful.datamodel.UpdateStudentReq;
 
@@ -153,6 +156,23 @@ public class Login_logoutResource {
         }
     }
     
+    @Path("getStudent/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStudent(@PathParam("username") String username) {
+        try {
+            Student s=studentController.retrieveStudentByUsername(username);
+            s.getModules().clear();
+            RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+
+            return Response.status(Response.Status.OK).entity(retrieveStudentRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
     @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -166,6 +186,30 @@ public class Login_logoutResource {
             LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
             System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
             return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("adminLogin/{username}/{password}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response adminLogin(@PathParam("username") String username, @PathParam("password") String password ) {
+        try {
+
+            Administrator admin = adminController.login(username, password);
+            if(admin!=null){
+                AdminLoginRsp adminLoginRsp = new AdminLoginRsp(admin);
+                System.out.println(Response.status(Response.Status.OK).entity(adminLoginRsp).build());
+                return Response.status(Response.Status.OK).entity(adminLoginRsp).build();
+            }else{
+                ErrorRsp errorRsp = new ErrorRsp();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+
+
+            }
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
