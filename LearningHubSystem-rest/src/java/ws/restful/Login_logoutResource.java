@@ -7,9 +7,10 @@ package ws.restful;
 
 import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
-import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.Lecturer;
+import entity.Module;
 import entity.Student;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +32,6 @@ import ws.restful.datamodel.CreateStudentReq;
 import ws.restful.datamodel.CreateStudentRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
-import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.StudentLoginRsp;
 import ws.restful.datamodel.UpdateStudentReq;
 
@@ -61,34 +61,26 @@ public class Login_logoutResource {
         taController = lookupTAControllerLocal();
     }
 
-    /**
-     * Retrieves representation of an instance of ws.restful.Login_logoutResource
-     * @return an instance of java.lang.String
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public String getXml() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * PUT method for updating or creating an instance of Login_logoutResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    public void putXml(String content) {
-    }
     
-    @Path("studentLogin/{usernam}/{password}")
+    @Path("studentLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response studentLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
-            StudentLoginRsp studentLoginRsp = new StudentLoginRsp(studentController.login(username, password));
 
-            return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
+            Student student = studentController.login(username, password);
+            if(student!=null&&student.getIsPremium()==true){
+                student.getModules().clear();
+                student.getTimeEntries().clear();
+                
+                StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
+                return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
+            }else{
+                ErrorRsp errorRsp = new ErrorRsp();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+
+
+            }
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
@@ -166,8 +158,13 @@ public class Login_logoutResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password ) {
         try {
-            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturerController.login(username, password));
-
+            Lecturer lecturer = lecturerController.login(username, password);
+            lecturer.getModules().clear();
+            lecturer.getTimeEntries().clear();
+            lecturer.getAnnouncements().clear();
+            
+            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
+            System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
             return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

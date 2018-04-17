@@ -34,7 +34,7 @@ public interface TimeEntryControllerLocal {
             throws TimeEntryExistException,GeneralException;
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException;
     public List<TimeEntry> retrieveAllTimeEntrys() ;
-    public Collection<TimeEntry> retrieveTimeEntrysByName(String username) ;
+    public List<TimeEntry> retrieveTimeEntrysByName(String username) ;
     public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details);
     public boolean deleteTimeEntry(Long id, Student student);
     public boolean deleteTimeEntry(Long id, Lecturer lecturer);

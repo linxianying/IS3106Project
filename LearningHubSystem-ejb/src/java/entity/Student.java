@@ -62,7 +62,7 @@ public class Student implements Serializable {
     private List<Module> modules;
     
     @OneToMany(cascade={CascadeType.ALL})
-    private Collection<TimeEntry> timeEntries ;
+    private List<TimeEntry> timeEntries ;
 
     public Student() {
         modules = new ArrayList<>();
@@ -163,6 +163,14 @@ public class Student implements Serializable {
         this.modules = modules;
     }
 
+    public List<TimeEntry> getTimeEntries() {
+        return timeEntries;
+    }
+
+    public void setTimeEntries(List<TimeEntry> timeEntries) {
+        this.timeEntries = timeEntries;
+    }
+
     
     @Override
     public int hashCode() {
@@ -170,15 +178,6 @@ public class Student implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
-    public Collection<TimeEntry> getTimeEntries() {
-        return timeEntries;
-    }
-
-    public void setTimeEntries(Collection<TimeEntry> timeEntries) {
-        this.timeEntries = timeEntries;
-    }
-
 
     @Override
     public boolean equals(Object object) {

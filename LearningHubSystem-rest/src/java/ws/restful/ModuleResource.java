@@ -6,7 +6,11 @@
 package ws.restful;
 
 import ejb.session.stateless.ModuleControllerLocal;
+import entity.Announcement;
 import entity.Module;
+import entity.Student;
+import entity.Lecturer;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -57,7 +61,19 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveEnrolledModules(@PathParam("username") String username) {
         try {
-            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(moduleController.retrieveModulesByStudentUsername(username));
+            
+            List<Module> modules=moduleController.retrieveModulesByStudentUsername(username);
+            System.err.println("module!!!!!!!!!"+modules.size());
+            
+            for(Module m:modules){
+                 m.getStduents().clear();
+                 m.getAnnouncements().clear();
+                 m.getLecturers().clear();
+                 m.getTAs().clear();
+                 m.getFiles().clear();
+                
+            }
+            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(modules);
 
             return Response.status(Response.Status.OK).entity(retrieveModulesRsp).build();
         } catch (Exception ex) {
@@ -72,7 +88,13 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveSpecificModule(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveSpecificModuleRsp retrieveSpecificModuleRsp = new RetrieveSpecificModuleRsp(moduleController.retrieveModuleById(moduleId));
+            Module m=moduleController.retrieveModuleById(moduleId);
+            m.getAnnouncements().clear();
+            m.getFiles().clear();
+            m.getLecturers().clear();
+            m.getStduents().clear();
+            m.getTAs().clear();
+            RetrieveSpecificModuleRsp retrieveSpecificModuleRsp = new RetrieveSpecificModuleRsp(m);
 
             return Response.status(Response.Status.OK).entity(retrieveSpecificModuleRsp).build();
         } catch (Exception ex) {
@@ -87,7 +109,13 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveClassAndGroups(@PathParam("moduleId") Long moduleId) {
         try {
-            ClassAndGroupsRsp classAndGroupsRsp = new ClassAndGroupsRsp(moduleController.retrieveClassAndGroups(moduleId));
+            List<Student> students=moduleController.retrieveClassAndGroups(moduleId);
+            for(Student student: students){
+                student.getModules().clear();
+                student.getTimeEntries().clear();
+               
+            }
+            ClassAndGroupsRsp classAndGroupsRsp = new ClassAndGroupsRsp(students);
 
             return Response.status(Response.Status.OK).entity(classAndGroupsRsp).build();
         } catch (Exception ex) {
@@ -102,7 +130,11 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAnnoucements(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveAnnouncementsRsp retrieveAnnouncementsRsp = new RetrieveAnnouncementsRsp(moduleController.retrieveAnnoucements(moduleId));
+            List<Announcement> announcements=moduleController.retrieveAnnoucements(moduleId);
+            for(Announcement a:announcements){
+            a.setLecturer(null);
+        }
+            RetrieveAnnouncementsRsp retrieveAnnouncementsRsp = new RetrieveAnnouncementsRsp(announcements);
 
             return Response.status(Response.Status.OK).entity(retrieveAnnouncementsRsp).build();
         } catch (Exception ex) {
@@ -117,7 +149,14 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveLecturers(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(moduleController.retrieveLecturers(moduleId));
+            List<Lecturer> lecturers = moduleController.retrieveLecturers(moduleId);
+            for(Lecturer each: lecturers){
+                each.getAnnouncements().clear();
+                each.getModules().clear();
+                each.getTimeEntries().clear();
+            }
+                    
+            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(lecturers);
 
             return Response.status(Response.Status.OK).entity(retrieveLecturersRsp).build();
         } catch (Exception ex) {

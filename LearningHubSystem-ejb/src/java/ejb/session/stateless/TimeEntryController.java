@@ -87,11 +87,12 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     
     @Override
     //for students
-    public Collection<TimeEntry> retrieveTimeEntrysByName(String username){
+    public List<TimeEntry> retrieveTimeEntrysByName(String username){
         try {
             Student s = retrieveStudentByUsername(username);
-            if(s!=null)
+            if(s!=null){
                 return s.getTimeEntries();
+            }
         } catch (StudentNotFoundException ex) {
             Logger.getLogger(TimeEntryController.class.getName()).log(Level.SEVERE, null, ex);
         }

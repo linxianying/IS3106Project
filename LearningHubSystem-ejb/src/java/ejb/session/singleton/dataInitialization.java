@@ -160,12 +160,16 @@ public class dataInitialization {
     private void loadStudentData() {
         List<Module> modules = moduleControllerLocal.retrieveAllModules();
         Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wangyinhan");
+        student1.setIsPremium(true);
         em.persist(student1);
         Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gongzipeng");
+        student2.setIsPremium(true);
         em.persist(student2);
         Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
+        student3.setIsPremium(true);
         em.persist(student3);
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
+        student4.setIsPremium(true);
         em.persist(student4);
 
     }

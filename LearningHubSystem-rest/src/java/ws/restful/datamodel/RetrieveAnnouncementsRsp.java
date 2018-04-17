@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author wyh
  */
 
-@XmlType(name = "retrieveAnnoucementsRsp", propOrder = {
-    "annoucements"
+@XmlType(name = "retrieveAnnouncementsRsp", propOrder = {
+    "announcements"
 })
 public class RetrieveAnnouncementsRsp {
     private List<Announcement> announcements;
