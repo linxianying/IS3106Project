@@ -172,7 +172,12 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveStudents(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(moduleController.retrieveStudents(moduleId));
+            List<Student> students = moduleController.retrieveStudents(moduleId);
+            for(Student each:students){
+                each.getModules().clear();
+                each.getTimeEntries().clear();
+            }
+            RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(students);
 
             return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
         } catch (ModuleNotFoundException ex) {
