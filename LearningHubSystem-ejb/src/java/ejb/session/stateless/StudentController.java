@@ -39,8 +39,6 @@ public class StudentController implements StudentControllerLocal {
     private EntityManager em;
 
     Student student;
-    
-    
 
 //    
 //    @Override
@@ -104,10 +102,11 @@ public class StudentController implements StudentControllerLocal {
             student = (Student) q.getSingleResult();
             System.out.println("Student " + username + " found.");
         } catch (NoResultException e) {
-            throw new StudentNotFoundException("Student with specified ID not found");
+            throw new StudentNotFoundException("Student with specified username not found");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.err.println(student.getName());
         return student;
     }
 
@@ -162,8 +161,10 @@ public class StudentController implements StudentControllerLocal {
     @Override
     public Student login(String username, String password) throws InvalidLoginCredentialException {
         try {
-            Student student = retrieveStudentByUsername(username);
-
+            student = retrieveStudentByUsername(username);
+            System.err.println(student.getName());
+            System.err.println(password);
+            System.err.println(student.getPassword());
             if (student.getPassword().equals(password)) {
                 return student;
             } else {
@@ -174,47 +175,46 @@ public class StudentController implements StudentControllerLocal {
         }
     }
 
-   @Override
-    public void deleteStudent (Student stu) throws StudentNotFoundException {
+    @Override
+    public void deleteStudent(Student stu) throws StudentNotFoundException {
         try {
             Student stuToDelete = retrieveStudentById(stu.getId());
             em.remove(stuToDelete);
         } catch (StudentNotFoundException ex) {
             throw new StudentNotFoundException("Student doesn't exist.");
         }
-        
+
     }
 
     @Override
-    public void registerModule(Student student, Module moduleToRegister) throws ModuleExistException,StudentNotFoundException, ModuleNotFoundException {
+    public void registerModule(Student student, Module moduleToRegister) throws ModuleExistException, StudentNotFoundException, ModuleNotFoundException {
         try {
             Student stu = retrieveStudentById(student.getId());
             Module mod = moduleController.retrieveModuleById(moduleToRegister.getId());
-             List<Module> modules = stu.getModules();
-                for (Module module: modules) {
-                    if (module.getId().equals(mod.getId())) {
-                        throw new ModuleExistException("Module has already been registered.\n");
-                    }
+            List<Module> modules = stu.getModules();
+            for (Module module : modules) {
+                if (module.getId().equals(mod.getId())) {
+                    throw new ModuleExistException("Module has already been registered.\n");
                 }
+            }
 
             stu.getModules().add(mod);
             mod.getStduents().add(stu);
-            
+
         } catch (StudentNotFoundException ex) {
-            throw new StudentNotFoundException ("student not found");
+            throw new StudentNotFoundException("student not found");
         }
-       
 
     }
 
     @Override
-    public void dropModule(Student student, Module m) throws ModuleNotFoundException,StudentNotFoundException {
+    public void dropModule(Student student, Module m) throws ModuleNotFoundException, StudentNotFoundException {
         Boolean registered = false;
         Student stu = retrieveStudentById(student.getId());
         Module mod = moduleController.retrieveModuleById(m.getId());
-        
+
         List<Module> modules = stu.getModules();
-        for (Module module: modules) {
+        for (Module module : modules) {
             if (module.getModuleCode().equals(mod.getModuleCode())) {
                 registered = true;
             }
@@ -223,7 +223,7 @@ public class StudentController implements StudentControllerLocal {
         if (registered) {
             stu.getModules().remove(mod);
             mod.getStduents().remove(stu);
-           
+
         } else {
             throw new ModuleNotFoundException("Module: " + mod.getModuleCode() + " wasn't found in the module list.");
         }
@@ -248,8 +248,8 @@ public class StudentController implements StudentControllerLocal {
 
     @Override
     public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException {
-        if (currentPassword.length() > 16 || currentPassword.length() < 6||newPassword.length() > 16 || newPassword.length() < 6) {
-                throw new PasswordChangeException("Password length must be in range [6.16]!");
+        if (currentPassword.length() > 16 || currentPassword.length() < 6 || newPassword.length() > 16 || newPassword.length() < 6) {
+            throw new PasswordChangeException("Password length must be in range [6.16]!");
         }
 
         try {
