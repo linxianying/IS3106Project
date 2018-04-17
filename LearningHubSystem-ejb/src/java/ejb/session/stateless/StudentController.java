@@ -217,6 +217,7 @@ public class StudentController implements StudentControllerLocal {
         for (Module module: modules) {
             if (module.getModuleCode().equals(mod.getModuleCode())) {
                 registered = true;
+                break;
             }
         }
 

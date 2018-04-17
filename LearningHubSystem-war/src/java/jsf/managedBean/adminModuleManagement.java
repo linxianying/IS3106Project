@@ -25,7 +25,7 @@ import util.exception.ModuleNotFoundException;
  *
  * @author Samango
  */
-//@Named(value = "moduleManagementManagedBean")
+@Named(value = "moduleManagementManagedBean")
 @SessionScoped
 public class adminModuleManagement implements Serializable{
 
@@ -107,6 +107,8 @@ public class adminModuleManagement implements Serializable{
         }
         
     }
+    
+    
     
     public void assignModule(ActionEvent event) throws IOException{
         moduleToAssign = (Module)event.getComponent().getAttributes().get("moduleToAssign");

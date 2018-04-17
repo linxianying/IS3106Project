@@ -216,6 +216,7 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
         for(Module module:modules)   {
             if (module.getModuleCode().equals(mod.getModuleCode())){
                 registered = true;
+                break;
             }
         }
         
