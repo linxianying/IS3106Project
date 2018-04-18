@@ -53,7 +53,7 @@ public class SecurityFilter implements Filter {
                     httpServletResponse.sendRedirect(CONTEXT_ROOT + "/error.xhtml");
                 }
             } else {
-                httpServletResponse.sendRedirect(CONTEXT_ROOT + "/index.xhtml");
+                httpServletResponse.sendRedirect(CONTEXT_ROOT + "/home.xhtml");
             }
         } else {
             chain.doFilter(request, response);
@@ -126,6 +126,7 @@ public class SecurityFilter implements Filter {
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")
                 || path.equals("/error.xhtml")
+                || path.equals("/home.xhtml")
                 || path.equals("/loginAdmin.xhtml")
                 || path.equals("/loginLecturer.xhtml")
                 || path.equals("/loginStudent.xhtml")
