@@ -164,8 +164,6 @@ public class scheduleManagedBean {
         if (event.getId() == null) {
             TimeEntry t = new TimeEntry(event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), "");
             if(userType.equals("student")){
-               
-                //student.getTimeEntries().add(t);
                 tecl.createTimeEntry(t, student);
                
             }else if(userType.equals("lecturer")){
@@ -174,7 +172,7 @@ public class scheduleManagedBean {
             eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
         } else {
             TimeEntry t = (TimeEntry) event.getData();
-            tecl.updateTimeEntry(t,event.getTitle(),df.format(event.getStartDate()), df.format(event.getEndDate()), details);
+            tecl.updateTimeEntry(t,event.getTitle(),df.format(event.getStartDate()), df.format(event.getEndDate()), event.getDescription());
             eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
         }
         event = new DefaultScheduleEvent();
