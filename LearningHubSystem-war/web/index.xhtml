@@ -25,14 +25,17 @@
 
             <br></br>
         </h:panelGroup>
+        
+        <h:panelGroup rendered="#{sessionScope['isLogin']}">
+
+            <h:outputText value="You are login as #{sessionScope['role']}" />
+            <br></br>
+            <h:outputText value="You must logout before login again" />
+
+        </h:panelGroup>
     </h:form>
+    
 
-    <h:panelGroup rendered="#{sessionScope['isLogin']}">
-
-        <h:outputText value="You are login as #{sessionScope['role']}" />
-        <br></br>
-        <h:outputText value="You must logout before login again" />
-
-    </h:panelGroup>
+    
 </html>
 
