@@ -19,17 +19,46 @@
                     <p:menubar>
                         <p:menuitem value="Create New Lecturer" onclick="PF('dialogCreateLec').show()" icon="ui-icon-plusthick" />
                     </p:menubar>
-                    <p:dataTable  id="dataTableViewLecturers" value="#{accountManagement.lecturers}" filteredValue="#{accountManagement.filteredLecturers}" var="lecturer" widgetVar="dataTableViewLecturers" rowKey="#{lecturer.id}" rowIndexVar="row"
-                                  rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
+                    <p:dataTable  id="dataTableViewLecturers" value="#{accountManagement.lecturers}" 
+                                  filteredValue="#{accountManagement.filteredLecturers}" 
+                                  var="lecturer" widgetVar="dataTableViewLecturers" 
+                                  rowKey="#{lecturer.id}" rowIndexVar="row"
+                                  rows="10" paginator="true" 
+                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                  rowsPerPageTemplate="10,20">
 
                         <f:facet name="header">
                             <h:outputText value="Lecturer" />
 
-                            <p:outputPanel style="text-align: right;">
+                            <p:outputPanel style="text-align: center;">
 
                                 <h:outputText value="Search all fields:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableViewLecturers" fileName="Lecturer"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableViewLecturers" fileName="Lecturer" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableViewLecturers" fileName="Lecturer"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableViewLecturers" fileName="Lecturer"/>
+                                </h:commandLink>
+                            </div>
                         </f:facet>
 
                         <p:column headerText="Id" sortBy="#{lecturer.id}" filterBy="#{lecturer.id}" filterMatchMode="contains">
@@ -70,18 +99,46 @@
                     <p:menubar>
                         <p:menuitem value="Create New Teaching Assistant" onclick="PF('dialogCreateTA').show()" icon="ui-icon-plusthick" />
                     </p:menubar>
-                    <p:dataTable id="dataTableViewTAs" value="#{accountManagement.TAs}" filteredValue="#{accountManagement.filteredTAs}" var="ta" widgetVar="dataTableViewTAs" rowKey="#{ta.id}" rowIndexVar="row"
-                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
+                    <p:dataTable id="dataTableViewTAs" value="#{accountManagement.TAs}" 
+                                 filteredValue="#{accountManagement.filteredTAs}" var="ta" 
+                                 widgetVar="dataTableViewTAs" rowKey="#{ta.id}" rowIndexVar="row"
+                                 rows="10" paginator="true" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                 rowsPerPageTemplate="10,20">
 
                         <f:facet name="header">
 
                             <h:outputText value="Teaching Assistant" />
 
-                            <p:outputPanel style="text-align: right;">
+                            <p:outputPanel style="text-align: center;">
 
                                 <h:outputText value="Search all fields:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('dataTableViewTAs').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableViewTAs" fileName="TeachingAssistant"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableViewTAs" fileName="TeachingAssistant" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableViewTAs" fileName="TeachingAssistant"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableViewTAs" fileName="TeachingAssistant"/>
+                                </h:commandLink>
+                            </div>
                         </f:facet>
 
                         <p:column headerText="Id" sortBy="#{ta.id}" filterBy="#{ta.id}" filterMatchMode="contains">
@@ -110,16 +167,44 @@
                 </p:tab>
 
                 <p:tab title="Student">
-                    <p:dataTable id="dataTableViewStudents" value="#{accountManagement.students}" filteredValue="#{accountManagement.filteredStudents}" var="student" widgetVar="dataTableViewStudents" rowKey="#{student.id}" rowIndexVar="row"
-                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20">
+                    <p:dataTable id="dataTableViewStudents" value="#{accountManagement.students}" 
+                                 filteredValue="#{accountManagement.filteredStudents}" var="student" 
+                                 widgetVar="dataTableViewStudents" rowKey="#{student.id}" rowIndexVar="row"
+                                 rows="10" paginator="true" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                 rowsPerPageTemplate="10,20">
 
                         <f:facet name="header">
                             <h:outputText value="Student" />
-                            <p:outputPanel style="text-align: right;">
+                            <p:outputPanel style="text-align: center;">
 
                                 <h:outputText value="Search all fields:" />
                                 <p:inputText id="globalFilter" onkeyup="PF('dataTableViewStudents').filter()" style="width:150px" placeholder="Enter keyword"/>
                             </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableViewStudents" fileName="Student"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableViewStudents" fileName="Student" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableViewStudents" fileName="Student"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableViewStudents" fileName="Student"/>
+                                </h:commandLink>
+                            </div>
                         </f:facet>
 
                         <p:column headerText="Id" sortBy="#{student.id}" filterBy="#{student.id}" filterMatchMode="contains">
