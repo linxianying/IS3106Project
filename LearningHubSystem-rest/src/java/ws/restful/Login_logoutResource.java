@@ -235,8 +235,6 @@ public class Login_logoutResource {
             }else{
                 ErrorRsp errorRsp = new ErrorRsp();
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-
-
             }
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());

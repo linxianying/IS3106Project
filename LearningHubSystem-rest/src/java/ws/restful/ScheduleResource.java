@@ -109,27 +109,34 @@ public class ScheduleResource {
         }
     }
     
-    @Path("createTimeEntry/{username}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createTimeEntry(JAXBElement<CreateTimeEntryReq> jaxbCreateTimeEntryReq, @PathParam("username") String username) {
-        if ((jaxbCreateTimeEntryReq != null) && (jaxbCreateTimeEntryReq.getValue() != null)) {
-            try {
+    public Response createTimeEntry(JAXBElement<CreateTimeEntryReq> jaxbCreateTimeEntryReq)
+    {   
+        if((jaxbCreateTimeEntryReq != null) && (jaxbCreateTimeEntryReq.getValue() != null))
+        {
+            try
+            {   
                 CreateTimeEntryReq createTimeEntryReq = jaxbCreateTimeEntryReq.getValue();
-
                 TimeEntry timeEntry =  timeEntryController.createTimeEntry(createTimeEntryReq.getTimeEntry(), 
-                        studentController.retrieveStudentByUsername(username));
+                        studentController.retrieveStudentByUsername(createTimeEntryReq.getUsername()));
                 CreateTimeEntryRsp createTimeEntryRsp = new CreateTimeEntryRsp(timeEntry.getId());
                 return Response.status(Response.Status.OK).entity(createTimeEntryRsp).build();
-            } catch (Exception ex) {
+            }
+            
+            catch(Exception ex)
+            {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-
+            
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
             }
-        } else {
+            
+        }
+        else
+        {
             ErrorRsp errorRsp = new ErrorRsp("Invalid create time entry request");
-
+            
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
