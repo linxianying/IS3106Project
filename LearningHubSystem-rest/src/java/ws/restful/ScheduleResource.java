@@ -26,6 +26,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
+import ws.restful.datamodel.CreateLecturerTimeEntryReq;
+import ws.restful.datamodel.CreateLecturerTimeEntryRsp;
 import ws.restful.datamodel.CreateTimeEntryReq;
 import ws.restful.datamodel.CreateTimeEntryRsp;
 import ws.restful.datamodel.ErrorRsp;
@@ -160,6 +162,8 @@ public class ScheduleResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
+    
+    
     
     private TimeEntryControllerLocal lookupTimeEntryControllerLocal() {
         try {

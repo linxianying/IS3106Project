@@ -7,8 +7,11 @@ package ws.restful;
 
 import ejb.session.stateless.AnnouncementControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
+import ejb.session.stateless.StudentControllerLocal;
+import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
+import entity.TimeEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -28,6 +31,8 @@ import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
+import ws.restful.datamodel.CreateLecturerTimeEntryReq;
+import ws.restful.datamodel.CreateLecturerTimeEntryRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
@@ -43,11 +48,15 @@ public class LecturerResource {
     AnnouncementControllerLocal announcementController;
 
     LecturerControllerLocal lecturerControllerLocal;
+    
+    TimeEntryControllerLocal timeEntryController;
+
 
     @Context
     private UriInfo context;
 
     public LecturerResource() {
+        timeEntryController = lookupTimeEntryControllerLocal();
         lecturerControllerLocal = lookupLecturerControllerLocal();
         announcementController = lookupAnnouncementControllerLocal();
     }
@@ -81,6 +90,7 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -135,6 +145,16 @@ public class LecturerResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (AnnouncementControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/AnnouncementController!ejb.session.stateless.AnnouncementControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+    
+    private TimeEntryControllerLocal lookupTimeEntryControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (TimeEntryControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TimeEntryController!ejb.session.stateless.TimeEntryControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
