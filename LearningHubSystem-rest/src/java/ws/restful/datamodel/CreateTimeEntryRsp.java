@@ -17,22 +17,31 @@ import javax.xml.bind.annotation.XmlType;
     "id"
 })
 public class CreateTimeEntryRsp {
+    
     private Long id;
 
     public CreateTimeEntryRsp() {
     }
-    
+
     public CreateTimeEntryRsp(Long id) {
+        System.out.println("test CreateTimeEntryRsp:" + id);
         this.id = id;
     }
 
+    /**
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(Long id) {
         this.id = id;
     }
+    
 
 
     
