@@ -35,10 +35,14 @@
                 </label>
             </div>
             <div class="form-row">
-                <p:commandButton icon="fa fa-home" value="LOGIN" actionListener="#{login_logoutManagedBean.loginStudent}" update="growl"/>
+                <p:commandButton icon="fa fa-home" value="LOGIN" 
+                                 actionListener="#{login_logoutManagedBean.loginStudent}" 
+                                 update="growl"
+                                 style="width:70%;"/>
             </div>
             <div class="form-row">
-                <h:button  value="SIGN UP" outcome="register?faces-redirect=true"/>
+                <p:commandButton icon="fa fa-user"
+                                 style="width:70%;" value="SIGN UP" action="/register"/>
             </div>
         </h:form>
     </h:panelGroup>
