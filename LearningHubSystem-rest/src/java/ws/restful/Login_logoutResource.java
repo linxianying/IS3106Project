@@ -13,6 +13,7 @@ import entity.Administrator;
 import entity.Lecturer;
 import entity.Module;
 import entity.Student;
+import entity.TeachingAssistant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -36,6 +37,7 @@ import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveStudentRsp;
 import ws.restful.datamodel.StudentLoginRsp;
+import ws.restful.datamodel.TeachingAssistantLoginRsp;
 import ws.restful.datamodel.UpdateStudentReq;
 
 /**
@@ -201,9 +203,35 @@ public class Login_logoutResource {
 
             Administrator admin = adminController.login(username, password);
             if(admin!=null){
+                
                 AdminLoginRsp adminLoginRsp = new AdminLoginRsp(admin);
                 System.out.println(Response.status(Response.Status.OK).entity(adminLoginRsp).build());
                 return Response.status(Response.Status.OK).entity(adminLoginRsp).build();
+            }else{
+                ErrorRsp errorRsp = new ErrorRsp();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+
+
+            }
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("taLogin/{username}/{password}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response taLogin(@PathParam("username") String username, @PathParam("password") String password ) {
+        try {
+
+            TeachingAssistant ta = taController.login(username, password);
+            if(ta!=null){
+                ta.getModules().clear();
+                TeachingAssistantLoginRsp taLoginRsp = new TeachingAssistantLoginRsp(ta);
+                System.out.println(Response.status(Response.Status.OK).entity(taLoginRsp).build());
+                return Response.status(Response.Status.OK).entity(taLoginRsp).build();
             }else{
                 ErrorRsp errorRsp = new ErrorRsp();
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
