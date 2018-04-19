@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 import util.exception.StudentNotFoundException;
@@ -28,7 +29,12 @@ import util.exception.StudentNotFoundException;
 public class ModuleController implements ModuleControllerLocal {
 
     @EJB
+    private LecturerControllerLocal lecturerController;
+
+    @EJB
     private StudentControllerLocal studentController;
+    
+    
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
@@ -46,6 +52,7 @@ public class ModuleController implements ModuleControllerLocal {
         query.setParameter("id", id);
         try {
             Module module = (Module) query.getSingleResult();
+            System.err.println("module with id: "+module.getId()+"found "+module.getModuleCode()+": "+module.getModuleName());
             //lazy fectching
             module.getAnnouncements().size();
             module.getLecturers().size();
@@ -63,8 +70,34 @@ public class ModuleController implements ModuleControllerLocal {
         try {
             Student currentStudent = studentController.retrieveStudentByUsername(username);
             List<Module> modules = currentStudent.getModules();
+            if(modules.isEmpty()){
+                System.err.println("modules list is empty");
+            }
+            else{
+                System.err.println("modules list not empty");
+            }
             return modules;
         } catch (StudentNotFoundException ex) {
+            ex.getMessage();
+        }
+        System.err.println("modules list is null!!!!!!!!!!!");
+        return new ArrayList<Module>();
+    }
+    
+    
+    @Override
+    public List<Module> retrieveModulesByLecturerUsername(String username) {
+        try {
+            Lecturer currentLecturer = lecturerController.retrieveLecturerByUsername(username);
+            List<Module> modules = currentLecturer.getModules();
+            if(modules.isEmpty()){
+                System.err.println("modules list is empty");
+            }
+            else{
+                System.err.println("modules list not empty");
+            }
+            return modules;
+        } catch (LecturerNotFoundException ex) {
             ex.getMessage();
         }
         System.err.println("modules list is null!!!!!!!!!!!");
@@ -76,6 +109,10 @@ public class ModuleController implements ModuleControllerLocal {
         try {
             Module module = retrieveModuleById(moduleId);
             List<Student> classAndGroups = module.getStduents();
+            System.err.println("class and groups for module with id:"+moduleId+"found");
+            for(int i=0;i<classAndGroups.size();i++){
+                System.err.println(classAndGroups.get(i).getName());
+            }
             return classAndGroups;
         } catch (ModuleNotFoundException ex) {
             ex.getMessage();
@@ -87,8 +124,12 @@ public class ModuleController implements ModuleControllerLocal {
     public List<Announcement> retrieveAnnoucements(Long moduleId) {
         try {
             Module module = retrieveModuleById(moduleId);
-            List<Announcement> classAndGroups = module.getAnnouncements();
-            return classAndGroups;
+            List<Announcement> announcements = module.getAnnouncements();
+            System.err.println("announcements with id:"+moduleId+"found");
+            for(int i=0;i<announcements.size();i++){
+                System.err.println(announcements.get(i).getName());
+            }
+            return announcements;
         } catch (ModuleNotFoundException ex) {
             ex.getMessage();
         }

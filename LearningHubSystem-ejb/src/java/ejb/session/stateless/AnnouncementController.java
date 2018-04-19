@@ -77,6 +77,40 @@ public class AnnouncementController implements AnnouncementControllerLocal {
         }
         return acm;
     }
+    
+    
+    @Override
+    public Announcement createNewAnnouncement(Announcement acm, Lecturer lec, Long moduleId ) throws AnnouncementExistException {
+        Long lecturerId = lec.getId();
+        Lecturer lecturer;
+        Module module;
+        try {
+            lecturer = lecturerController.retrieveLecturerById(lecturerId);
+            module = moduleController.retrieveModuleById(moduleId);
+            List<Announcement> announcements = retrieveAllAnnouncement();
+            for (Announcement announcement : announcements) {
+                if (announcement.getName().equals(acm.getName())) {
+                    throw new AnnouncementExistException("Announcement Already Exist.\n");
+                }
+            }
+            Date now=new Date();
+            acm.setDate(now);
+            acm.setLecturer(lecturer);
+            System.err.println("!!!!!!!!!!!!!!!");
+            System.err.println(lecturer);
+            acm.setModule(module);
+            lecturer.getAnnouncements().add(acm);
+            module.getAnnouncements().add(acm);
+            em.persist(acm);
+            em.flush();
+            em.merge(lecturer);
+            em.merge(module);
+
+        } catch (LecturerNotFoundException | ModuleNotFoundException ex) {
+            ex.getMessage();
+        }
+        return acm;
+    }
 
     @Override
     public Announcement retrieveAnnoucementById(Long Id) throws AnnouncementNotFoundException {
