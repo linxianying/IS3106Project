@@ -17,12 +17,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlType(name = "createTimeEntryReq", propOrder = {
     "timeEntry",
-    "username"
+    "username",
+    "role"
 })
 public class CreateTimeEntryReq {
     
     private TimeEntry timeEntry;
     private String username;
+    private String role;
 
     public CreateTimeEntryReq() {
         
@@ -45,6 +47,14 @@ public class CreateTimeEntryReq {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     

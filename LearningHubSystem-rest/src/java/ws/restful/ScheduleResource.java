@@ -5,6 +5,7 @@
  */
 package ws.restful;
 
+import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Module;
@@ -47,6 +48,7 @@ public class ScheduleResource {
     
     TimeEntryControllerLocal timeEntryController;
     StudentControllerLocal studentController;
+    LecturerControllerLocal lecturerController;
 
     /**
      * Creates a new instance of ScheduleResource
@@ -54,6 +56,7 @@ public class ScheduleResource {
     public ScheduleResource() {
         timeEntryController = lookupTimeEntryControllerLocal();
         studentController = lookupStudentControllerLocal();
+        lecturerController = lookupLecturerControllerLocal();
     }
 
     /**
@@ -140,11 +143,32 @@ public class ScheduleResource {
         {
             try
             {   
+                
                 CreateTimeEntryReq createTimeEntryReq = jaxbCreateTimeEntryReq.getValue();
-                TimeEntry timeEntry =  timeEntryController.createTimeEntry(createTimeEntryReq.getTimeEntry(), 
+                System.out.println(createTimeEntryReq.getRole());
+                if(createTimeEntryReq.getRole().equals("student")){
+                    System.out.println("student");
+                    TimeEntry timeEntry =  timeEntryController.createTimeEntry(createTimeEntryReq.getTimeEntry(), 
                         studentController.retrieveStudentByUsername(createTimeEntryReq.getUsername()));
-                CreateTimeEntryRsp createTimeEntryRsp = new CreateTimeEntryRsp(timeEntry.getId());
-                return Response.status(Response.Status.OK).entity(createTimeEntryRsp).build();
+                    System.out.println("T id" + timeEntry.getId());
+                    CreateTimeEntryRsp createTimeEntryRsp = new CreateTimeEntryRsp(timeEntry.getId());
+                    
+                    System.out.println(Response.status(Response.Status.OK).entity(createTimeEntryRsp).build());
+                    return Response.status(Response.Status.OK).entity(createTimeEntryRsp).build();
+                }else if(createTimeEntryReq.getRole().equals("lecturer")){
+                    System.out.println("lecturer");
+                    TimeEntry timeEntry =  timeEntryController.createTimeEntry(createTimeEntryReq.getTimeEntry(), 
+                        lecturerController.retrieveLecturerByUsername(createTimeEntryReq.getUsername()));
+                    System.out.println("T id" + timeEntry.getId());
+                    CreateTimeEntryRsp createTimeEntryRsp = new CreateTimeEntryRsp(timeEntry.getId());
+                    System.out.println(Response.status(Response.Status.OK).entity(createTimeEntryRsp).build());
+                    return Response.status(Response.Status.OK).entity(createTimeEntryRsp).build();
+                }
+                else{
+                    ErrorRsp errorRsp = new ErrorRsp("no role");
+            
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+                }
             }
             
             catch(Exception ex)
@@ -179,6 +203,16 @@ public class ScheduleResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (StudentControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/StudentController!ejb.session.stateless.StudentControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+    
+    private LecturerControllerLocal lookupLecturerControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (LecturerControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/LecturerController!ejb.session.stateless.LecturerControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
