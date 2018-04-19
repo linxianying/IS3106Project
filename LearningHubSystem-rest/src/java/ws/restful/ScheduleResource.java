@@ -94,6 +94,26 @@ public class ScheduleResource {
         }
     }
     
+    @Path("retrieveTimeEntryByLecturerName/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveTimeEntryByLecturerName(@PathParam("username") String username) {
+        try {
+            List<TimeEntry> timeEntries = timeEntryController.retrieveTimeEntrysByLecturerName(username);
+            for(TimeEntry t:timeEntries){
+            }
+            RetrieveTimeEntryByNameRsp retrieveTimeEntryByNameRsp = 
+                    new RetrieveTimeEntryByNameRsp(timeEntries);
+            
+            System.out.println(Response.status(Response.Status.OK).entity(retrieveTimeEntryByNameRsp).build());
+            return Response.status(Response.Status.OK).entity(retrieveTimeEntryByNameRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
     @Path("retrieveTimeEntry/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -22,6 +22,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.exception.GeneralException;
+import util.exception.LecturerNotFoundException;
 import util.exception.StudentNotFoundException;
 import util.exception.TimeEntryExistException;
 import util.exception.TimeEntryNotFoundException;
@@ -42,22 +43,32 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     
     @Override
     public TimeEntry createTimeEntry(TimeEntry timeEntry, Student student) throws TimeEntryExistException,GeneralException {
-        student.getTimeEntries().add(timeEntry);
-        em.merge(student);
-        em.persist(timeEntry);
+        TimeEntry te = new TimeEntry();
+        te.setDetails(timeEntry.getDetails());
+        te.setFromDate(timeEntry.getFromDate());
+        te.setToDate(timeEntry.getToDate());
+        te.setTitle(timeEntry.getTitle());
+        em.persist(te);
         em.flush(); 
-
-        return timeEntry;
+        student.getTimeEntries().add(te);
+        em.merge(student);
+        em.flush();
+        return te;
     }
 
     @Override
     public TimeEntry createTimeEntry(TimeEntry timeEntry, Lecturer lecturer) throws TimeEntryExistException,GeneralException {
-        lecturer.getTimeEntries().add(timeEntry);
-        em.merge(lecturer);
-        em.persist(timeEntry);
+        TimeEntry te = new TimeEntry();
+        te.setDetails(timeEntry.getDetails());
+        te.setFromDate(timeEntry.getFromDate());
+        te.setToDate(timeEntry.getToDate());
+        te.setTitle(timeEntry.getTitle());
+        em.persist(te);
         em.flush(); 
-
-        return timeEntry;
+        lecturer.getTimeEntries().add(te);
+        em.merge(lecturer);
+        em.flush();
+        return te;
     }
     
     @Override
@@ -98,6 +109,40 @@ public class TimeEntryController implements TimeEntryControllerLocal {
         }
         return null;
         
+    }
+    
+    @Override
+    //for students
+    public List<TimeEntry> retrieveTimeEntrysByLecturerName(String username){
+        try {
+            Lecturer s = retrieveLecturerByUsername(username);
+            if(s!=null){
+                return s.getTimeEntries();
+            }
+        } catch (LecturerNotFoundException ex) {
+            Logger.getLogger(TimeEntryController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
+    }
+    
+    public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException {
+        Lecturer lecturer = null;
+        try{
+            Query q = em.createQuery("SELECT s FROM Lecturer s WHERE s.username=:username");
+            q.setParameter("username", username);
+            lecturer = (Lecturer) q.getSingleResult();
+            System.out.println("Lecturer " + username + " found.");
+        }
+        catch(NoResultException e){
+            System.out.println("Lecturer " + username + " does not exist.");
+            lecturer = null;
+            throw new LecturerNotFoundException("Lecturer with specified ID not found");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return lecturer;
     }
     
     public Student retrieveStudentByUsername(String username) throws StudentNotFoundException {
