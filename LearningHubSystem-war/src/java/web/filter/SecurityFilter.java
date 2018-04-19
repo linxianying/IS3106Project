@@ -125,6 +125,7 @@ public class SecurityFilter implements Filter {
 
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")
+                || path.equals("/home.xhtml")
                 || path.equals("/error.xhtml")
                 || path.equals("/loginAdmin.xhtml")
                 || path.equals("/loginLecturer.xhtml")
