@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -18,6 +20,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBElement;
+import util.exception.LecturerNotFoundException;
+import ws.restful.datamodel.DeleteLecturerReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
@@ -68,6 +73,24 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteLecturer(JAXBElement<DeleteLecturerReq> jaxbDeleteLecturerReq) throws LecturerNotFoundException {
+        if ((jaxbDeleteLecturerReq != null) && (jaxbDeleteLecturerReq.getValue() != null)) {
+            DeleteLecturerReq deleteLecturerReq = jaxbDeleteLecturerReq.getValue();
+            lecturerControllerLocal.deleteLecturer(deleteLecturerReq.getLecturer());
+            return Response.status(Response.Status.OK).build();
+        } else {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid delete lecturer request");
+
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    
 
     private LecturerControllerLocal lookupLecturerControllerLocal() {
         try {

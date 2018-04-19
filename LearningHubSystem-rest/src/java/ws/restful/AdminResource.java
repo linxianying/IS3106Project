@@ -74,7 +74,7 @@ public class AdminResource {
         }
     }
     
-    @Path("updateAdmin/{administrator}")
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
