@@ -50,4 +50,6 @@ public interface ModuleControllerLocal {
     public List<Student> retrieveStudents(Long moduleId) throws ModuleNotFoundException;
 
     public List<TeachingAssistant> retrieveTAs(Long moduleId) throws ModuleNotFoundException;
+
+    public List<Module> retrieveModulesByLecturerUsername(String username);
 }

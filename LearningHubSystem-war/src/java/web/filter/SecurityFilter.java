@@ -136,7 +136,8 @@ public class SecurityFilter implements Filter {
                 || path.startsWith("/images")
                 || path.startsWith("/resources/images")
                 || path.startsWith("/javax.faces.resource")
-                || path.startsWith("/uploadedFiles")) {
+                || path.startsWith("/home.xhtml")
+                ) {
             return true;
         } else {
             return false;

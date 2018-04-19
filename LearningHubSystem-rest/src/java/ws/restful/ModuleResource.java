@@ -86,6 +86,33 @@ public class ModuleResource {
         }
     }
     
+    @Path("retrieveTeachingModules/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveTeachingModules(@PathParam("username") String username) {
+        try {
+            
+            List<Module> modules=moduleController.retrieveModulesByLecturerUsername(username);
+            System.err.println("module!!!!!!!!!"+modules.size());
+            
+            for(Module m:modules){
+                 m.getStduents().clear();
+                 m.getAnnouncements().clear();
+                 m.getLecturers().clear();
+                 m.getTAs().clear();
+                 m.getFiles().clear();
+                
+            }
+            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(modules);
+
+            return Response.status(Response.Status.OK).entity(retrieveModulesRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
     @Path("retrieveAllModules")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

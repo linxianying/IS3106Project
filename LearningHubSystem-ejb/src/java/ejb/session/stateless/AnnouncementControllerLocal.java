@@ -18,7 +18,7 @@ import util.exception.AnnouncementNotFoundException;
  *
  * @author mango
  */
-@Local
+
 public interface AnnouncementControllerLocal {
     public List<Announcement> retrieveAllAnnouncement();
     
@@ -31,4 +31,7 @@ public interface AnnouncementControllerLocal {
     public List<Announcement> retrieveAnnouncementsByModule(Module mod) throws AnnouncementNotFoundException;
     
     public List<Announcement> retrieveAnnouncementsByDate(Date date) throws AnnouncementNotFoundException;
+
+    public Announcement createNewAnnouncement(Announcement acm, Lecturer lec, Long moduleId) throws AnnouncementExistException;
+
 }
