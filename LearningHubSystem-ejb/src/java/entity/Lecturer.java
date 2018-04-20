@@ -64,7 +64,7 @@ public class Lecturer implements Serializable {
     private List<Announcement> announcements;
     
     @OneToMany(cascade={CascadeType.ALL})
-    private Collection<TimeEntry> timeEntries ;
+    private List<TimeEntry> timeEntries ;
 
     //default constructor
     public Lecturer() {
@@ -179,13 +179,15 @@ public class Lecturer implements Serializable {
         this.announcements = announcements;
     }
 
-    public Collection<TimeEntry> getTimeEntries() {
+    public List<TimeEntry> getTimeEntries() {
         return timeEntries;
     }
 
-    public void setTimeEntries(Collection<TimeEntry> timeEntries) {
+    public void setTimeEntries(List<TimeEntry> timeEntries) {
         this.timeEntries = timeEntries;
     }
+
+
     
     
 
