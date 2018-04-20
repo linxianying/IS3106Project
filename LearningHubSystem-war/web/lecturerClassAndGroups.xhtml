@@ -13,30 +13,39 @@
         </h:head>
 
         <h2>Class And Groups</h2>
-        <h:form id="form">
-            <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
-                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
-                    <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
-                        <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
 
-                        <p:graphicImage value="resources/images/nophoto.jpg"/> 
+        <p:accordionPanel multiple="true">
+            <p:tab title="Student List">
+                <h:form id="classAndGroups">
+                    <p:repeat value="#{classAndGroupManagedBean.students}" var="student">
+                        <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                            <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
+                                <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
+                                <p:graphicImage value="resources/images/nophoto.jpg"/> 
+                            </p:commandLink>
 
-                    </p:commandLink>
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Name:" />
+                                    <h:outputText value="#{student.username}" style="font-weight: bold"/>
 
-                    <p:outputPanel>
-                        <h:panelGrid columns="2" >
-                            <h:outputText value="Id:" />
-                            <h:outputText value="#{student.id}" style="font-weight: bold"/>
+                                    <h:outputText value="Faculty:" />
+                                    <h:outputText value="#{student.faculty}" style="font-weight: bold"/>
 
-                            <h:outputText value="Name:" />
-                            <h:outputText value="#{student.name}" style="font-weight: bold"/>
-
+                                    <h:outputText value="Department:" />
+                                    <h:outputText value="#{student.department}" style="font-weight: bold"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
                         </h:panelGrid>
-                    </p:outputPanel>
-                </h:panelGrid>
-                <hr />
-            </p:repeat>
+                        <hr />
+                    </p:repeat>
 
+                </h:form>
+            </p:tab>
+        </p:accordionPanel>
+
+
+        <h:form id="form">
             <p:dialog header="Student Info" widgetVar="studentDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
                 <p:outputPanel id="studentDetail" style="text-align:center;">
                     <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
@@ -69,7 +78,7 @@
             </p:dialog>
         </h:form>
         <!--        </body>-->
-                
+
         <p:stack icon="resources/images/icon/stack.png" expanded="true">
             <p:menuitem value="Announcements" icon="/resources/images/icon/announcement.png" url="/lecturerAnnouncement.xhtml"/>
             <p:menuitem value="Facilitators" icon="/resources/images/icon/facilitators.png" url="/lecturerFacilitators.xhtml"/>
