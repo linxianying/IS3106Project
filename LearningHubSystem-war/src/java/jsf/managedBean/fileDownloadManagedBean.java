@@ -95,7 +95,7 @@ public class fileDownloadManagedBean implements Serializable {
             try
             {            
                 FileInputStream stream = new FileInputStream(new File(filePath));
-                file = new DefaultStreamedContent(stream, "image/png", getSelectedFile().getFileName());
+                file = new DefaultStreamedContent(stream,"", getSelectedFile().getFileName());
             }
             catch(FileNotFoundException ex)
             {
