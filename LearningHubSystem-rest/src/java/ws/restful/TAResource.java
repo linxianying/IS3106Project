@@ -12,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -22,6 +23,7 @@ import javax.xml.bind.JAXBElement;
 import util.exception.TANotFoundException;
 import ws.restful.datamodel.DeleteTAReq;
 import ws.restful.datamodel.ErrorRsp;
+import ws.restful.datamodel.RetrieveTAsRsp;
 
 /**
  * REST Web Service
@@ -41,6 +43,22 @@ public class TAResource {
      */
     public TAResource() {
         taController = lookupTeachingAssistantControllerLocal();
+    }
+    
+    @Path("retrieveAllTAs")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveAllTAs()
+    {
+        try
+        {
+            return Response.status(Response.Status.OK).entity(new RetrieveTAsRsp(taController.retrieveAllTAs())).build();
+        }
+        catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
     }
     
 

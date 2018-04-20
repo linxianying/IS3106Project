@@ -7,8 +7,10 @@ package ws.restful;
 
 import ejb.session.stateless.AnnouncementControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
+import ejb.session.stateless.ModuleControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
+import entity.Module;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -29,9 +31,14 @@ import util.exception.LecturerNotFoundException;
 import ws.restful.datamodel.DeleteLecturerReq;
 import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
+import ws.restful.datamodel.AssignModuleReq;
+import ws.restful.datamodel.AssignModuleRsp;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
 import ws.restful.datamodel.ErrorRsp;
+import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
 
@@ -43,9 +50,13 @@ import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
 @Path("lecturer")
 public class LecturerResource {
 
+    ModuleControllerLocal moduleController;
+
     AnnouncementControllerLocal announcementController;
 
     LecturerControllerLocal lecturerControllerLocal;
+    
+    
 
     @Context
     private UriInfo context;
@@ -53,6 +64,7 @@ public class LecturerResource {
     public LecturerResource() {
         lecturerControllerLocal = lookupLecturerControllerLocal();
         announcementController = lookupAnnouncementControllerLocal();
+        moduleController = lookupModuleControllerLocal();
     }
 
     @Path("retrieveEnrolledModules/{lecturerId}")
@@ -79,6 +91,22 @@ public class LecturerResource {
 
             return Response.status(Response.Status.OK).entity(retrieveSpecificLecturerRsp).build();
         } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("retrieveAllLecturers")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveAllLecturers()
+    {
+        try
+        {
+            return Response.status(Response.Status.OK).entity(new RetrieveLecturersRsp(lecturerControllerLocal.retrieveAllLecturers())).build();
+        }
+        catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -140,6 +168,42 @@ public class LecturerResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
+    
+    @Path("assignModule")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response assignModule(JAXBElement<AssignModuleReq> jaxbAssignModuleReq) throws ModuleNotFoundException
+    {
+        if((jaxbAssignModuleReq != null) && (jaxbAssignModuleReq.getValue() != null))
+        {
+            try
+            {
+                AssignModuleReq assignModuleReq = jaxbAssignModuleReq.getValue();
+                Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
+                Lecturer lec= assignModuleReq.getLecturer();
+               
+                module = lecturerControllerLocal.registerModule(lec, module);
+                
+                AssignModuleRsp assignModuleRsp = new AssignModuleRsp(module);
+                
+                return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
+            }
+            
+            catch(LecturerNotFoundException | ModuleExistException ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
 
     private LecturerControllerLocal lookupLecturerControllerLocal() {
         try {
@@ -155,6 +219,16 @@ public class LecturerResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (AnnouncementControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/AnnouncementController!ejb.session.stateless.AnnouncementControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ModuleControllerLocal lookupModuleControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ModuleControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/ModuleController!ejb.session.stateless.ModuleControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

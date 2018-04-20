@@ -27,6 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBElement;
 import util.exception.ModuleNotFoundException;
 import ws.restful.datamodel.ClassAndGroupsRsp;
@@ -274,26 +275,23 @@ public class ModuleResource {
     }
 
 
+    @Path("{moduleId}")
     @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteModule(JAXBElement<DeleteModuleReq> jaxbDeleteModuleReq) {
-        if ((jaxbDeleteModuleReq != null) && (jaxbDeleteModuleReq.getValue() != null)) {
-            try {
-                DeleteModuleReq deleteModuleReq = jaxbDeleteModuleReq.getValue();
-
-                moduleController.deleteModule(deleteModuleReq.getModule());
-
-                return Response.status(Response.Status.OK).build();
-            } catch (ModuleNotFoundException ex) {
-                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-            }
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid delete module request");
-
-            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+    public Response deleteProduct(@PathParam("moduleId") Long moduleId)
+    {
+        try
+        {
+            moduleController.deleteModule(moduleController.retrieveModuleById(moduleId));
+            
+            return Response.status(Response.Status.OK).build();
+        }
+        catch(ModuleNotFoundException ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
     
