@@ -7,18 +7,14 @@ package ws.restful;
 
 import ejb.session.stateless.AnnouncementControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
-<<<<<<< HEAD
+
 import ejb.session.stateless.ModuleControllerLocal;
-import entity.Announcement;
-import entity.Lecturer;
 import entity.Module;
-=======
-import ejb.session.stateless.StudentControllerLocal;
+
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
-import entity.TimeEntry;
->>>>>>> 5b0352d4f9a5e1e9d459557fa6df2accd51b548a
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -35,7 +31,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
-import util.exception.LecturerNotFoundException;
 import ws.restful.datamodel.DeleteLecturerReq;
 import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
@@ -45,8 +40,6 @@ import ws.restful.datamodel.AssignModuleReq;
 import ws.restful.datamodel.AssignModuleRsp;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
-import ws.restful.datamodel.CreateLecturerTimeEntryReq;
-import ws.restful.datamodel.CreateLecturerTimeEntryRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
@@ -62,16 +55,17 @@ public class LecturerResource {
 
     ModuleControllerLocal moduleController;
 
+
+
     AnnouncementControllerLocal announcementController;
 
     LecturerControllerLocal lecturerControllerLocal;
     
-<<<<<<< HEAD
-    
-=======
+
+
     TimeEntryControllerLocal timeEntryController;
 
->>>>>>> 5b0352d4f9a5e1e9d459557fa6df2accd51b548a
+
 
     @Context
     private UriInfo context;
@@ -113,7 +107,7 @@ public class LecturerResource {
         }
     }
     
-<<<<<<< HEAD
+
     @Path("retrieveAllLecturers")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -146,8 +140,8 @@ public class LecturerResource {
         }
     }
     
-=======
->>>>>>> 5b0352d4f9a5e1e9d459557fa6df2accd51b548a
+
+
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -243,19 +237,25 @@ public class LecturerResource {
             throw new RuntimeException(ne);
         }
     }
-<<<<<<< HEAD
 
-    private ModuleControllerLocal lookupModuleControllerLocal() {
-        try {
-            javax.naming.Context c = new InitialContext();
-            return (ModuleControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/ModuleController!ejb.session.stateless.ModuleControllerLocal");
-=======
+
+
     
     private TimeEntryControllerLocal lookupTimeEntryControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
             return (TimeEntryControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TimeEntryController!ejb.session.stateless.TimeEntryControllerLocal");
->>>>>>> 5b0352d4f9a5e1e9d459557fa6df2accd51b548a
+
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ModuleControllerLocal lookupModuleControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ModuleControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/ModuleController!ejb.session.stateless.ModuleControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

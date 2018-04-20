@@ -62,20 +62,6 @@ public class TAResource {
     }
     
 
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteTA(JAXBElement<DeleteTAReq> jaxbDeleteTAReq) throws TANotFoundException {
-        if ((jaxbDeleteTAReq != null) && (jaxbDeleteTAReq.getValue() != null)) {
-            DeleteTAReq deleteTAReq = jaxbDeleteTAReq.getValue();
-            taController.deleteTA(deleteTAReq.getTa());
-            return Response.status(Response.Status.OK).build();
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid delete lecturer request");
-
-            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
-        }
-    }
     
     
 
