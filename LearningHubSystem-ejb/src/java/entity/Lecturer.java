@@ -56,6 +56,8 @@ public class Lecturer implements Serializable {
     @Column(nullable = false)
     private boolean isPremium;
     
+    private String photoName;
+    
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Lecturer_Module")
     private List<Module> modules;
@@ -73,7 +75,7 @@ public class Lecturer implements Serializable {
 
         announcements =new ArrayList<>();
         timeEntries=new ArrayList<>();
-        
+        photoName = "nophoto";
 
     }
 
@@ -214,6 +216,20 @@ public class Lecturer implements Serializable {
     @Override
     public String toString() {
         return "entity.Lecturer[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the photoName
+     */
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    /**
+     * @param photoName the photoName to set
+     */
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
     
 }

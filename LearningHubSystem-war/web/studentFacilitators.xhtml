@@ -20,7 +20,7 @@
                         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                             <p:commandLink update="formViewLecturer" oncomplete="PF('lecturerDialog').show()">
                                 <f:setPropertyActionListener value="#{lecturer}" target="#{facilitatorManagedBean.selectedLecturer}" />
-                                <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                                <p:graphicImage value="resources/images/#{lecturer.photoName}.jpg" width="200" /> 
                             </p:commandLink>
 
                             <p:outputPanel>
@@ -47,7 +47,7 @@
                         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                             <p:commandLink update="formViewTA" oncomplete="PF('TADialog').show()">
                                 <f:setPropertyActionListener value="#{TA}" target="#{facilitatorManagedBean.selectedTA}" />
-                                <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                                <p:graphicImage value="resources/images/#{TA.photoName}.jpg"  width="200"/> 
                             </p:commandLink>
 
                             <p:outputPanel>
