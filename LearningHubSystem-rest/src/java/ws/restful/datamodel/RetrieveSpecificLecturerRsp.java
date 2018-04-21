@@ -19,6 +19,7 @@ public class RetrieveSpecificLecturerRsp {
     private Lecturer lecturer;
 
     public RetrieveSpecificLecturerRsp() {
+        
     }
 
     public RetrieveSpecificLecturerRsp(Lecturer lecturer) {
@@ -30,12 +31,12 @@ public class RetrieveSpecificLecturerRsp {
         return lecturer;
     }
 
-    /**
-     * @param module the module to set
-     */
-    public void setModule(Lecturer lecturer) {
+    public void setLecturer(Lecturer lecturer) {
         this.lecturer = lecturer;
     }
+
+    
+    
 
    
     

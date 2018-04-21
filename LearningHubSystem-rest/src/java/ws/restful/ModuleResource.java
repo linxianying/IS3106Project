@@ -350,7 +350,8 @@ public class ModuleResource {
             {
                 UpdateModuleReq updateModuleReq = jaxbUpdateModuleReq.getValue();
                 
-                moduleController.updateModule(updateModuleReq.getModule());
+                Module mod = moduleController.retrieveModuleById(updateModuleReq.getModuleId());
+                moduleController.updateModule(mod);
                 
                 return Response.status(Response.Status.OK).build();
             }
