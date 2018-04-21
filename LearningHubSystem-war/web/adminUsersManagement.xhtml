@@ -74,7 +74,7 @@
                         </p:column>
 
                         <p:column headerText="Action" >
-                            <p:commandButton oncomplete="PF('lecDialog').show()" icon="ui-icon-document" title="View Lecuterer Details">
+                            <p:commandButton oncomplete="PF('lecDialog').show()" update="@form" icon="ui-icon-document" title="View Lecuterer Details">
                                 <f:setPropertyActionListener value="#{lecturer}" target="#{accountManagement.lecToView}" />
                             </p:commandButton>
                             <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteLecturer}" update="dataTableViewLecturers">
@@ -220,7 +220,7 @@
                         </p:column>
 
                         <p:column headerText="Action" >
-                            <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="View Student Details">
+                            <p:commandButton oncomplete="PF('stuDialog').show()" update="@form" icon="ui-icon-document" title="View Student Details">
                                 <f:setPropertyActionListener value="#{student}" target="#{accountManagement.stuToView}" />
                             </p:commandButton>
                             <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteStudent}" update="dataTableViewStudents">
@@ -286,7 +286,7 @@
                 </p:outputPanel>
             </p:dialog>
 
-            <p:dialog header="Student: Identity Information" widgetVar="stuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:dialog id="stuDialog" header="Student: Identity Information" widgetVar="stuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="stuDetail" style="text-align:center;">
                     <p:panelGrid  columns="2" rendered="#{not empty accountManagement.stuToView}">
                         <f:facet name="header">

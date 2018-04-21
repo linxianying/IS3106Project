@@ -10,6 +10,7 @@ import entity.Announcement;
 import entity.Module;
 import entity.Student;
 import entity.Lecturer;
+import entity.TeachingAssistant;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,6 @@ import util.exception.ModuleNotFoundException;
 import ws.restful.datamodel.ClassAndGroupsRsp;
 import ws.restful.datamodel.CreateModuleReq;
 import ws.restful.datamodel.CreateModuleRsp;
-import ws.restful.datamodel.DeleteModuleReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveAnnouncementsRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
@@ -120,8 +120,18 @@ public class ModuleResource {
     public Response retrieveAllModules()
     {
         try
-        {
-            return Response.status(Response.Status.OK).entity(new RetrieveModulesRsp(moduleController.retrieveAllModules())).build();
+        {   List<Module> modules = moduleController.retrieveAllModules();
+            for(Module m:modules){
+                 m.getStduents().clear();
+                 m.getAnnouncements().clear();
+                 m.getLecturers().clear();
+                 m.getTAs().clear();
+                 m.getFiles().clear();
+                
+            }
+            
+            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(modules);
+            return Response.status(Response.Status.OK).entity(retrieveModulesRsp).build();
         }
         catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
@@ -227,7 +237,7 @@ public class ModuleResource {
             RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(students);
 
             return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
-        } catch (ModuleNotFoundException ex) {
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -239,7 +249,11 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveTAs(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(moduleController.retrieveTAs(moduleId));
+            List<TeachingAssistant> tas = moduleController.retrieveTAs(moduleId);
+            for(TeachingAssistant each:tas){
+                each.getModules().clear();
+            }
+            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(tas);
 
             return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
         } catch (ModuleNotFoundException ex) {
@@ -279,7 +293,7 @@ public class ModuleResource {
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteProduct(@PathParam("moduleId") Long moduleId)
+    public Response deleteModule(@PathParam("moduleId") Long moduleId)
     {
         try
         {

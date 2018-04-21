@@ -6,6 +6,8 @@
 package ws.restful;
 
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.TeachingAssistant;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -16,12 +18,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBElement;
 import util.exception.TANotFoundException;
-import ws.restful.datamodel.DeleteTAReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveTAsRsp;
 
@@ -51,12 +52,39 @@ public class TAResource {
     public Response retrieveAllTAs()
     {
         try
-        {
-            return Response.status(Response.Status.OK).entity(new RetrieveTAsRsp(taController.retrieveAllTAs())).build();
+        {   
+             List<TeachingAssistant> tas = taController.retrieveAllTAs();
+            for(TeachingAssistant t:tas){
+                t.getModules().clear();
+               
+               
+            }
+           
+            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(tas);
+            return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
         }
         catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("{taId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTA(@PathParam("taId") Long taId)
+    {
+        try
+        {
+            taController.deleteTA(taController.retrieveTAById(taId));
+            
+            return Response.status(Response.Status.OK).build();
+        }
+       catch (TANotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }

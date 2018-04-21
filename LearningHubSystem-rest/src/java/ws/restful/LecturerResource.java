@@ -14,6 +14,7 @@ import entity.Module;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
+import java.util.List;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +32,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
-import ws.restful.datamodel.DeleteLecturerReq;
 import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
@@ -97,7 +97,11 @@ public class LecturerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveSpecificLecturer(@PathParam("lecturerId") Long lecturerId) {
         try {
-            RetrieveSpecificLecturerRsp retrieveSpecificLecturerRsp = new RetrieveSpecificLecturerRsp(lecturerControllerLocal.retrieveLecturerById(lecturerId));
+            Lecturer lec = lecturerControllerLocal.retrieveLecturerById(lecturerId);
+            lec.getAnnouncements().clear();
+            lec.getModules().clear();
+            lec.getTimeEntries().clear();
+            RetrieveSpecificLecturerRsp retrieveSpecificLecturerRsp = new RetrieveSpecificLecturerRsp(lec);
 
             return Response.status(Response.Status.OK).entity(retrieveSpecificLecturerRsp).build();
         } catch (Exception ex) {
@@ -114,8 +118,16 @@ public class LecturerResource {
     public Response retrieveAllLecturers()
     {
         try
-        {
-            return Response.status(Response.Status.OK).entity(new RetrieveLecturersRsp(lecturerControllerLocal.retrieveAllLecturers())).build();
+        {   
+            List<Lecturer> lecturers = lecturerControllerLocal.retrieveAllLecturers();
+            for(Lecturer l:lecturers){
+                l.getAnnouncements().clear();
+                l.getModules().clear();
+                l.getTimeEntries().clear();
+            }
+            
+            RetrieveLecturersRsp retrieveLecturersRsp = new RetrieveLecturersRsp(lecturers);
+            return Response.status(Response.Status.OK).entity(retrieveLecturersRsp).build();
         }
         catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
@@ -123,23 +135,7 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
-
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteLecturer(JAXBElement<DeleteLecturerReq> jaxbDeleteLecturerReq) throws LecturerNotFoundException {
-        if ((jaxbDeleteLecturerReq != null) && (jaxbDeleteLecturerReq.getValue() != null)) {
-            DeleteLecturerReq deleteLecturerReq = jaxbDeleteLecturerReq.getValue();
-            lecturerControllerLocal.deleteLecturer(deleteLecturerReq.getLecturer());
-            return Response.status(Response.Status.OK).build();
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid delete lecturer request");
-
-            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
-        }
-    }
-    
+   
 
 
     
@@ -195,7 +191,8 @@ public class LecturerResource {
                 AssignModuleReq assignModuleReq = jaxbAssignModuleReq.getValue();
                 Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
                 Lecturer lec= assignModuleReq.getLecturer();
-               
+     
+    
                 module = lecturerControllerLocal.registerModule(lec, module);
                 
                 AssignModuleRsp assignModuleRsp = new AssignModuleRsp(module);
@@ -215,6 +212,25 @@ public class LecturerResource {
             ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
             
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("{lecturerId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteLecturer(@PathParam("lecturerId") Long lecturerId)
+    {
+        try
+        {
+            lecturerControllerLocal.deleteLecturer(lecturerControllerLocal.retrieveLecturerById(lecturerId));
+            
+            return Response.status(Response.Status.OK).build();
+        }
+        catch (LecturerNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
 

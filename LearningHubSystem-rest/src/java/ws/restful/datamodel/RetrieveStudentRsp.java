@@ -20,6 +20,11 @@ import javax.xml.bind.annotation.XmlType;
 public class RetrieveStudentRsp {
     private Student student;
 
+    public RetrieveStudentRsp() {
+    }
+    
+    
+
     public RetrieveStudentRsp(Student student) {
         this.student = student;
     }

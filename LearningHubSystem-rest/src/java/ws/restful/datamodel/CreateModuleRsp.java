@@ -19,6 +19,10 @@ import javax.xml.bind.annotation.XmlType;
 public class CreateModuleRsp {
     private Module module;
 
+    public CreateModuleRsp() {
+    }
+    
+    
     public CreateModuleRsp(Module module) {
         this.module = module;
     }
