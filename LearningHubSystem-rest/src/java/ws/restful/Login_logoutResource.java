@@ -31,6 +31,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNotFoundException;
 import ws.restful.datamodel.AdminLoginRsp;
 import ws.restful.datamodel.CreateStudentReq;
@@ -77,20 +78,13 @@ public class Login_logoutResource {
         try {
 
             Student student = studentController.login(username, password);
-<<<<<<< HEAD
             System.err.println("********** HERE");
             if(student!=null&&student.getIsPremium()==true){
                 student.getModules().clear();
                 student.getTimeEntries().clear();
                 
                 System.err.println("*********** student: " + student.getUsername());
-                
-=======
-            if (student != null && student.getIsPremium() == true) {
-                student.getModules().clear();
-//                student.getTimeEntries().clear();
-
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
+               
                 StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
                 return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
             } else {
@@ -98,7 +92,8 @@ public class Login_logoutResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
 
             }
-        } catch (Exception ex) {
+        } 
+            catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -169,7 +164,6 @@ public class Login_logoutResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-<<<<<<< HEAD
     
     @Path("retrieveAllStudents")
     @GET
@@ -214,9 +208,6 @@ public class Login_logoutResource {
         }
     }
     
-=======
-
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
     @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

@@ -22,6 +22,7 @@ public class CreateModuleReq {
     private Module module;
 
     public CreateModuleReq() {
+        
     }
     
     

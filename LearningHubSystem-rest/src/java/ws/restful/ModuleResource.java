@@ -276,18 +276,13 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveTAs(@PathParam("moduleId") Long moduleId) {
         try {
-<<<<<<< HEAD
-            List<TeachingAssistant> tas = moduleController.retrieveTAs(moduleId);
-            for(TeachingAssistant each:tas){
-                each.getModules().clear();
-=======
             
             List<TeachingAssistant> tas=moduleController.retrieveTAs(moduleId);
             for (TeachingAssistant ta: tas){
                 ta.getModules().clear();
-     
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             }
+
+            
             RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(tas);
 
             return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();

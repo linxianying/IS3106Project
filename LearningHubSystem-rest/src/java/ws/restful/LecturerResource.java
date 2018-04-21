@@ -182,7 +182,7 @@ public class LecturerResource {
         }
     }
     
-<<<<<<< HEAD
+
     @Path("assignModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -205,8 +205,20 @@ public class LecturerResource {
                 return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
             }
             
-            catch(LecturerNotFoundException | ModuleExistException ex)
-=======
+            catch(LecturerNotFoundException | ModuleExistException ex){
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+
     
     @Path("getLecturer/{username}")
     @GET
@@ -243,7 +255,6 @@ public class LecturerResource {
                 return Response.status(Response.Status.OK).build();
             }
             catch(Exception ex)
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             
@@ -252,17 +263,12 @@ public class LecturerResource {
         }
         else
         {
-<<<<<<< HEAD
-            ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
-=======
             ErrorRsp errorRsp = new ErrorRsp("Invalid update lecturer request");
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-<<<<<<< HEAD
-    
+
     @Path("{lecturerId}")
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
@@ -281,9 +287,7 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-=======
->>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
-
+    
     private LecturerControllerLocal lookupLecturerControllerLocal() {
         try {
             javax.naming.Context c = new InitialContext();
