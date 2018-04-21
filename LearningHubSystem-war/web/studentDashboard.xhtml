@@ -12,19 +12,26 @@
 
         </h:head>
         <h:body>
-            <h:form>
-                <p:growl>
-                </p:growl>
+            <p:tabView id="tab" style="height:500px;">
+                <p:tab>
+                    <p:fieldset collapsed="false" id="shoplist" legend="Welcome to LHS!" toggleable="true">
+                        <h:form>
+                            <p:growl>
+                            </p:growl>
 
-                <p:panelMenu style="width:300px">
+                            <p:panelMenu style="width:300px">
 
-                </p:panelMenu>
-            </h:form>
+                            </p:panelMenu>
+                        </h:form>
 
-            <p:contentFlow value="#{dashboardManagedBean.images}" var="image">
-                <p:graphicImage value="resources/images/#{image}" styleClass="content" />
-                <div class="caption">#{image}</div>
-            </p:contentFlow> 
+                        <p:contentFlow value="#{dashboardManagedBean.images}" var="image">
+                            <p:graphicImage value="resources/images/#{image}" styleClass="content" />
+                            <div class="caption">#{image}</div>
+                        </p:contentFlow> 
+                    </p:fieldset>
+                </p:tab>
+            </p:tabView>
+            
         </h:body>
     </ui:define>
 </ui:composition>
