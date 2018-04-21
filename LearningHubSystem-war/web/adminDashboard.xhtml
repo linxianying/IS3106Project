@@ -8,8 +8,30 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <h:head>
-            <title>Learning Hub System Administrator Dashboard Page</title>
+            <title>Learning Hub System Student Dashboard</title>
+
         </h:head>
-        <h1>Welcome</h1>
+        <h:body>
+            <p:tabView id="tab" value="kkkk" style="height:500px;">
+                <p:tab title="Hello there!" >
+                    <p:fieldset collapsed="false" id="shoplist" legend="Welcome to LHS!" toggleable="true">
+                        <h:form>
+                            <p:growl>
+                            </p:growl>
+
+                            <p:panelMenu style="width:300px">
+
+                            </p:panelMenu>
+                        </h:form>
+
+                        <p:contentFlow value="#{tADashboardManagedBean.images}" var="image">
+                            <p:graphicImage value="resources/images/#{image}" styleClass="content" />
+                            <div class="caption">#{image}</div>
+                        </p:contentFlow> 
+                    </p:fieldset>
+                </p:tab>
+            </p:tabView>
+            
+        </h:body>
     </ui:define>
 </ui:composition>

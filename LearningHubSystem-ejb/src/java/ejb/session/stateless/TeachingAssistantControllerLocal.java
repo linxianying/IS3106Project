@@ -48,4 +48,6 @@ public interface TeachingAssistantControllerLocal {
 
     public void changePassword(String currentPassword, String newPassword, Long TAId) throws TANotFoundException, PasswordChangeException;
 
+    public TeachingAssistant updateTAPassword(Long id, String newPassword);
+
 }

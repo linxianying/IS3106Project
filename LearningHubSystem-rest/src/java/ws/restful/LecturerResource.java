@@ -5,13 +5,19 @@
  */
 package ws.restful;
 
+import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.AnnouncementControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import ejb.session.stateless.ModuleControllerLocal;
+import ejb.session.stateless.StudentControllerLocal;
+import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.Administrator;
 import entity.Module;
 import entity.Announcement;
 import entity.Lecturer;
+import entity.Student;
+import entity.TeachingAssistant;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,15 +40,19 @@ import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
+import ws.restful.datamodel.AdminLoginRsp;
 import ws.restful.datamodel.AssignModuleReq;
 import ws.restful.datamodel.AssignModuleRsp;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
+import ws.restful.datamodel.CreateModuleRsp;
+import ws.restful.datamodel.DropModuleReq;
 import ws.restful.datamodel.ErrorRsp;
-import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
+import ws.restful.datamodel.StudentLoginRsp;
+import ws.restful.datamodel.TeachingAssistantLoginRsp;
 import ws.restful.datamodel.UpdateLecturerReq;
 import ws.restful.datamodel.UpdateLecturerRsp;
 
@@ -53,6 +63,12 @@ import ws.restful.datamodel.UpdateLecturerRsp;
  */
 @Path("lecturer")
 public class LecturerResource {
+
+    TeachingAssistantControllerLocal teachingAssistantController;
+
+    AdministratorControllerLocal administratorController ;
+
+    StudentControllerLocal studentController ;
 
     ModuleControllerLocal moduleController;
 
@@ -76,6 +92,9 @@ public class LecturerResource {
         lecturerControllerLocal = lookupLecturerControllerLocal();
         announcementController = lookupAnnouncementControllerLocal();
         moduleController = lookupModuleControllerLocal();
+        teachingAssistantController = lookupTeachingAssistantControllerLocal();
+        administratorController = lookupAdministratorControllerLocal();
+        studentController = lookupStudentControllerLocal();
     }
 
     @Path("retrieveEnrolledModules/{lecturerId}")
@@ -112,6 +131,8 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+    
     
 
     @Path("retrieveAllLecturers")
@@ -193,14 +214,13 @@ public class LecturerResource {
             {
                 AssignModuleReq assignModuleReq = jaxbAssignModuleReq.getValue();
                 Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
-                Lecturer lec= assignModuleReq.getLecturer();
+                Lecturer lec= lecturerControllerLocal.retrieveLecturerById(assignModuleReq.getLecturerId());
      
     
-                module = lecturerControllerLocal.registerModule(lec, module);
+                lecturerControllerLocal.registerModule(lec, module);
+               
                 
-                AssignModuleRsp assignModuleRsp = new AssignModuleRsp(module);
-                
-                return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
+                return Response.status(Response.Status.OK).build();
             }
             
             catch(LecturerNotFoundException | ModuleExistException ex){
@@ -216,7 +236,40 @@ public class LecturerResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-
+    
+    @Path("dropModule")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response dropModule(JAXBElement<DropModuleReq> jaxbDropModuleReq) throws ModuleNotFoundException
+    {
+        if((jaxbDropModuleReq != null) && (jaxbDropModuleReq.getValue() != null))
+        {
+            try
+            {
+                DropModuleReq dropModuleReq = jaxbDropModuleReq.getValue();
+                Module module = moduleController.retrieveModuleById(dropModuleReq.getModuleId());
+                Lecturer lec= lecturerControllerLocal.retrieveLecturerById(dropModuleReq.getLecturerId());
+                lecturerControllerLocal.dropModule(lec, module);
+                
+         
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            
+            catch(LecturerNotFoundException ex){
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid remove lecturer request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
     
     @Path("getLecturer/{username}")
     @GET
@@ -231,6 +284,77 @@ public class LecturerResource {
             //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
             return Response.status(Response.Status.OK).entity(updateLecturerRsp).build();
         } catch (LecturerNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("updateLecturerPassword/{id}/{newPassword}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateLecturerPassword(@PathParam("id") Long id,@PathParam("newPassword") String newPassword ) {
+        try {
+            Lecturer l = lecturerControllerLocal.updateLecturerPassword(id,newPassword);
+            l.getModules().clear();
+            l.getTimeEntries().clear();
+            l.getAnnouncements().clear();
+            UpdateLecturerRsp updateLecturerRsp = new UpdateLecturerRsp(l);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(updateLecturerRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("updateTAPassword/{id}/{newPassword}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTAPassword(@PathParam("id") Long id,@PathParam("newPassword") String newPassword ) {
+        try {
+            TeachingAssistant ta = teachingAssistantController.updateTAPassword(id,newPassword);
+            ta.getModules().clear();
+            TeachingAssistantLoginRsp teachingAssistantLoginRsp = new TeachingAssistantLoginRsp(ta);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(teachingAssistantLoginRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("updateStudentPassword/{id}/{newPassword}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateStudentPassword(@PathParam("id") Long id,@PathParam("newPassword") String newPassword ) {
+        try {
+            Student stu = studentController.updateStudentPassword(id,newPassword);
+            stu.getModules().clear();
+            stu.getTimeEntries().clear();
+            StudentLoginRsp studentLoginRsp = new StudentLoginRsp(stu);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("updateAdminPassword/{id}/{newPassword}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateAdminPassword(@PathParam("id") Long id,@PathParam("newPassword") String newPassword ) {
+        try {
+            Administrator a = administratorController.updateAdminPassword(id,newPassword);
+            
+            AdminLoginRsp adminLoginRsp = new AdminLoginRsp(a);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(adminLoginRsp).build();
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -324,6 +448,36 @@ public class LecturerResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (ModuleControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/ModuleController!ejb.session.stateless.ModuleControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private StudentControllerLocal lookupStudentControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (StudentControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/StudentController!ejb.session.stateless.StudentControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private AdministratorControllerLocal lookupAdministratorControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (AdministratorControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/AdministratorController!ejb.session.stateless.AdministratorControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private TeachingAssistantControllerLocal lookupTeachingAssistantControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (TeachingAssistantControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TeachingAssistantController!ejb.session.stateless.TeachingAssistantControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

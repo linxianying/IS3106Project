@@ -63,7 +63,9 @@
                 </p:column>
 
                 <p:column headerText="Exam Date" sortBy="#{module.examDate}" filterBy="#{module.examDate}" filterMatchMode="contains">
-                    <h:outputText value="#{module.examDate}" />
+                    <h:outputText value="#{module.examDate}" >
+                        <f:convertDateTime pattern = "dd-MM-yyyy hh:mm a" />
+                    </h:outputText>
                 </p:column>
 
                 <p:column headerText="Action" >

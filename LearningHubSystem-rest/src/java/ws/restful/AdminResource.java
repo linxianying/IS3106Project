@@ -7,6 +7,7 @@ package ws.restful;
 
 import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.ModuleControllerLocal;
+import entity.Administrator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -22,9 +23,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
+import util.exception.AdminNotFoundException;
+import util.exception.StudentNotFoundException;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveAdminRsp;
 import ws.restful.datamodel.UpdateAdminReq;
+import ws.restful.datamodel.UpdateStudentRsp;
 
 /**
  * REST Web Service
@@ -70,6 +74,23 @@ public class AdminResource {
         {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    
+    @Path("getAdmin/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAdmin(@PathParam("username") String username) {
+        try {
+            Administrator a = adminController.retrieveAdminByUsername(username);
+            RetrieveAdminRsp retrieveAdminRsp = new RetrieveAdminRsp(a);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(retrieveAdminRsp).build();
+        } catch (AdminNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }

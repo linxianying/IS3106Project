@@ -58,7 +58,21 @@ public class StudentController implements StudentControllerLocal {
 //        }
 //        return student.getModules();
 //    }
-//    
+//  
+    @Override
+    public Student updateStudentPassword(Long id, String newPassword) {
+        try {
+
+            Student stuToUpdate = retrieveStudentById(id);
+            stuToUpdate.setPassword(newPassword);
+
+            em.merge(stuToUpdate);
+            return stuToUpdate;
+        } catch (StudentNotFoundException ex) {
+        }
+        return new Student();
+    }
+    
     @Override
     public Student createStudent(Student studentEntity) throws StudentExistException, GeneralException {
         try {

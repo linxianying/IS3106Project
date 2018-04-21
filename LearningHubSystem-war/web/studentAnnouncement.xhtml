@@ -62,7 +62,9 @@
                                 <h:outputText value="#{announcementManagedBean.selectedAnnouncement.description}" />
 
                                 <h:outputText value="Date" />
-                                <h:outputText value="#{utilManagedBean.formatDate(announcementManagedBean.selectedAnnouncement.date)}" />
+                                <h:outputText value="#{utilManagedBean.formatDate(announcementManagedBean.selectedAnnouncement.date)}" >
+                                    <f:convertDateTime pattern = "dd-MM-yyyy hh:mm a" />
+                                </h:outputText>
                             </p:panelGrid>
                         </p:outputPanel>
                     </p:dialog>

@@ -5,7 +5,6 @@
  */
 package ws.restful.datamodel;
 
-import entity.Module;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -14,20 +13,21 @@ import javax.xml.bind.annotation.XmlType;
  * @author Samango
  */
 @XmlRootElement
-@XmlType(name = "updateModuleReq", propOrder = {
-    "moduleId"
+@XmlType(name = "assignModuleStudentReq", propOrder = {
+    "moduleId",
+    "studentId"
 })
-public class UpdateModuleReq {
+public class AssignModuleStudentReq {
     private Long moduleId;
+    private Long studentId;
 
-    public UpdateModuleReq() {
+    public AssignModuleStudentReq() {
     }
 
-    public UpdateModuleReq(Long moduleId) {
+    public AssignModuleStudentReq(Long moduleId, Long studentId) {
         this.moduleId = moduleId;
+        this.studentId = studentId;
     }
-    
-    
 
     public Long getModuleId() {
         return moduleId;
@@ -35,6 +35,14 @@ public class UpdateModuleReq {
 
     public void setModuleId(Long moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
     
     
