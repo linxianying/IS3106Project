@@ -201,9 +201,9 @@ public class dataInitialization {
         student1.setPhotoName("name");
         em.persist(student1);
 
-        TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");
-        TimeEntry t2 = new TimeEntry("study", "2018-03-22 12:00", "2018-03-22 13:00", "details");
-        TimeEntry t3 = new TimeEntry("work", "2018-03-21 12:00", "2018-03-21 13:00", "details");
+        TimeEntry t1 = new TimeEntry("go out", "2018-05-29T12:00:22Z", "2018-05-29T13:00:22Z", "details");
+        TimeEntry t2 = new TimeEntry("study", "2018-04-11T12:00:22Z", "2018-04-11T13:00:22Z", "details");
+        TimeEntry t3 = new TimeEntry("work", "2018-04-29T22:00:22Z", "2018-04-29T22:00:32Z", "details");
         try {
             tecl.createTimeEntry(t1, student1);
             tecl.createTimeEntry(t2, student1);

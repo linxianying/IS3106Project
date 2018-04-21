@@ -59,7 +59,7 @@ public class Lecturer implements Serializable {
     private String photoName;
     
     @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="Lecturer_Module")
+    @JoinTable(name="LECTURER_MODULE")
     private List<Module> modules;
     
     @OneToMany(cascade={CascadeType.ALL},mappedBy="lecturer")
