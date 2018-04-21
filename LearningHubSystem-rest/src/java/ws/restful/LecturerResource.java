@@ -202,11 +202,10 @@ public class LecturerResource {
                 Lecturer lec= lecturerControllerLocal.retrieveLecturerById(assignModuleReq.getLecturerId());
      
     
-                module = lecturerControllerLocal.registerModule(lec, module);
+                lecturerControllerLocal.registerModule(lec, module);
+               
                 
-                CreateModuleRsp assignModuleRsp = new CreateModuleRsp(module);
-                
-                return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
+                return Response.status(Response.Status.OK).build();
             }
             
             catch(LecturerNotFoundException | ModuleExistException ex){
