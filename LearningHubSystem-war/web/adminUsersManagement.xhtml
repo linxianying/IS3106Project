@@ -156,7 +156,7 @@
                         </p:column>
 
                         <p:column headerText="Action" >
-                            <p:commandButton oncomplete="PF('stuDialog').show()" icon="ui-icon-document" title="View TA Details">
+                            <p:commandButton oncomplete="PF('taDialog').show()" update="@form" icon="ui-icon-document" title="View TA Details">
                                 <f:setPropertyActionListener value="#{ta}" target="#{accountManagement.taToView}" />
                             </p:commandButton>
                             <p:commandButton icon="ui-icon-trash" actionListener="#{accountManagement.deleteTA}" update="dataTableViewTAs">
