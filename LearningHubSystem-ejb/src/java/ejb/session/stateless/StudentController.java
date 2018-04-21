@@ -240,6 +240,7 @@ public class StudentController implements StudentControllerLocal {
             studentToUpdate.setEmail(stu.getEmail());
             studentToUpdate.setDepartment(stu.getDepartment());
             studentToUpdate.setFaculty(stu.getFaculty());
+            studentToUpdate.setIsPremium(stu.getIsPremium());
             em.merge(studentToUpdate);
             return studentToUpdate;
         } else {

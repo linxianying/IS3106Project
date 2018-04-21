@@ -18,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -31,6 +32,9 @@ import ws.restful.datamodel.CreateAnnouncementRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
+import ws.restful.datamodel.UpdateLecturerReq;
+import ws.restful.datamodel.UpdateLecturerRsp;
+import ws.restful.datamodel.UpdateStudentRsp;
 
 /**
  * REST Web Service
@@ -116,6 +120,56 @@ public class LecturerResource {
         else
         {
             ErrorRsp errorRsp = new ErrorRsp("Invalid create student request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    
+    @Path("getLecturer/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLecturer(@PathParam("username") String username) {
+        try {
+            Lecturer l = lecturerControllerLocal.retrieveLecturerByUsername(username);
+            l.getModules().clear();
+            l.getTimeEntries().clear();
+            l.getAnnouncements().clear();
+            UpdateLecturerRsp updateLecturerRsp = new UpdateLecturerRsp(l);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(updateLecturerRsp).build();
+        } catch (LecturerNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateLecturer(JAXBElement<UpdateLecturerReq> jaxbUpdateLecturerReq)
+    {
+        if((jaxbUpdateLecturerReq != null) && (jaxbUpdateLecturerReq.getValue() != null))
+        {
+            try
+            {
+                UpdateLecturerReq updateLecturerReq= jaxbUpdateLecturerReq.getValue();
+                
+                lecturerControllerLocal.updateLecturer(updateLecturerReq.getLecturer());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update lecturer request");
             
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }

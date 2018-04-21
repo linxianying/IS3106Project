@@ -190,6 +190,7 @@ public class LecturerController implements LecturerControllerLocal {
             lecToUpdate.setEmail(lec.getEmail());
             lecToUpdate.setDepartment(lec.getDepartment());
             lecToUpdate.setFaculty(lec.getFaculty());
+            lecToUpdate.setIsPremium(lec.getIsPremium());
             em.merge(lecToUpdate);
             return lecToUpdate;
         } else {

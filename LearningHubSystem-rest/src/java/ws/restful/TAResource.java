@@ -6,13 +6,27 @@
 package ws.restful;
 
 import ejb.session.stateless.TeachingAssistantControllerLocal;
+import entity.TeachingAssistant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBElement;
+import util.exception.TANotFoundException;
+import ws.restful.datamodel.ErrorRsp;
+import ws.restful.datamodel.UpdateLecturerReq;
+import ws.restful.datamodel.UpdateTaReq;
+import ws.restful.datamodel.UpdateTaRsp;
 
 /**
  * REST Web Service
@@ -32,6 +46,53 @@ public class TAResource {
      */
     public TAResource() {
         taController = lookupTeachingAssistantControllerLocal();
+    }
+    
+    @Path("getTa/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTa(@PathParam("username") String username) {
+        try {
+            TeachingAssistant ta = taController.retrieveTAByUsername(username);
+            ta.getModules().clear();
+            UpdateTaRsp updateTaRsp = new UpdateTaRsp(ta);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(updateTaRsp).build();
+        } catch (TANotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTa(JAXBElement<UpdateTaReq> jaxbUpdateTaReq)
+    {
+        if((jaxbUpdateTaReq != null) && (jaxbUpdateTaReq.getValue() != null))
+        {
+            try
+            {
+                UpdateTaReq updateTaReq= jaxbUpdateTaReq.getValue();
+                
+                taController.updateTA(updateTaReq.getTa());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update TA request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
     }
     
     

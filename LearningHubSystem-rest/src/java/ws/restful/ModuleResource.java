@@ -10,6 +10,7 @@ import entity.Announcement;
 import entity.Module;
 import entity.Student;
 import entity.Lecturer;
+import entity.TeachingAssistant;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,6 +91,33 @@ public class ModuleResource {
         try {
             
             List<Module> modules=moduleController.retrieveModulesByLecturerUsername(username);
+            System.err.println("module!!!!!!!!!"+modules.size());
+            
+            for(Module m:modules){
+                 m.getStduents().clear();
+                 m.getAnnouncements().clear();
+                 m.getLecturers().clear();
+                 m.getTAs().clear();
+                 m.getFiles().clear();
+                
+            }
+            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(modules);
+
+            return Response.status(Response.Status.OK).entity(retrieveModulesRsp).build();
+        } catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("retrieveFacilitatingModules/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveFacilitatingModules(@PathParam("username") String username) {
+        try {
+            
+            List<Module> modules=moduleController.retrieveModulesByTaUsername(username);
             System.err.println("module!!!!!!!!!"+modules.size());
             
             for(Module m:modules){
@@ -235,7 +263,13 @@ public class ModuleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveTAs(@PathParam("moduleId") Long moduleId) {
         try {
-            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(moduleController.retrieveTAs(moduleId));
+            
+            List<TeachingAssistant> tas=moduleController.retrieveTAs(moduleId);
+            for (TeachingAssistant ta: tas){
+                ta.getModules().clear();
+     
+            }
+            RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(tas);
 
             return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
         } catch (ModuleNotFoundException ex) {
