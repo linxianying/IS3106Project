@@ -161,11 +161,24 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     
     @Override
     public void updateTimeEntry(TimeEntry timeEntry, String title, String from, String to, String details){
-        if(timeEntry!=null&&title!=null&&from!=null&&to!=null){
-            timeEntry.setTitle(title);
-            timeEntry.setFromDate(from);
-            timeEntry.setToDate(to);
-            timeEntry.setDetails(details);
+        if(timeEntry!=null){
+            if(title!=null){
+                timeEntry.setTitle(title);
+            }
+            if(from!=null){
+                timeEntry.setFromDate(from);
+            }
+            if(to!=null){
+                timeEntry.setToDate(to);
+            }
+            if(details!=null){
+                timeEntry.setDetails(details);
+            }
+            System.out.println("updateTimeEntry: "+title+"(title) " + from + "(from) "
+            + to + "(to) "+ details + "(details) ");
+        }
+        else{
+            System.out.println("TimeEntry is null! Updation failed");
         }
     }
     
