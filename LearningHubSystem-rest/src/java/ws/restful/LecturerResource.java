@@ -7,11 +7,9 @@ package ws.restful;
 
 import ejb.session.stateless.AnnouncementControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
-import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TimeEntryControllerLocal;
 import entity.Announcement;
 import entity.Lecturer;
-import entity.TimeEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -32,14 +30,12 @@ import util.exception.AnnouncementExistException;
 import util.exception.LecturerNotFoundException;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
-import ws.restful.datamodel.CreateLecturerTimeEntryReq;
-import ws.restful.datamodel.CreateLecturerTimeEntryRsp;
 import ws.restful.datamodel.ErrorRsp;
+import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
 import ws.restful.datamodel.UpdateLecturerReq;
 import ws.restful.datamodel.UpdateLecturerRsp;
-import ws.restful.datamodel.UpdateStudentRsp;
 
 /**
  * REST Web Service
@@ -85,9 +81,13 @@ public class LecturerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveSpecificLecturer(@PathParam("lecturerId") Long lecturerId) {
         try {
-            RetrieveSpecificLecturerRsp retrieveSpecificLecturerRsp = new RetrieveSpecificLecturerRsp(lecturerControllerLocal.retrieveLecturerById(lecturerId));
+            Lecturer lecturer=lecturerControllerLocal.retrieveLecturerById(lecturerId);
+            lecturer.getAnnouncements().clear();
+            lecturer.getModules().clear();
+            lecturer.getTimeEntries().clear();
+            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
 
-            return Response.status(Response.Status.OK).entity(retrieveSpecificLecturerRsp).build();
+            return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
