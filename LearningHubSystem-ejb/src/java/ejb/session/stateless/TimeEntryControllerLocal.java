@@ -40,4 +40,6 @@ public interface TimeEntryControllerLocal {
     public boolean deleteTimeEntry(Long id, Lecturer lecturer);
 
     public List<TimeEntry> retrieveTimeEntrysByLecturerName(String username);
+
+    public void updateTimeEntry(TimeEntry timeEntry) throws TimeEntryNotFoundException;
 }

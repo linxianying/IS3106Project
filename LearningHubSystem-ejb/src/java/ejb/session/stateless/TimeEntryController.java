@@ -182,8 +182,16 @@ public class TimeEntryController implements TimeEntryControllerLocal {
         }
     }
     
-    public void updateTimeEntryTitle(TimeEntry timeEntry, String title){
-    
+    @Override
+    public void updateTimeEntry(TimeEntry timeEntry) throws TimeEntryNotFoundException{
+        t = null;
+        t = retrieveTimeEntryById(timeEntry.getId());
+        if(t!=null){
+            t.setDetails(timeEntry.getDetails());
+            t.setTitle(timeEntry.getTitle());
+            t.setToDate(timeEntry.getToDate());
+            t.setFromDate(timeEntry.getFromDate());
+        }
     }
     
     @Override
