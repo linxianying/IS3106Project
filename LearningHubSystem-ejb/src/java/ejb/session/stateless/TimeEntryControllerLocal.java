@@ -38,4 +38,6 @@ public interface TimeEntryControllerLocal {
     public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details);
     public boolean deleteTimeEntry(Long id, Student student);
     public boolean deleteTimeEntry(Long id, Lecturer lecturer);
+
+    public List<TimeEntry> retrieveTimeEntrysByLecturerName(String username);
 }

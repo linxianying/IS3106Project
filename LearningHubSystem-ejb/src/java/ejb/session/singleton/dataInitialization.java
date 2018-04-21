@@ -121,14 +121,19 @@ public class dataInitialization {
 
     private void loadLecturerData() {
         Lecturer newLecturer1 = new Lecturer("lecturer1", "password1", "twk", "twk@soc.nus", "Computing", "IS", "12345678");
+        newLecturer1.setPhotoName("twk");
         em.persist(newLecturer1);
         Lecturer newLecturer2 = new Lecturer("lecturer2", "password2", "lhh", "lhh@soc.nus", "Computing", "IS", "23456789");
+        newLecturer2.setPhotoName("lhh");
         em.persist(newLecturer2);
         Lecturer newLecturer3 = new Lecturer("lecturer3", "password3", "oh", "oh@soc.nus", "Computing", "IS", "34567890");
+        newLecturer3.setPhotoName("oh");
         em.persist(newLecturer3);
         Lecturer newLecturer4 = new Lecturer("lecturer4", "password4", "tsc", "tsc@sci.nus", "Science", "Physics", "45678901");
+        newLecturer4.setPhotoName("tsc");
         em.persist(newLecturer4);
         Lecturer newLecturer5 = new Lecturer("lecturer", "123456", "lecturer", "lec@sci.nus", "Science", "Physics", "45678101");
+        newLecturer4.setPhotoName("lecturer");
         em.persist(newLecturer5);
     }
 
@@ -161,31 +166,39 @@ public class dataInitialization {
         List<Module> modules = moduleControllerLocal.retrieveAllModules();
         Student student1 = new Student("wyh", "wyhpassword", "wyh@soc.nus", "Computing", "IS", "13579135", "wangyinhan");
         student1.setIsPremium(true);
+        student1.setPhotoName("wyh");
         em.persist(student1);
         Student student2 = new Student("gzp", "gzppassword", "gzp@soc.nus", "Computing", "IS", "34464224", "gongzipeng");
         student2.setIsPremium(true);
+        student2.setPhotoName("gzp");
         em.persist(student2);
         Student student3 = new Student("lxy", "lxypassword", "lxy@soc.nus", "Computing", "IS", "12345577", "linxianying");
         student3.setIsPremium(true);
+        student3.setPhotoName("lxy");
         em.persist(student3);
         Student student4 = new Student("xh", "xhpassword", "xh@soc.nus", "Computing", "IS", "24688424", "xuhong");
         student4.setIsPremium(true);
+        student4.setPhotoName("xh");
         em.persist(student4);
 
     }
 
     private void loadTAData() {
         TeachingAssistant teachingAssistant1 = new TeachingAssistant("TA111", "password1", "TA1", "TA1@soc.nus", "Computing", "12345672", "IS");
+        teachingAssistant1.setPhotoName("TA1");
         em.persist(teachingAssistant1);
         TeachingAssistant teachingAssistant2 = new TeachingAssistant("TA222", "password2", "TA2", "TA2@sci.nus", "Science", "12342354", "Data Analytics");
+        teachingAssistant2.setPhotoName("TA2");
         em.persist(teachingAssistant2);
         TeachingAssistant teachingAssistant3 = new TeachingAssistant("TA333", "password3", "TA3", "TA3@fass.nus", "FASS", "86356252", "Economics");
+        teachingAssistant3.setPhotoName("TA3");
         em.persist(teachingAssistant3);
         
     }
 
     private void loadTEData() {
         Student student1 = new Student("name", "123456", "name@soc.nus", "Computing", "IS", "123456", "namename");
+        student1.setPhotoName("name");
         em.persist(student1);
 
         TimeEntry t1 = new TimeEntry("go out", "2018-03-29 12:00", "2018-03-29 13:00", "details");

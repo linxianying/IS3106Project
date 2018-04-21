@@ -56,6 +56,8 @@ public class TeachingAssistant implements Serializable {
     @Column(nullable = false)
     private boolean isPremium;
 
+    private String photoName;
+
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name = "TA_Module")
     private List<Module> modules;
@@ -63,6 +65,7 @@ public class TeachingAssistant implements Serializable {
     public TeachingAssistant() {
         this.isPremium = false;
         modules = new ArrayList<>();
+        photoName = "nophoto";
     }
 
     public TeachingAssistant(String username, String password, String name,
@@ -180,6 +183,20 @@ public class TeachingAssistant implements Serializable {
     @Override
     public String toString() {
         return "entity.TeachingAssistant[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the photoName
+     */
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    /**
+     * @param photoName the photoName to set
+     */
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 
 }

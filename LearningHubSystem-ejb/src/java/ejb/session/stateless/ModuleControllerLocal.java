@@ -53,5 +53,7 @@ public interface ModuleControllerLocal {
 
     public List<Module> retrieveModulesByLecturerUsername(String username);
 
+
     public List<Module> retrieveModulesByTaUsername(String username);
+
 }

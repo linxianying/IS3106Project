@@ -16,14 +16,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "createTimeEntryRsp", propOrder = {
     "id"
 })
-public class CreateTimeEntryRsp {
+public class CreateLecturerTimeEntryRsp {
     
     private Long id;
 
-    public CreateTimeEntryRsp() {
+    public CreateLecturerTimeEntryRsp() {
     }
 
-    public CreateTimeEntryRsp(Long id) {
+    public CreateLecturerTimeEntryRsp(Long id) {
         System.out.println("test CreateTimeEntryRsp:" + id);
         this.id = id;
     }
