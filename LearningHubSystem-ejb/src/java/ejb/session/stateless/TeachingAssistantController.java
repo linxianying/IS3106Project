@@ -60,6 +60,20 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
             }
         }
     }
+    
+    @Override
+    public TeachingAssistant updateTAPassword(Long id, String newPassword) {
+        try {
+
+            TeachingAssistant taToUpdate = retrieveTAById(id);
+            taToUpdate.setPassword(newPassword);
+
+            em.merge(taToUpdate);
+            return taToUpdate;
+        } catch (TANotFoundException ex) {
+        }
+        return new TeachingAssistant();
+    }
 
     @Override
     public List<TeachingAssistant> retrieveAllTAs() {

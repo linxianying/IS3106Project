@@ -63,7 +63,9 @@
                 </p:column>
 
                 <p:column headerText="Exam Date" sortBy="#{module.examDate}" filterBy="#{module.examDate}" filterMatchMode="contains">
-                    <h:outputText value="#{module.examDate}" />
+                    <h:outputText value="#{module.examDate}" >
+                        <f:convertDateTime pattern = "dd-MM-yyyy hh:mm a" />
+                    </h:outputText>
                 </p:column>
 
                 <p:column headerText="Action" >
@@ -77,7 +79,7 @@
                     <p:commandButton icon="ui-icon-edit" actionListener="#{moduleManagementManagedBean.assignModule}" title="Module Assignment">
                         <f:attribute name="moduleToAssign" value="#{module}" />
                     </p:commandButton>
-                    <p:commandButton oncomplete="PF('descriptionDialog').show()" icon="ui-icon-document" title="View Module:: Module Description">
+                    <p:commandButton oncomplete="PF('descriptionDialog').show()" icon="ui-icon-document" title="View Module:: Module Description" update="@form">
                         <f:setPropertyActionListener value="#{module}" target="#{moduleManagementManagedBean.moduleToView}" />
                     </p:commandButton>
                 </p:column>    

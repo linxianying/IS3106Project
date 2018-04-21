@@ -57,6 +57,8 @@ public class settingManagedBean implements Serializable {
     private TeachingAssistant ta;
     private String currentPassword;
     private String newPassword;
+    private Boolean isPremium;
+    private Boolean choosePremium;
 
     public settingManagedBean() {
 
@@ -70,18 +72,31 @@ public class settingManagedBean implements Serializable {
         setUserType((String) session.getAttribute("role"));
         if (getUserType().equals("student")) {
             setStudent((Student) session.getAttribute("currentStudent"));
+            setIsPremium((Boolean) student.getIsPremium());
         } else if (getUserType().equals("lecturer")) {
             setLecturer((Lecturer) session.getAttribute("currentLecturer"));
+            setIsPremium((Boolean) lecturer.getIsPremium());
         } else if (getUserType().equals("TA")) {
             setTa((TeachingAssistant) session.getAttribute("currentTA"));
+            setIsPremium((Boolean) ta.getIsPremium());
         } else if (getUserType().equals("admin")) {
             setAdmin((Administrator) session.getAttribute("currentAdmin"));
+            setIsPremium((Boolean) admin.getIsPremium());
         }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isPremium", isPremium);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("choosePremium", false);
     }
 
     public void update(ActionEvent event) {
+        if (!isPremium) {
+            if (choosePremium) {
+                isPremium = true;
+            }
+        }
+
         if (getUserType().equals("student")) {
             try {
+                student.setIsPremium(isPremium);
                 studentControllerLocal.updateStudent(student);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile updated successfully", null));
             } catch (StudentNotFoundException ex) {
@@ -91,6 +106,7 @@ public class settingManagedBean implements Serializable {
             }
         } else if (getUserType().equals("lecturer")) {
             try {
+                lecturer.setIsPremium(isPremium);
                 lecturerControllerLocal.updateLecturer(lecturer);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile updated successfully", null));
             } catch (LecturerNotFoundException ex) {
@@ -100,6 +116,7 @@ public class settingManagedBean implements Serializable {
             }
         } else if (getUserType().equals("TA")) {
             try {
+                ta.setIsPremium(isPremium);
                 teachingAssistantControllerLocal.updateTA(ta);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile updated successfully", null));
             } catch (TANotFoundException ex) {
@@ -109,6 +126,7 @@ public class settingManagedBean implements Serializable {
             }
         } else if (getUserType().equals("admin")) {
             try {
+                admin.setIsPremium(isPremium);
                 administratorControllerLocal.updateAdmin(admin);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Profile updated successfully", null));
             } catch (AdminNotFoundException ex) {
@@ -117,6 +135,9 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isPremium", isPremium);
+ 
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("choosePremium", false);
     }
 
     public void updatePassword() {
@@ -126,7 +147,7 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
             } catch (StudentNotFoundException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
-            }catch (PasswordChangeException ex) {
+            } catch (PasswordChangeException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         } else if (getUserType().equals("lecturer")) {
@@ -135,7 +156,7 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
             } catch (LecturerNotFoundException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
-            }catch (PasswordChangeException ex) {
+            } catch (PasswordChangeException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         } else if (getUserType().equals("TA")) {
@@ -144,7 +165,7 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
             } catch (TANotFoundException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
-            }catch (PasswordChangeException ex) {
+            } catch (PasswordChangeException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         } else if (getUserType().equals("admin")) {
@@ -153,10 +174,19 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Password is changed successfully", null));
             } catch (AdminNotFoundException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating product: " + ex.getMessage(), null));
-            }catch (PasswordChangeException ex) {
+            } catch (PasswordChangeException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         }
+    }
+
+    public void setChoosePremium(Boolean choosePremium) {
+        this.choosePremium = choosePremium;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("choosePremium", choosePremium);
+    }
+
+    public void checkboxListener() {
+        System.err.println("********* choose premium: " + choosePremium);
     }
 
     public String getUserType() {
@@ -254,4 +284,24 @@ public class settingManagedBean implements Serializable {
         this.newPassword = newPassword;
     }
 
+    /**
+     * @return the isPremium
+     */
+    public Boolean getIsPremium() {
+        return isPremium;
+    }
+
+    /**
+     * @param isPremium the isPremium to set
+     */
+    public void setIsPremium(Boolean isPremium) {
+        this.isPremium = isPremium;
+    }
+
+    /**
+     * @return the choosePremium
+     */
+    public Boolean getChoosePremium() {
+        return choosePremium;
+    }
 }

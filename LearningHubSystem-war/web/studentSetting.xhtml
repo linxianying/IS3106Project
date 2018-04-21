@@ -117,7 +117,7 @@
                                 <h:outputLabel value="Current password " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Current password is required"/>
+                                <p:password  id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Current password is required"/>
                             </p:column>
                             <p:message for="currPass" />
                         </p:row>
@@ -126,9 +126,9 @@
                                 <h:outputLabel value="New password "/>
                             </p:column>
                             <p:column>
-                                <h:inputText id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="New password is required" validatorMessage="New password length must be in range [6.16]!">
+                                <p:password  id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="New password is required" validatorMessage="New password length must be in range [6.16]!">
                                     <f:validateLength minimum="6" maximum="16"/>
-                                </h:inputText>
+                                </p:password >
                             </p:column>
                             <p:message for="newPass" />
                         </p:row>
@@ -149,7 +149,7 @@
 
                     <p:messages id="messagesUpdateProfile" redisplay="false" globalOnly="true"/>
 
-                    <p:panelGrid style="width:500px;height:500px;">
+                    <p:panelGrid style="width:100%;height:100%;">
 
                         <p:row>
                             <p:column>
@@ -197,13 +197,43 @@
                             </p:column>
                             <p:message for="tele" />
                         </p:row>
-
-                        <p:row>
-                            <p:column colspan="3">
-                                <p:commandButton value="Update Profile" update="viewProfile @form" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
+                        
+                        <p:row rendered="#{!sessionScope['isPremium']}">
+                            <p:column colspan="2">
+                                <p:selectBooleanCheckbox value="#{settingManagedBean.choosePremium}">
+                                    <p:ajax listener="#{settingManagedBean.checkboxListener}" 
+                                            update="@form" 
+                                            oncomplete="PF('dialogUpdateProfile').show();"  />
+                                </p:selectBooleanCheckbox>
+                                <h:outputText value="   Do you want to be premium user?" />
                             </p:column>
                         </p:row>
 
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Update Profile" update="viewProfile @form" 
+                                                 actionListener="#{settingManagedBean.update}" 
+                                                 oncomplete="PF('dialogUpdateProfile').show();"
+                                                 rendered="#{!sessionScope['choosePremium']}"/>
+
+
+                                <p:commandButton value="Update Profile" update="viewProfile @form" 
+                                                 actionListener="#{settingManagedBean.update}" 
+                                                 oncomplete="PF('dialogUpdateProfile').show();"
+                                                 rendered="#{sessionScope['choosePremium']}">
+
+                                    <p:confirm header="Confirmation" 
+                                               message="Premium user can use mobile app, but need to charge $5 every month. Do you confirm to be premium user?
+                                               If you want to cancel premium later, please set in mobile app." 
+                                               icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
                     </p:panelGrid>
 
                 </p:dialog>

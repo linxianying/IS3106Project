@@ -36,7 +36,9 @@
             <p:tab title="Module Exam Info">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:outputText value="Exam Date: " />
-                    <h:outputText value="#{utilManagedBean.formatDate(moduleDetailsManagedBean.moduleToView.examDate)}" />
+                    <h:outputText value="#{utilManagedBean.formatDate(moduleDetailsManagedBean.moduleToView.examDate)}" >
+                        <f:convertDateTime pattern = "dd-MM-yyyy hh:mm a" />
+                    </h:outputText>
                 </h:panelGrid>
             </p:tab>
         </p:accordionPanel>

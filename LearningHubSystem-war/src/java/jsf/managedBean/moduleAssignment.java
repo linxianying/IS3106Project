@@ -49,6 +49,7 @@ public class moduleAssignment implements Serializable {
     private List<Student> students;
     private List<Student> filteredStudents;
     private List<Lecturer> lecturers;
+    private List<Lecturer> filteredLecturers;
     private List<TeachingAssistant> TAs;
 
     private Module moduleToAssign;
@@ -290,6 +291,46 @@ public class moduleAssignment implements Serializable {
 
     public void setTAIdToRg(Long TAIdToRg) {
         this.TAIdToRg = TAIdToRg;
+    }
+
+    public TeachingAssistantControllerLocal getTaController() {
+        return taController;
+    }
+
+    public void setTaController(TeachingAssistantControllerLocal taController) {
+        this.taController = taController;
+    }
+
+    public StudentControllerLocal getStudentController() {
+        return studentController;
+    }
+
+    public void setStudentController(StudentControllerLocal studentController) {
+        this.studentController = studentController;
+    }
+
+    public LecturerControllerLocal getLecturerController() {
+        return lecturerController;
+    }
+
+    public void setLecturerController(LecturerControllerLocal lecturerController) {
+        this.lecturerController = lecturerController;
+    }
+
+    public ModuleControllerLocal getModuleController() {
+        return moduleController;
+    }
+
+    public void setModuleController(ModuleControllerLocal moduleController) {
+        this.moduleController = moduleController;
+    }
+
+    public List<Lecturer> getFilteredLecturers() {
+        return filteredLecturers;
+    }
+
+    public void setFilteredLecturers(List<Lecturer> filteredLecturers) {
+        this.filteredLecturers = filteredLecturers;
     }
 
 }

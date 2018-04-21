@@ -49,6 +49,20 @@ public class AdministratorController implements AdministratorControllerLocal {
         List<Administrator> admins = query.getResultList();
         return admins;
     }
+    
+    @Override
+    public Administrator updateAdminPassword(Long id, String newPassword) {
+        try {
+
+            Administrator administrator = retrieveAdminById(id);
+            administrator.setPassword(newPassword);
+
+            em.merge(administrator);
+            return administrator;
+        } catch (AdminNotFoundException ex) {
+        }
+        return new Administrator();
+    }
 
     @Override
     public Administrator retrieveAdminByUsername(String username) throws AdminNotFoundException{
@@ -125,6 +139,7 @@ public class AdministratorController implements AdministratorControllerLocal {
             adminToUpdate.setUsername(admin.getUsername());
             adminToUpdate.setTelephone(admin.getTelephone());
             adminToUpdate.setEmail(admin.getEmail());
+            adminToUpdate.setIsPremium(admin.getIsPremium());
             return adminToUpdate;
         } else {
             throw new AdminNotFoundException("Admin ID not provided for profile to be updated");

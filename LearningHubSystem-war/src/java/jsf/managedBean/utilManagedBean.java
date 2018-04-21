@@ -18,7 +18,7 @@ public class utilManagedBean {
     public String formatLecturer(List<Lecturer> lecturers) {
         String format = "";
         for (int i = 0; i < lecturers.size(); i++) {
-            format = lecturers.get(i).getName() + ", ";
+            format = lecturers.get(i).getName() + " ";
         }
         return format;
     }

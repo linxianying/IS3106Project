@@ -39,22 +39,19 @@ public class LecturerController implements LecturerControllerLocal {
 
     @PersistenceContext(unitName = "LearningHubSystem-ejbPU")
     private EntityManager em;
-    
-    
-    
+
     Lecturer lecturer;
 
-    
     @Override
     public List<Lecturer> retrieveAllLecturers() {
         Query query = em.createQuery("SELECT l FROM Lecturer l");
         return (List<Lecturer>) query.getResultList();
-        
+
     }
-    
+
     @Override
-    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException,GeneralException {
-        try{
+    public Lecturer createNewLecturer(Lecturer lecturer) throws LecturerExistException, GeneralException {
+        try {
             em.persist(lecturer);
             em.flush();
             em.refresh(lecturer);
@@ -71,80 +68,66 @@ public class LecturerController implements LecturerControllerLocal {
         }
     }
 
-    
     @Override
     public Lecturer retrieveLecturerById(Long lecturerId) throws LecturerNotFoundException {
         Lecturer lec = em.find(Lecturer.class, lecturerId);
-        
+
         if (lec != null) {
             return lec;
         } else {
             throw new LecturerNotFoundException("Lecturer with specified ID not found");
         }
     }
-    
-    
-    
-    
+
     @Override
     public Lecturer retrieveLecturerByUsername(String username) throws LecturerNotFoundException {
         lecturer = null;
-        try{
+        try {
             Query q = em.createQuery("SELECT s FROM Lecturer s WHERE s.username=:username");
             q.setParameter("username", username);
             lecturer = (Lecturer) q.getSingleResult();
             System.out.println("Lecturer " + username + " found.");
-        }
-        catch(NoResultException e){
+        } catch (NoResultException e) {
             System.out.println("Lecturer " + username + " does not exist.");
             lecturer = null;
             throw new LecturerNotFoundException("Lecturer with specified ID not found");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return lecturer;
     }
-    
-    
-    
-    
+
     @Override
     public Lecturer retrieveLecturerByEmail(String email) throws LecturerNotFoundException {
         Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.email=:inEmail");
         query.setParameter("inEmail", email);
         Lecturer lec = (Lecturer) query.getSingleResult();
-        
+
         if (lec != null) {
             return lec;
         } else {
             throw new LecturerNotFoundException("Lecturer with specified email not found");
         }
     }
-    
-    
-    
+
     @Override
     public Lecturer retrieveLecturerByPhoneNum(String phoneNum) throws LecturerNotFoundException {
         Query query = em.createQuery("SELECT l FROM Lecturer l WHERE l.telephone:inTelephone");
         query.setParameter("inTelephone", phoneNum);
         Lecturer lec = (Lecturer) query.getSingleResult();
-        
+
         if (lec != null) {
             return lec;
         } else {
             throw new LecturerNotFoundException("Lecturer with specified telephone number not found");
         }
     }
-    
-
-
 
     @Override
     public Lecturer login(String username, String password) throws InvalidLoginCredentialException, LecturerNotFoundException {
         try {
             Lecturer lecturer = retrieveLecturerByUsername(username);
-            
+
             if (lecturer.getPassword().equals(password)) {
                 lecturer.getModules().size();
                 lecturer.getAnnouncements().size();
@@ -156,32 +139,28 @@ public class LecturerController implements LecturerControllerLocal {
             throw new InvalidLoginCredentialException("Account does not exist or invalid password!");
         }
     }
-    
-    
-    
+
     @Override
     public void changePassword(String currentPassword, String newPassword, Long lecturerId) throws LecturerNotFoundException, PasswordChangeException {
         if (currentPassword.length() > 16 || currentPassword.length() < 6) {
             throw new PasswordChangeException("Password length must be in range [6.16]!");
         }
-        
-        try{
+
+        try {
             Lecturer lec = retrieveLecturerById(lecturerId);
-            if(currentPassword.equals(lec.getPassword())){
+            if (currentPassword.equals(lec.getPassword())) {
                 lec.setPassword(newPassword);
                 em.merge(lec);
-            }
-            else{
+            } else {
                 throw new PasswordChangeException("Password change Failed: Current password is wrong");
             }
-        }
-        catch(LecturerNotFoundException ex){
+        } catch (LecturerNotFoundException ex) {
             throw new LecturerNotFoundException("Lecturer with ID " + lecturerId + "does not exist.");
-        }  
+        }
     }
-    
+
     @Override
-    public Lecturer updateLecturer(Lecturer lec) throws LecturerNotFoundException{
+    public Lecturer updateLecturer(Lecturer lec) throws LecturerNotFoundException {
         if (lec.getId() != null) {
             Lecturer lecToUpdate = retrieveLecturerById(lec.getId());
             lecToUpdate.setName(lec.getName());
@@ -196,78 +175,88 @@ public class LecturerController implements LecturerControllerLocal {
         } else {
             throw new LecturerNotFoundException("Lecturer ID not provided for profile to be updated");
         }
-    } 
-    
+    }
+
     @Override
-    public void deleteLecturer (Lecturer lec) throws LecturerNotFoundException {
+    public Lecturer updateLecturerPassword(Long id, String newPassword) {
+        try {
+
+            Lecturer lecToUpdate = retrieveLecturerById(id);
+            lecToUpdate.setPassword(newPassword);
+
+            em.merge(lecToUpdate);
+            return lecToUpdate;
+        } catch (LecturerNotFoundException ex) {
+        }
+        return new Lecturer();
+    }
+
+    @Override
+    public void deleteLecturer(Lecturer lec) throws LecturerNotFoundException {
         try {
             Lecturer lecToDelete = retrieveLecturerById(lec.getId());
             em.remove(lecToDelete);
         } catch (LecturerNotFoundException ex) {
             throw new LecturerNotFoundException("Lecturer doesn't exist.");
         }
-        
+
     }
-    
-    @Override 
-    public Module registerModule (Lecturer lec, Module mod) throws ModuleExistException, ModuleNotFoundException,LecturerNotFoundException{
-        
+
+    @Override
+    public Module registerModule(Lecturer lec, Module mod) throws ModuleExistException, ModuleNotFoundException, LecturerNotFoundException {
+
         Module m = moduleControllerLocal.retrieveModuleById(mod.getId());
         Lecturer l = retrieveLecturerById(lec.getId());
-        
-        
+
         List<Module> modules = l.getModules();
-        for(Module module:modules)   {
-            if (module.getModuleCode().equals(m.getModuleCode())){
+        for (Module module : modules) {
+            if (module.getModuleCode().equals(m.getModuleCode())) {
                 throw new ModuleExistException("Module has already been registered.\n");
             }
         }
-          
-            l.getModules().add(m);
-            m.getLecturers().add(l);
-            
-            return m;
+
+        l.getModules().add(m);
+        m.getLecturers().add(l);
+
+        return m;
     }
-    
+
     @Override
-    public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException{
+    public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException {
         System.out.println("enter controller");
         Boolean registered = false;
-        
+
         Module mod = moduleControllerLocal.retrieveModuleById(m.getId());
         Lecturer lec = retrieveLecturerById(l.getId());
-        
+
         List<Module> modules = lec.getModules();
-        for(Module module:modules)   {
-            if (module.getModuleCode().equals(mod.getModuleCode())){
+        for (Module module : modules) {
+            if (module.getModuleCode().equals(mod.getModuleCode())) {
                 registered = true;
                 break;
             }
         }
-        
-        if(registered){
+
+        if (registered) {
             lec.getModules().remove(mod);
             mod.getLecturers().remove(lec);
-            
+
             System.out.println("drop module");
-            
+
+        } else {
+            throw new ModuleNotFoundException("Module: " + mod.getModuleCode() + " wasn't found in the module list.");
         }
-        
-        else throw new ModuleNotFoundException ( "Module: "+mod.getModuleCode()+ " wasn't found in the module list.");
     }
 
     @Override
     public List<Module> retrieveEnrolledModules(Long lecturerId) {
-        try{
+        try {
             Lecturer lecturer = retrieveLecturerById(lecturerId);
             return lecturer.getModules();
-        }
-        catch(LecturerNotFoundException ex){
+        } catch (LecturerNotFoundException ex) {
             ex.getMessage();
         }
         return new ArrayList<>();
     }
-
-    
 
 }
