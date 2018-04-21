@@ -16,16 +16,22 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlType(name = "assignModuleReq", propOrder = {
     "moduleId",
-    "lecturer"
+    "lecturerId"
 })
 public class AssignModuleReq {
     private Long moduleId;
-    private Lecturer lecturer;
+    private Long lecturerId;
 
-    public AssignModuleReq(Lecturer lecturer) {
-        this.lecturer = lecturer;
+    public AssignModuleReq() {
     }
 
+    public AssignModuleReq(Long moduleId, Long lecturerId) {
+        this.moduleId = moduleId;
+        this.lecturerId = lecturerId;
+    }
+    
+    
+    
     public Long getModuleId() {
         return moduleId;
     }
@@ -34,12 +40,12 @@ public class AssignModuleReq {
         this.moduleId = moduleId;
     }
 
-    public Lecturer getLecturer() {
-        return lecturer;
+    public Long getLecturerId() {
+        return lecturerId;
     }
 
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
+    public void setLecturerId(Long lecturerId) {
+        this.lecturerId = lecturerId;
     }
     
     

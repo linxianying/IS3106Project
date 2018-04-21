@@ -41,6 +41,8 @@ import ws.restful.datamodel.AssignModuleReq;
 import ws.restful.datamodel.AssignModuleRsp;
 import ws.restful.datamodel.CreateAnnouncementReq;
 import ws.restful.datamodel.CreateAnnouncementRsp;
+import ws.restful.datamodel.CreateModuleRsp;
+import ws.restful.datamodel.DropModuleReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
@@ -114,6 +116,8 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+    
     
 
     @Path("retrieveAllLecturers")
@@ -195,12 +199,12 @@ public class LecturerResource {
             {
                 AssignModuleReq assignModuleReq = jaxbAssignModuleReq.getValue();
                 Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
-                Lecturer lec= assignModuleReq.getLecturer();
+                Lecturer lec= lecturerControllerLocal.retrieveLecturerById(assignModuleReq.getLecturerId());
      
     
                 module = lecturerControllerLocal.registerModule(lec, module);
                 
-                AssignModuleRsp assignModuleRsp = new AssignModuleRsp(module);
+                CreateModuleRsp assignModuleRsp = new CreateModuleRsp(module);
                 
                 return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
             }
@@ -218,7 +222,40 @@ public class LecturerResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-
+    
+    @Path("dropModule")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response dropModule(JAXBElement<DropModuleReq> jaxbDropModuleReq) throws ModuleNotFoundException
+    {
+        if((jaxbDropModuleReq != null) && (jaxbDropModuleReq.getValue() != null))
+        {
+            try
+            {
+                DropModuleReq dropModuleReq = jaxbDropModuleReq.getValue();
+                Module module = moduleController.retrieveModuleById(dropModuleReq.getModuleId());
+                Lecturer lec= lecturerControllerLocal.retrieveLecturerById(dropModuleReq.getLecturerId());
+                lecturerControllerLocal.dropModule(lec, module);
+                
+         
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            
+            catch(LecturerNotFoundException ex){
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid remove lecturer request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
     
     @Path("getLecturer/{username}")
     @GET

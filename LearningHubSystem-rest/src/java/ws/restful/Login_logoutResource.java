@@ -7,10 +7,12 @@ package ws.restful;
 
 import ejb.session.stateless.AdministratorControllerLocal;
 import ejb.session.stateless.LecturerControllerLocal;
+import ejb.session.stateless.ModuleControllerLocal;
 import ejb.session.stateless.StudentControllerLocal;
 import ejb.session.stateless.TeachingAssistantControllerLocal;
 import entity.Administrator;
 import entity.Lecturer;
+import entity.Module;
 import entity.Student;
 import entity.TeachingAssistant;
 import java.util.List;
@@ -32,10 +34,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.ModuleExistException;
+import util.exception.ModuleNotFoundException;
 import util.exception.StudentNotFoundException;
 import ws.restful.datamodel.AdminLoginRsp;
+import ws.restful.datamodel.AssignModuleStudentReq;
+import ws.restful.datamodel.CreateModuleRsp;
 import ws.restful.datamodel.CreateStudentReq;
 import ws.restful.datamodel.CreateStudentRsp;
+import ws.restful.datamodel.DropModuleStudentReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveStudentRsp;
@@ -53,10 +60,13 @@ import ws.restful.datamodel.UpdateStudentRsp;
 @Path("login_logout")
 public class Login_logoutResource {
 
+    ModuleControllerLocal moduleController;
+
     StudentControllerLocal studentController;
     AdministratorControllerLocal adminController;
     LecturerControllerLocal lecturerController;
     TeachingAssistantControllerLocal taController;
+    
 
     @Context
     private UriInfo context;
@@ -69,6 +79,7 @@ public class Login_logoutResource {
         lecturerController = lookupLecturerControllerLocal();
         adminController = lookupAdminControllerLocal();
         taController = lookupTAControllerLocal();
+        moduleController = lookupModuleControllerLocal();
     }
 
     @Path("studentLogin/{username}/{password}")
@@ -275,6 +286,76 @@ public class Login_logoutResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+    @Path("assignModule")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response assignModule(JAXBElement<AssignModuleStudentReq> jaxbAssignModuleStudentReq) throws ModuleNotFoundException
+    {
+        if((jaxbAssignModuleStudentReq != null) && (jaxbAssignModuleStudentReq.getValue() != null))
+        {
+            try
+            {
+                AssignModuleStudentReq assignModuleReq = jaxbAssignModuleStudentReq.getValue();
+                Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
+                Student stu= studentController.retrieveStudentById(assignModuleReq.getStudentId());
+     
+    
+                studentController.registerModule(stu, module);
+                
+                
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            
+            catch(StudentNotFoundException | ModuleExistException ex){
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("dropModule")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response dropModule(JAXBElement<DropModuleStudentReq> jaxbDropModuleStudentReq) throws ModuleNotFoundException
+    {
+        if((jaxbDropModuleStudentReq != null) && (jaxbDropModuleStudentReq.getValue() != null))
+        {
+            try
+            {
+                DropModuleStudentReq dropModuleStudentReq = jaxbDropModuleStudentReq.getValue();
+                Module module = moduleController.retrieveModuleById(dropModuleStudentReq.getModuleId());
+                Student stu= studentController.retrieveStudentById(dropModuleStudentReq.getStudentId());
+                studentController.dropModule(stu, module);
+                
+         
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            
+            catch(StudentNotFoundException ex){
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            } 
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid remove lecturer request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
 
     private StudentControllerLocal lookupStudentControllerLocal() {
         try {
@@ -310,6 +391,16 @@ public class Login_logoutResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (TeachingAssistantControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/TeachingAssistantController!ejb.session.stateless.TeachingAssistantControllerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private ModuleControllerLocal lookupModuleControllerLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ModuleControllerLocal) c.lookup("java:global/LearningHubSystem/LearningHubSystem-ejb/ModuleController!ejb.session.stateless.ModuleControllerLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
