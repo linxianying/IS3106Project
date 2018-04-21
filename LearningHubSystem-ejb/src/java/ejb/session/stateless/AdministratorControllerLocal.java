@@ -34,4 +34,6 @@ public interface AdministratorControllerLocal {
     void changePassword(String currentPassword, String newPassword, Long adminId) throws AdminNotFoundException, PasswordChangeException;
     
     Administrator updateAdmin(Administrator admin) throws AdminNotFoundException;
+
+    public Administrator updateAdminPassword(Long id, String newPassword);
 }

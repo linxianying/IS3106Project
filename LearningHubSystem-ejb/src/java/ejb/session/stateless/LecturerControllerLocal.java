@@ -50,4 +50,6 @@ public interface LecturerControllerLocal {
     public void dropModule(Lecturer l, Module m) throws ModuleNotFoundException, LecturerNotFoundException;
 
     List<Module> retrieveEnrolledModules(Long lecturerId);
+
+    public Lecturer updateLecturerPassword(Long id, String newPassword);
 }

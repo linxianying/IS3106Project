@@ -51,4 +51,6 @@ public interface StudentControllerLocal {
 
     public void changePassword(String currentPassword, String newPassword, Long studentId) throws StudentNotFoundException, PasswordChangeException;
 
+    public Student updateStudentPassword(Long id, String newPassword);
+
 }
