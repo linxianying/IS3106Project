@@ -35,18 +35,20 @@
                     <p:outputLabel for="to" value="To:" />
                     <p:calendar id="to" value="#{scheduleManagedBean.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
 
-                    <p:outputLabel for="allDay" value="All Day:" />
-                    <h:selectBooleanCheckbox id="allDay" value="#{scheduleManagedBean.event.allDay}" />
+                    <p:outputLabel for="description" value="Description:" />
+                    <p:inputText id="description" value="#{scheduleManagedBean.event.description}" required="false"/>
 
-                    <p:commandButton type="reset" value="Reset" />
-                    <p:commandButton id="addButton" value="Save" actionListener="#{scheduleManagedBean.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                    <p:commandButton value="Delete" actionListener="#{scheduleManagedBean.deleteEvent}"
+                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
+                    <p:commandButton id="addButton" value="Save" actionListener="#{scheduleManagedBean.addEvent}"
+                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
                 </h:panelGrid>
             </p:dialog>    
         </h:form>
 
         
         <style type="text/css">
-            .value {
+            .value {   
                 width: 1000px;
             }
         </style>

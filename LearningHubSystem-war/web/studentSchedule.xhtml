@@ -7,10 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       template="./layout/studentLayout.xhtml" >
     <ui:define name="content">
-    <h:head>
-        <title>Student Schedule Page</title>
-    </h:head>
-    <h:body>
+    
         <h:form>
             <p:growl id="messages" showDetail="true" />
 
@@ -39,7 +36,7 @@
                     <p:calendar id="to" value="#{scheduleManagedBean.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="description" value="Description:" />
-                    <p:inputText id="description" value="#{scheduleManagedBean.event.description}" required="true" />
+                    <p:inputText id="description" value="#{scheduleManagedBean.event.description}" required="false"/>
 
                     <p:commandButton value="Delete" actionListener="#{scheduleManagedBean.deleteEvent}"
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
@@ -51,11 +48,11 @@
 
         
         <style type="text/css">
-            .value {
+            .value {   
                 width: 1000px;
             }
         </style>
-    </h:body>
+    
     </ui:define>
 </ui:composition>
 
