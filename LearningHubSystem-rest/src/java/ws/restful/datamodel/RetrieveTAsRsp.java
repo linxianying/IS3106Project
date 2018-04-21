@@ -20,9 +20,10 @@ public class RetrieveTAsRsp {
     private List<TeachingAssistant> tas;
 
     public RetrieveTAsRsp() {
+        
     }
     
-
+    
     public RetrieveTAsRsp(List<TeachingAssistant> tas) {
         this.tas = tas;
     }

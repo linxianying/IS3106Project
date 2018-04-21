@@ -6,21 +6,19 @@
 package ws.restful.datamodel;
 
 import entity.Module;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Samango
  */
-@XmlRootElement
-@XmlType(name = "deleteModuleReq", propOrder = {
+@XmlType(name = "assignModuleRsp", propOrder = {
     "module"
 })
-public class DeleteModuleReq {
+public class AssignModuleRsp {
     private Module module;
 
-    public DeleteModuleReq(Module module) {
+    public AssignModuleRsp(Module module) {
         this.module = module;
     }
 
@@ -31,6 +29,5 @@ public class DeleteModuleReq {
     public void setModule(Module module) {
         this.module = module;
     }
-    
     
 }

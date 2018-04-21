@@ -75,10 +75,7 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException{
         t = null;
         try{
-            Query q = em.createQuery("SELECT s FROM TimeEntry s WHERE s.id=:id");
-            q.setParameter("id", id);
-            t = (TimeEntry) q.getSingleResult();
-            System.out.println("TimeEntry " + id + " found.");
+            t = em.find(TimeEntry.class, id);
         }
         catch(NoResultException e){
             throw new TimeEntryNotFoundException("TimeEntry with specified ID not found");

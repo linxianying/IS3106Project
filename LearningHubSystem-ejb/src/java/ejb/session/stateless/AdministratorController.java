@@ -125,6 +125,7 @@ public class AdministratorController implements AdministratorControllerLocal {
             adminToUpdate.setUsername(admin.getUsername());
             adminToUpdate.setTelephone(admin.getTelephone());
             adminToUpdate.setEmail(admin.getEmail());
+            adminToUpdate.setIsPremium(admin.getIsPremium());
             return adminToUpdate;
         } else {
             throw new AdminNotFoundException("Admin ID not provided for profile to be updated");

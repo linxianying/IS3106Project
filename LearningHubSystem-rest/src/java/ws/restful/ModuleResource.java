@@ -17,21 +17,23 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBElement;
 import util.exception.ModuleNotFoundException;
 import ws.restful.datamodel.ClassAndGroupsRsp;
 import ws.restful.datamodel.CreateModuleReq;
 import ws.restful.datamodel.CreateModuleRsp;
-import ws.restful.datamodel.DeleteModuleReq;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveAnnouncementsRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
@@ -39,6 +41,7 @@ import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificModuleRsp;
 import ws.restful.datamodel.RetrieveStudentsRsp;
 import ws.restful.datamodel.RetrieveTAsRsp;
+import ws.restful.datamodel.UpdateModuleReq;
 
 /**
  * REST Web Service
@@ -144,8 +147,18 @@ public class ModuleResource {
     public Response retrieveAllModules()
     {
         try
-        {
-            return Response.status(Response.Status.OK).entity(new RetrieveModulesRsp(moduleController.retrieveAllModules())).build();
+        {   List<Module> modules = moduleController.retrieveAllModules();
+            for(Module m:modules){
+                 m.getStduents().clear();
+                 m.getAnnouncements().clear();
+                 m.getLecturers().clear();
+                 m.getTAs().clear();
+                 m.getFiles().clear();
+                
+            }
+            
+            RetrieveModulesRsp retrieveModulesRsp = new RetrieveModulesRsp(modules);
+            return Response.status(Response.Status.OK).entity(retrieveModulesRsp).build();
         }
         catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
@@ -251,7 +264,7 @@ public class ModuleResource {
             RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(students);
 
             return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
-        } catch (ModuleNotFoundException ex) {
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -267,8 +280,9 @@ public class ModuleResource {
             List<TeachingAssistant> tas=moduleController.retrieveTAs(moduleId);
             for (TeachingAssistant ta: tas){
                 ta.getModules().clear();
-     
             }
+
+            
             RetrieveTAsRsp retrieveTAsRsp = new RetrieveTAsRsp(tas);
 
             return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
@@ -279,7 +293,7 @@ public class ModuleResource {
         }
     }
 
-    @Path("createModule")
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -304,27 +318,54 @@ public class ModuleResource {
         }
     }
 
-    @Path("deleteModule")
-    @PUT
+
+    @Path("{moduleId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteModule(@PathParam("moduleId") Long moduleId)
+    {
+        try
+        {
+            moduleController.deleteModule(moduleController.retrieveModuleById(moduleId));
+            
+            return Response.status(Response.Status.OK).build();
+        }
+        catch(ModuleNotFoundException ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteModule(JAXBElement<DeleteModuleReq> jaxbDeleteModuleReq) {
-        if ((jaxbDeleteModuleReq != null) && (jaxbDeleteModuleReq.getValue() != null)) {
-            try {
-                DeleteModuleReq deleteModuleReq = jaxbDeleteModuleReq.getValue();
-
-                moduleController.deleteModule(deleteModuleReq.getModule());
-
-                //return Response.status(Response.Status.OK).build();
-            } catch (ModuleNotFoundException ex) {
-                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-
-                //return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+    public Response updateModule(JAXBElement<UpdateModuleReq> jaxbUpdateModuleReq)
+    {
+        if((jaxbUpdateModuleReq != null) && (jaxbUpdateModuleReq.getValue() != null))
+        {
+            try
+            {
+                UpdateModuleReq updateModuleReq = jaxbUpdateModuleReq.getValue();
+                
+                moduleController.updateModule(updateModuleReq.getModule());
+                
+                return Response.status(Response.Status.OK).build();
             }
-        } else {
-            ErrorRsp errorRsp = new ErrorRsp("Invalid create module request");
-
-            //return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+            catch(ModuleNotFoundException ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update module request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
 

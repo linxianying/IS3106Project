@@ -162,7 +162,7 @@ public class scheduleManagedBean {
     public void addEvent(ActionEvent actionEvent) throws TimeEntryExistException, GeneralException {
         
         if (event.getId() == null) {
-            TimeEntry t = new TimeEntry(event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), "");
+            TimeEntry t = new TimeEntry(event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), event.getDescription());
             if(userType.equals("student")){
                 tecl.createTimeEntry(t, student);
                

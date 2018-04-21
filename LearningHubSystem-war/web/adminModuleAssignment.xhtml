@@ -10,18 +10,53 @@
         <h:head>
             <title>Learning Hub System Administrator Module Management Page</title>
         </h:head>
-        <h1>Module Management:: Module Assignment</h1>
-
-        
-            
-        
-        
+        <h1>Module Management:: Module Assignment</h1>  
         <h:form id="modLecturers">
             <p:menubar>                
                 <p:menuitem value="Add Lecturer" onclick="PF('dialogAddLecturer').show()" icon="ui-icon-plusthick" />                
             </p:menubar>
             
-            <p:dataTable  id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}">
+            <p:dataTable  id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}"
+                          filteredValue="#{moduleAssignment.filteredLecturers}" 
+                            widgetVar="dataTableViewLecturers" 
+                            rowKey="#{lec.id}" rowIndexVar="row"
+                            rows="10" paginator="true" 
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                            {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                            rowsPerPageTemplate="10,20">
+
+                  <f:facet name="header">
+                      <h:outputText value="Lecturer" />
+
+                      <p:outputPanel style="text-align: center;">
+
+                          <h:outputText value="Search all fields:" />
+                          <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter Keyword"/>
+                      </p:outputPanel>
+                  </f:facet>
+                  <f:facet name="{Exporters}">
+                      <div style="float:right;">
+                          <h:commandLink>
+                              <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                              <p:dataExporter type="xls" target="dataTableViewLecturers" fileName="Lecturer"  />
+                          </h:commandLink>
+
+                          <h:commandLink>
+                              <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                              <p:dataExporter type="pdf" target="dataTableViewLecturers" fileName="Lecturer" />
+                          </h:commandLink>
+
+                          <h:commandLink>
+                              <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                              <p:dataExporter type="csv" target="dataTableViewLecturers" fileName="Lecturer"  />
+                          </h:commandLink>
+
+                          <h:commandLink>
+                              <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                              <p:dataExporter type="xml" target="dataTableViewLecturers" fileName="Lecturer"/>
+                          </h:commandLink>
+                      </div>
+                  </f:facet>
                 <p:column headerText="Id">
                     <h:outputText value="#{lec.id}" />
                 </p:column>
@@ -75,7 +110,7 @@
                     <h:outputText value="#{ta.email}" />
                 </p:column>
 
-                <p:column headerText="Email">
+                <p:column headerText="Telephone">
                     <h:outputText value="#{ta.telephone}" />
                 </p:column>
 

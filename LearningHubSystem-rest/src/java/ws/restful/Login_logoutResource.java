@@ -13,6 +13,7 @@ import entity.Administrator;
 import entity.Lecturer;
 import entity.Student;
 import entity.TeachingAssistant;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -20,6 +21,7 @@ import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,6 +31,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
+import util.exception.InvalidLoginCredentialException;
 import util.exception.StudentNotFoundException;
 import ws.restful.datamodel.AdminLoginRsp;
 import ws.restful.datamodel.CreateStudentReq;
@@ -36,6 +39,7 @@ import ws.restful.datamodel.CreateStudentRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.LecturerLoginRsp;
 import ws.restful.datamodel.RetrieveStudentRsp;
+import ws.restful.datamodel.RetrieveStudentsRsp;
 import ws.restful.datamodel.StudentLoginRsp;
 import ws.restful.datamodel.TeachingAssistantLoginRsp;
 import ws.restful.datamodel.UpdateStudentReq;
@@ -74,10 +78,13 @@ public class Login_logoutResource {
         try {
 
             Student student = studentController.login(username, password);
-            if (student != null && student.getIsPremium() == true) {
+            System.err.println("********** HERE");
+            if(student!=null&&student.getIsPremium()==true){
                 student.getModules().clear();
-//                student.getTimeEntries().clear();
-
+                student.getTimeEntries().clear();
+                
+                System.err.println("*********** student: " + student.getUsername());
+               
                 StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
                 return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
             } else {
@@ -85,7 +92,8 @@ public class Login_logoutResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
 
             }
-        } catch (Exception ex) {
+        } 
+            catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -156,7 +164,50 @@ public class Login_logoutResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+    
+    @Path("retrieveAllStudents")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveAllStudents()
+    {
+        try
+        {   
+             List<Student> students = studentController.retrieveAllStudents();
+            for(Student s:students){
+                s.getModules().clear();
+                s.getTimeEntries().clear();
+               
+            }
+           
+            RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(students);
+            return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
+        }
+        catch (Exception ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("{studentId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteStudent(@PathParam("studentId") Long studentId)
+    {
+        try
+        {
+            studentController.deleteStudent(studentController.retrieveStudentById(studentId));
+            
+            return Response.status(Response.Status.OK).build();
+        }
+       catch (StudentNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
     @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
