@@ -15,6 +15,7 @@
         <h:form id="viewAccounts">
 
             <p:accordionPanel id="panel" style="width:100%">
+                
                 <p:tab title="Lecturer"  >
                     <p:menubar>
                         <p:menuitem value="Create New Lecturer" onclick="PF('dialogCreateLec').show()" icon="ui-icon-plusthick" />
@@ -255,7 +256,7 @@
 
                     </p:dataTable>
                 </p:tab>
-
+                    
             </p:accordionPanel>
 
             <p:dialog header="Lecturer: Identity Information" widgetVar="lecDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
@@ -428,7 +429,6 @@
                 </p:commandButton>
 
             </p:dialog>
-
 
         </h:form>
 
