@@ -105,7 +105,7 @@ public class LecturerResource {
             lec.getTimeEntries().clear();
             RetrieveSpecificLecturerRsp retrieveSpecificLecturerRsp = new RetrieveSpecificLecturerRsp(lec);
 
-            return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
+            return Response.status(Response.Status.OK).entity(retrieveSpecificLecturerRsp).build();
         } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
