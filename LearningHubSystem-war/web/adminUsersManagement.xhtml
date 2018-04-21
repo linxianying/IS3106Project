@@ -14,7 +14,7 @@
 
         <h:form id="viewAccounts">
 
-            <p:accordionPanel id="panel">
+            <p:accordionPanel id="panel" style="width:100%">
                 <p:tab title="Lecturer"  >
                     <p:menubar>
                         <p:menuitem value="Create New Lecturer" onclick="PF('dialogCreateLec').show()" icon="ui-icon-plusthick" />
@@ -23,7 +23,8 @@
                                   filteredValue="#{accountManagement.filteredLecturers}" 
                                   var="lecturer" widgetVar="dataTableViewLecturers" 
                                   rowKey="#{lecturer.id}" rowIndexVar="row"
-                                  rows="10" paginator="true" 
+                                  rows="10" paginator="true"  reflow="true" paginatorPosition="bottom" 
+                                  paginatorAlwaysVisible="false"
                                   paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                   {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
                                   rowsPerPageTemplate="10,20">
@@ -69,8 +70,8 @@
                             <h:outputText value="#{lecturer.username}" />
                         </p:column>
 
-                        <p:column headerText="Department" sortBy="#{lecturer.password}" filterBy="#{lecturer.password}" filterMatchMode="contains">
-                            <h:outputText value="#{lecturer.password}" />
+                        <p:column headerText="Department" sortBy="#{lecturer.department}" filterBy="#{lecturer.department}" filterMatchMode="contains">
+                            <h:outputText value="#{lecturer.department}" />
                         </p:column>
 
                         <p:column headerText="Action" >
@@ -102,7 +103,8 @@
                     <p:dataTable id="dataTableViewTAs" value="#{accountManagement.TAs}" 
                                  filteredValue="#{accountManagement.filteredTAs}" var="ta" 
                                  widgetVar="dataTableViewTAs" rowKey="#{ta.id}" rowIndexVar="row"
-                                 rows="10" paginator="true" 
+                                 rows="10" paginator="true" reflow="true" paginatorPosition="bottom" 
+                                  paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
                                  rowsPerPageTemplate="10,20">
@@ -149,8 +151,8 @@
                             <h:outputText value="#{ta.username}" />
                         </p:column>
 
-                        <p:column headerText="Department" sortBy="#{ta.password}" filterBy="#{ta.password}" filterMatchMode="contains">
-                            <h:outputText value="#{ta.password}" />
+                        <p:column headerText="Department" sortBy="#{ta.department}" filterBy="#{ta.department}" filterMatchMode="contains">
+                            <h:outputText value="#{ta.department}" />
                         </p:column>
 
                         <p:column headerText="Action" >
@@ -170,7 +172,8 @@
                     <p:dataTable id="dataTableViewStudents" value="#{accountManagement.students}" 
                                  filteredValue="#{accountManagement.filteredStudents}" var="student" 
                                  widgetVar="dataTableViewStudents" rowKey="#{student.id}" rowIndexVar="row"
-                                 rows="10" paginator="true" 
+                                 rows="10" paginator="true" reflow="true" paginatorPosition="bottom" 
+                                  paginatorAlwaysVisible="false"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
                                  rowsPerPageTemplate="10,20">
@@ -215,8 +218,8 @@
                             <h:outputText value="#{student.username}" />
                         </p:column>
 
-                        <p:column headerText="Department" sortBy="#{student.password}" filterBy="#{student.password}" filterMatchMode="contains">
-                            <h:outputText value="#{student.password}" />
+                        <p:column headerText="Department" sortBy="#{student.department}" filterBy="#{student.department}" filterMatchMode="contains">
+                            <h:outputText value="#{student.department}" />
                         </p:column>
 
                         <p:column headerText="Action" >

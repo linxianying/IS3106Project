@@ -117,7 +117,7 @@
                                 <h:outputLabel value="Current password " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Current password is required"/>
+                                <p:password  id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Current password is required"/>
                             </p:column>
                             <p:message for="currPass" />
                         </p:row>
@@ -126,9 +126,9 @@
                                 <h:outputLabel value="New password "/>
                             </p:column>
                             <p:column>
-                                <h:inputText id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="New password is required" validatorMessage="New password length must be in range [6.16]!">
+                                <p:password  id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="New password is required" validatorMessage="New password length must be in range [6.16]!">
                                     <f:validateLength minimum="6" maximum="16"/>
-                                </h:inputText>
+                                </p:password >
                             </p:column>
                             <p:message for="newPass" />
                         </p:row>
@@ -149,7 +149,7 @@
 
                     <p:messages id="messagesUpdateProfile" redisplay="false" globalOnly="true"/>
 
-                    <p:panelGrid style="width:500px;height:500px;">
+                    <p:panelGrid style="width:100%;height:100%;">
 
                         <p:row>
                             <p:column>
