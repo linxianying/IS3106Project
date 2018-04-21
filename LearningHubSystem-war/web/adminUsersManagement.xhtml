@@ -72,7 +72,15 @@
                         <p:column headerText="Department" sortBy="#{lecturer.department}" filterBy="#{lecturer.department}" filterMatchMode="contains">
                             <h:outputText value="#{lecturer.department}" />
                         </p:column>
-
+                        <p:column filterBy="#{lecturer.email}" sortBy="#{lecturer.email}" headerText="Email" filterMatchMode="contains">
+                                 
+                            <h:outputLink value="Mailto:#{lecturer.email}">
+                                <h:outputText  style="color:black;font-weight:normal;" value="#{lecturer.email}" />
+                                <f:param name="subject" value="[LHS]" />
+                                <f:param name="body" value="" />
+                                <h:outputText value="" />
+                            </h:outputLink>
+                        </p:column>
                         <p:column headerText="Action" >
                             <p:commandButton oncomplete="PF('lecDialog').show()" update="@form" icon="ui-icon-document" title="View Lecuterer Details">
                                 <f:setPropertyActionListener value="#{lecturer}" target="#{accountManagement.lecToView}" />
@@ -152,7 +160,15 @@
                         <p:column headerText="Department" sortBy="#{ta.department}" filterBy="#{ta.department}" filterMatchMode="contains">
                             <h:outputText value="#{ta.department}" />
                         </p:column>
-
+                        <p:column filterBy="#{ta.email}" sortBy="#{ta.email}" headerText="Email" filterMatchMode="contains">
+                                 
+                            <h:outputLink value="Mailto:#{ta.email}">
+                                <h:outputText  style="color:black;font-weight:normal;" value="#{ta.email}" />
+                                <f:param name="subject" value="[LHS]" />
+                                <f:param name="body" value="" />
+                                <h:outputText value="" />
+                            </h:outputLink>
+                        </p:column>
                         <p:column headerText="Action" >
                             <p:commandButton oncomplete="PF('taDialog').show()" update="@form" icon="ui-icon-document" title="View TA Details">
                                 <f:setPropertyActionListener value="#{ta}" target="#{accountManagement.taToView}" />
@@ -218,7 +234,15 @@
                         <p:column headerText="Department" sortBy="#{student.department}" filterBy="#{student.department}" filterMatchMode="contains">
                             <h:outputText value="#{student.department}" />
                         </p:column>
-
+                        <p:column filterBy="#{student.email}" sortBy="#{student.email}" headerText="Email" filterMatchMode="contains">
+                                 
+                            <h:outputLink value="Mailto:#{student.email}">
+                                <h:outputText  style="color:black;font-weight:normal;" value="#{student.email}" />
+                                <f:param name="subject" value="[LHS]" />
+                                <f:param name="body" value="" />
+                                <h:outputText value="" />
+                            </h:outputLink>
+                        </p:column>
                         <p:column headerText="Action" >
                             <p:commandButton oncomplete="PF('stuDialog').show()" update="@form" icon="ui-icon-document" title="View Student Details">
                                 <f:setPropertyActionListener value="#{student}" target="#{accountManagement.stuToView}" />
