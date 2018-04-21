@@ -19,6 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 public class RetrieveAdminRsp {
     private Administrator admin;
 
+    public RetrieveAdminRsp() {
+    }
+    
+    
+
     public RetrieveAdminRsp(Administrator admin) {
         this.admin = admin;
     }

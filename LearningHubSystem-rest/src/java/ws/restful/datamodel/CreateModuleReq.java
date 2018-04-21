@@ -21,6 +21,12 @@ import javax.xml.bind.annotation.XmlType;
 public class CreateModuleReq {
     private Module module;
 
+    public CreateModuleReq() {
+        
+    }
+    
+    
+
     public CreateModuleReq(Module module) {
         this.module = module;
     }

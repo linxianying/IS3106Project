@@ -5,37 +5,41 @@
  */
 package ws.restful.datamodel;
 
-import entity.Administrator;
 import entity.Student;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author lxy
+ * @author wyh
  */
-
-@XmlType(name = "retrieveStudentRsp", propOrder = {
+@XmlType(name = "updateStudentRsp", propOrder = {
     "student"
 })
-public class RetrieveStudentRsp {
+public class UpdateStudentRsp {
+    
     private Student student;
 
-    public RetrieveStudentRsp() {
+    public UpdateStudentRsp() {
     }
-    
-    
 
-    public RetrieveStudentRsp(Student student) {
+    public UpdateStudentRsp(Student student) {
         this.student = student;
     }
 
+    /**
+     * @return the student
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     * @param student the student to set
+     */
     public void setStudent(Student student) {
         this.student = student;
     }
+    
     
     
 }
