@@ -135,7 +135,6 @@ public class settingManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
             }
         }
-        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isPremium", isPremium);
  
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("choosePremium", false);
