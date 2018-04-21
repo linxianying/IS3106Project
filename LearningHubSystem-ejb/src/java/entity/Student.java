@@ -56,6 +56,8 @@ public class Student implements Serializable {
     
     @Column(nullable = false)
     private boolean isPremium;
+    
+    private String photoName;
 
     @ManyToMany(cascade={CascadeType.PERSIST})
     @JoinTable(name="Student_Module")
@@ -69,6 +71,7 @@ public class Student implements Serializable {
         timeEntries = new ArrayList<>();
         this.isPremium = false;
         modules = new ArrayList<>();
+        photoName = "nophoto";
     }
 
     public Student(String name, String password, String email, String faculty, String department, String telephone, String username) {
@@ -195,6 +198,20 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return "entity.Student[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the photoName
+     */
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    /**
+     * @param photoName the photoName to set
+     */
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
     
 }

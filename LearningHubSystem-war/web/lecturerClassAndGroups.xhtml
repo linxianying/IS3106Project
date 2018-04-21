@@ -21,7 +21,7 @@
                         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                             <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
                                 <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
-                                <p:graphicImage value="resources/images/nophoto.jpg"/> 
+                                <p:graphicImage value="resources/images/#{student.photoName}.jpg" width="200"/> 
                             </p:commandLink>
 
                             <p:outputPanel>

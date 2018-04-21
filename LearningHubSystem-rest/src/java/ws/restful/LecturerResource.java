@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -44,6 +45,9 @@ import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveLecturersRsp;
 import ws.restful.datamodel.RetrieveModulesRsp;
 import ws.restful.datamodel.RetrieveSpecificLecturerRsp;
+import ws.restful.datamodel.UpdateLecturerReq;
+import ws.restful.datamodel.UpdateLecturerRsp;
+import ws.restful.datamodel.UpdateStudentRsp;
 
 /**
  * REST Web Service
@@ -178,6 +182,7 @@ public class LecturerResource {
         }
     }
     
+<<<<<<< HEAD
     @Path("assignModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -201,6 +206,44 @@ public class LecturerResource {
             }
             
             catch(LecturerNotFoundException | ModuleExistException ex)
+=======
+    
+    @Path("getLecturer/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLecturer(@PathParam("username") String username) {
+        try {
+            Lecturer l = lecturerControllerLocal.retrieveLecturerByUsername(username);
+            l.getModules().clear();
+            l.getTimeEntries().clear();
+            l.getAnnouncements().clear();
+            UpdateLecturerRsp updateLecturerRsp = new UpdateLecturerRsp(l);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(updateLecturerRsp).build();
+        } catch (LecturerNotFoundException ex) {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateLecturer(JAXBElement<UpdateLecturerReq> jaxbUpdateLecturerReq)
+    {
+        if((jaxbUpdateLecturerReq != null) && (jaxbUpdateLecturerReq.getValue() != null))
+        {
+            try
+            {
+                UpdateLecturerReq updateLecturerReq= jaxbUpdateLecturerReq.getValue();
+                
+                lecturerControllerLocal.updateLecturer(updateLecturerReq.getLecturer());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
             
@@ -209,11 +252,16 @@ public class LecturerResource {
         }
         else
         {
+<<<<<<< HEAD
             ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
+=======
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update lecturer request");
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
+<<<<<<< HEAD
     
     @Path("{lecturerId}")
     @DELETE
@@ -233,6 +281,8 @@ public class LecturerResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
+=======
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
 
     private LecturerControllerLocal lookupLecturerControllerLocal() {
         try {

@@ -21,7 +21,7 @@
         <!--    download files-->
         <h2>Files Can Download For this Module</h2>
         <h:form>
-            <p:repeat value="#{fileDownloadManagedBean.relatedFiles}" var="file">
+            <p:repeat value="#{fileManagedBean.relatedFiles}" var="file">
 
                 <p:panelGrid style="margin-top:20px">
                     <f:facet name="header">
@@ -38,14 +38,14 @@
                         </p:column>
 
                         <p:column>
-                            <p:commandButton value="1.selectFile" actionListener="#{fileDownloadManagedBean.handleDownload}" update="@form">
+                            <p:commandButton value="1.selectFile" actionListener="#{fileManagedBean.handleDownload}" update="@form">
                                 <f:attribute name="fileId" value="#{file.id}"  />
                             </p:commandButton>
                         </p:column>
 
                         <p:column>
                             <p:commandButton value="2.download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                                <p:fileDownload value="#{fileDownloadManagedBean.file}" />
+                                <p:fileDownload value="#{fileManagedBean.file}" />
                             </p:commandButton>
                         </p:column>
                     </p:row>

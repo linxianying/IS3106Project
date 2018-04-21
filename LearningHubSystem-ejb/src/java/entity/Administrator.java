@@ -43,10 +43,13 @@ public class Administrator implements Serializable {
 
     @Column(nullable = false)
     private boolean isPremium;
+    
+    private String photoName;
 
     //default constructor
     public Administrator() {
         this.isPremium = false;
+        photoName = "nophoto";
     }
 
     public Administrator(String name, String email, String telephone, String username, String password) {
@@ -137,6 +140,20 @@ public class Administrator implements Serializable {
     @Override
     public String toString() {
         return "entity.Administrator[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the photoName
+     */
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    /**
+     * @param photoName the photoName to set
+     */
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 
 }

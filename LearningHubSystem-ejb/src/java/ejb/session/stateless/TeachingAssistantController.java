@@ -139,6 +139,7 @@ public class TeachingAssistantController implements TeachingAssistantControllerL
             taToUpdate.setEmail(ta.getEmail());
             taToUpdate.setDepartment(ta.getDepartment());
             taToUpdate.setFaculty(ta.getFaculty());
+            taToUpdate.setIsPremium(ta.getIsPremium());
             em.merge(taToUpdate);
             return taToUpdate;
             

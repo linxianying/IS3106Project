@@ -15,14 +15,12 @@
             <h2>Teaching Assistant: Personal Profile</h2>
 
             <h:form id="viewProfile">
-                <p:panelGrid style="width:60%;">
-                    <f:facet name="header">
-                        <p:row>
-                            <p:column colspan="3">
-                                <h:outputText value="replaced by photo" />
-                            </p:column>
-                        </p:row>
-                    </f:facet>
+                <p:panelGrid style="width:30%;">
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:graphicImage value="resources/images/#{settingManagedBean.ta.photoName}.jpg" width="200"/> 
+                        </p:column>
+                    </p:row>
 
                     <p:row>
                         <p:column>
@@ -104,7 +102,7 @@
                         </p:column>
                     </p:row>                    <p:row>
                         <p:column colspan="3">
-                            <p:commandButton value="Change password" oncomplete="PF('dialogUpdatePassword').show()"/>
+                            <p:commandButton value="Change password" oncomplete="PF('dialogUpdatePassword').show()" icon="ui-icon-key"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
@@ -112,32 +110,30 @@
 
             <h:form id="formUpdatePassword">
                 <p:dialog id="dialogUpdatePassword" widgetVar="dialogUpdatePassword" header="Update Password" closable="true">
-                    <p:messages id="messagesUpdatePassword" redisplay="false" />
+                    <p:messages id="messagesUpdatePassword" redisplay="false" globalOnly="true"/>
                     <p:panelGrid>
                         <p:row>
                             <p:column>
                                 <h:outputLabel value="Current password " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Name is required"/>
+                                <h:inputText id="currPass" value="#{settingManagedBean.currentPassword}" requiredMessage="Current password is required"/>
                             </p:column>
-                            <p:column>
-                                <p:message for="currPass" />
-                            </p:column>
+                            <p:message for="currPass" />
                         </p:row>
                         <p:row>
                             <p:column>
                                 <h:outputLabel value="New password " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="Name is required"/>
+                                <h:inputText id="newPass" value="#{settingManagedBean.newPassword}" requiredMessage="New password is required" validatorMessage="New password length must be in range [6.16]!">
+                                    <f:validateLength minimum="6" maximum="16"/>
+                                </h:inputText>
                             </p:column>
-                            <p:column>
-                                <p:message for="newPass" />
-                            </p:column>
+                            <p:message for="newPass" />
                         </p:row>
                         <p:row>
-                            <p:column colspan="3">
+                            <p:column colspan="2">
                                 <p:commandButton value="Update Password" update="@form" actionListener="#{settingManagedBean.updatePassword}" oncomplete="PF('dialogUpdatePassword').show();" />
                             </p:column>
                         </p:row>
@@ -149,7 +145,7 @@
 
                 <p:dialog id="dialogUpdateProfile" widgetVar="dialogUpdateProfile" header="Update Profile" closable="true">
 
-                    <p:messages id="messagesUpdateProfile" redisplay="false" />
+                    <p:messages id="messagesUpdateProfile" redisplay="false" globalOnly="true"/>
 
                     <p:panelGrid style="width:500px;height:500px;">
 
@@ -158,11 +154,9 @@
                                 <h:outputLabel value="Name: " />
                             </p:column>
                             <p:column>
-                                <h:inputText id="name" value="#{settingManagedBean.ta.name}" requiredMessage="Name is required"/>
+                                <h:outputText id="name" value="#{settingManagedBean.ta.name}"/>
                             </p:column>
-                            <p:column>
-                                <p:message for="name" />
-                            </p:column>
+                            <p:message for="name" />
                         </p:row>
 
                         <p:row>
@@ -170,14 +164,9 @@
                                 <h:outputLabel value="Username: " />
                             </p:column>
                             <p:column>
-                                <p:inputText id="username" value="#{settingManagedBean.ta.username}" requiredMessage="Username is required" 
-                                             validatorMessage="Username must be between 4-12 letters/numbers.">
-                                    <f:validateRegex pattern="^[a-zA-Z0-9]{4,12}$" />
-                                </p:inputText>
+                                <h:outputText id="username" value="#{settingManagedBean.ta.username}"/>
                             </p:column>
-                            <p:column>
-                                <p:message for="username" />
-                            </p:column>
+                            <p:message for="username" />
                         </p:row>
 
                         <p:row>
@@ -189,9 +178,7 @@
                                              validatorMessage="Email format is invalid."
                                              required="true" requiredMessage="Email is required" />
                             </p:column>
-                            <p:column>
-                                <p:message for="email" />
-                            </p:column>
+                            <p:message for="email" />
                         </p:row>
 
                         <p:row>
@@ -201,25 +188,20 @@
                             <p:column>
                                 <p:inputText id="tele" value="#{settingManagedBean.ta.telephone}" required="true" requiredMessage="Telephone is required"
                                              validatorMessage="Should be numeric!">
-                                    <f:validateRegex pattern="^[0-9]$"/>
+                                    <f:validateRegex pattern="[0-9]+"/>
                                 </p:inputText>
                             </p:column>
-                            <p:column>
-                                <p:message for="tele" />
-                            </p:column>
+                            <p:message for="tele" />
                         </p:row>
 
                         <p:row>
-                            <p:column colspan="3">
+                            <p:column colspan="2">
                                 <p:commandButton value="Update Profile" update="@form viewProfile" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
                             </p:column>
                         </p:row>
                     </p:panelGrid>
-
                 </p:dialog>
-
             </h:form>
-
         </body>
 
     </ui:define>

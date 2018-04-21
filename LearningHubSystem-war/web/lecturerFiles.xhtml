@@ -24,16 +24,16 @@
         <h:form id="formUploadFile" enctype="multipart/form-data">
             <p:panel header="File Upload">
                 <p:messages autoUpdate="true" redisplay="false" />
-                <p:fileUpload fileUploadListener="#{fileUploadManagedBean.handleUpload}"
+                <p:fileUpload fileUploadListener="#{fileManagedBean.handleUpload}"
                               mode="advanced" dragDropSupport="false"  
-                              update="@form" sizeLimit="100000000" fileLimit="3"/>
+                              sizeLimit="100000000" fileLimit="3" update="@form download"/>
             </p:panel>
         </h:form>
 
         <!--    download files-->
         <h2>Files Can Download For this Module</h2>
         <h:form id="download">
-            <p:repeat value="#{fileDownloadManagedBean.relatedFiles}" var="file">
+            <p:repeat value="#{fileManagedBean.relatedFiles}" var="file">
 
                 <p:panelGrid style="margin-top:20px">
                     <f:facet name="header">
@@ -50,14 +50,14 @@
                         </p:column>
 
                         <p:column>
-                            <p:commandButton value="1.selectFile" actionListener="#{fileDownloadManagedBean.handleDownload}" update="@form">
+                            <p:commandButton value="1.selectFile" actionListener="#{fileManagedBean.handleDownload}" update="@form">
                                 <f:attribute name="fileId" value="#{file.id}"  />
                             </p:commandButton>
                         </p:column>
 
                         <p:column>
                             <p:commandButton value="2.download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                                <p:fileDownload value="#{fileDownloadManagedBean.file}" />
+                                <p:fileDownload value="#{fileManagedBean.file}" />
                             </p:commandButton>
                         </p:column>
                     </p:row>

@@ -19,6 +19,7 @@ import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 import util.exception.StudentNotFoundException;
+import util.exception.TANotFoundException;
 
 /**
  *
@@ -27,6 +28,9 @@ import util.exception.StudentNotFoundException;
 @Stateless
 @Local(ModuleControllerLocal.class)
 public class ModuleController implements ModuleControllerLocal {
+
+    @EJB
+    private TeachingAssistantControllerLocal teachingAssistantController;
 
     @EJB
     private LecturerControllerLocal lecturerController;
@@ -98,6 +102,26 @@ public class ModuleController implements ModuleControllerLocal {
             }
             return modules;
         } catch (LecturerNotFoundException ex) {
+            ex.getMessage();
+        }
+        System.err.println("modules list is null!!!!!!!!!!!");
+        return new ArrayList<Module>();
+    }
+    
+    @Override
+    public List<Module> retrieveModulesByTaUsername(String username){
+        try {
+            TeachingAssistant currentTa = teachingAssistantController.retrieveTAByUsername(username);
+            System.err.println(currentTa);
+            List<Module> modules = currentTa.getModules();
+            if(modules.isEmpty()){
+                System.err.println("modules list is empty");
+            }
+            else{
+                System.err.println("modules list not empty");
+            }
+            return modules;
+        } catch (TANotFoundException ex) {
             ex.getMessage();
         }
         System.err.println("modules list is null!!!!!!!!!!!");

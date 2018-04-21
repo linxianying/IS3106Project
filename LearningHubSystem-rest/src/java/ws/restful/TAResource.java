@@ -7,14 +7,22 @@ package ws.restful;
 
 import ejb.session.stateless.TeachingAssistantControllerLocal;
 import entity.TeachingAssistant;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
+<<<<<<< HEAD
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+=======
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -22,9 +30,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+<<<<<<< HEAD
 import util.exception.TANotFoundException;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveTAsRsp;
+=======
+import javax.xml.bind.JAXBElement;
+import util.exception.TANotFoundException;
+import ws.restful.datamodel.ErrorRsp;
+import ws.restful.datamodel.UpdateLecturerReq;
+import ws.restful.datamodel.UpdateTaReq;
+import ws.restful.datamodel.UpdateTaRsp;
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
 
 /**
  * REST Web Service
@@ -46,6 +63,7 @@ public class TAResource {
         taController = lookupTeachingAssistantControllerLocal();
     }
     
+<<<<<<< HEAD
     @Path("retrieveAllTAs")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,12 +82,26 @@ public class TAResource {
             return Response.status(Response.Status.OK).entity(retrieveTAsRsp).build();
         }
         catch (Exception ex) {
+=======
+    @Path("getTa/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTa(@PathParam("username") String username) {
+        try {
+            TeachingAssistant ta = taController.retrieveTAByUsername(username);
+            ta.getModules().clear();
+            UpdateTaRsp updateTaRsp = new UpdateTaRsp(ta);
+            //RetrieveStudentRsp retrieveStudentRsp = new RetrieveStudentRsp(s);
+            return Response.status(Response.Status.OK).entity(updateTaRsp).build();
+        } catch (TANotFoundException ex) {
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
     
+<<<<<<< HEAD
     @Path("{taId}")
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
@@ -91,6 +123,38 @@ public class TAResource {
     
 
     
+=======
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTa(JAXBElement<UpdateTaReq> jaxbUpdateTaReq)
+    {
+        if((jaxbUpdateTaReq != null) && (jaxbUpdateTaReq.getValue() != null))
+        {
+            try
+            {
+                UpdateTaReq updateTaReq= jaxbUpdateTaReq.getValue();
+                
+                taController.updateTA(updateTaReq.getTa());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update TA request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
     
 
     private TeachingAssistantControllerLocal lookupTeachingAssistantControllerLocal() {

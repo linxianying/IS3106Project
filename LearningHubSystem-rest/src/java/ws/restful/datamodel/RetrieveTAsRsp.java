@@ -20,10 +20,16 @@ public class RetrieveTAsRsp {
     private List<TeachingAssistant> tas;
 
     public RetrieveTAsRsp() {
+<<<<<<< HEAD
         
     }
     
     
+=======
+    }
+    
+
+>>>>>>> 8bb916cd26c782b8740cbdc595aaeb39063730b3
     public RetrieveTAsRsp(List<TeachingAssistant> tas) {
         this.tas = tas;
     }
