@@ -177,11 +177,42 @@
                             <p:message for="tele" />
                         </p:row>
 
-                        <p:row>
+                        <p:row rendered="#{!sessionScope['isPremium']}">
                             <p:column colspan="2">
-                                <p:commandButton value="Update Profile" update="@form viewProfile" actionListener="#{settingManagedBean.update}" oncomplete="PF('dialogUpdateProfile').show();" />
+                                <p:selectBooleanCheckbox value="#{settingManagedBean.choosePremium}">
+                                    <p:ajax listener="#{settingManagedBean.checkboxListener}" 
+                                            update="@form" 
+                                            oncomplete="PF('dialogUpdateProfile').show();"  />
+                                </p:selectBooleanCheckbox>
+                                <h:outputText value="   Do you want to be premium user?" />
                             </p:column>
                         </p:row>
+
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Update Profile" update="viewProfile @form" 
+                                                 actionListener="#{settingManagedBean.update}" 
+                                                 oncomplete="PF('dialogUpdateProfile').show();"
+                                                 rendered="#{!sessionScope['choosePremium']}"/>
+
+
+                                <p:commandButton value="Update Profile" update="viewProfile @form" 
+                                                 actionListener="#{settingManagedBean.update}" 
+                                                 oncomplete="PF('dialogUpdateProfile').show();"
+                                                 rendered="#{sessionScope['choosePremium']}">
+
+                                    <p:confirm header="Confirmation" 
+                                               message="Premium user can use mobile app, but need to charge $5 every month. Do you confirm to be premium user?
+                                               If you want to cancel premium later, please set in mobile app." 
+                                               icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:row>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
                     </p:panelGrid>
 
                 </p:dialog>
