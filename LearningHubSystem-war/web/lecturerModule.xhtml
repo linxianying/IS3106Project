@@ -18,11 +18,12 @@
 
                 <ui:repeat value="#{moduleManagedBean.modules}" var="module">
                     <p:panel header="#{module.moduleCode}">
-                    <p:commandLink actionListener="#{moduleManagedBean.viewModuleDetails}" value="#{module.moduleName}">
-                        <f:attribute value="#{module.id}" name="ModuleIdToView"/>
-                    </p:commandLink><br/>
-                    <h:outputText value="#{module.modularCredit}" /><br/>
-                    <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
+                        <p:commandLink actionListener="#{moduleManagedBean.viewModuleDetails}" value="#{module.moduleName}"
+                                       style="color:black;">
+                            <f:attribute value="#{module.id}" name="ModuleIdToView"/>
+                        </p:commandLink><br/>
+                        <h:outputText value="#{module.modularCredit}" /><br/>
+                        <h:outputText value="#{utilManagedBean.formatLecturer(module.lecturers)}" />
                     </p:panel>
                     <br/>
 
