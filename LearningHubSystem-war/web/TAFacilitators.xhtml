@@ -74,7 +74,7 @@
                 <p:outputPanel id="lecturerDetail" style="text-align:center;">
                     <p:panelGrid  columns="2" rendered="#{not empty facilitatorManagedBean.selectedLecturer}" columnClasses="label,value">
                         <f:facet name="header">
-                            <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                            <p:graphicImage value="resources/images/#{lecturer.photoName}.jpg" /> 
                         </f:facet>
 
                         <h:outputText value="Name:" />
@@ -101,7 +101,7 @@
                 <p:outputPanel id="TADetail" style="text-align:center;">
                     <p:panelGrid  columns="2" rendered="#{not empty facilitatorManagedBean.selectedTA}" columnClasses="label,value">
                         <f:facet name="header">
-                            <p:graphicImage value="resources/images/nophoto.jpg" /> 
+                            <p:graphicImage value="resources/images/#{TA.photoName}.jpg" /> 
                         </f:facet>
 
                         <h:outputText value="Name:" />
