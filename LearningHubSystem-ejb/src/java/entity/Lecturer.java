@@ -77,8 +77,8 @@ public class Lecturer implements Serializable {
         timeEntries=new ArrayList<>();
         photoName = "nophoto";
         password = "password";
-        email = "fake@123.com";
-        telephone = "123456";
+       
+        
         
 
     }
