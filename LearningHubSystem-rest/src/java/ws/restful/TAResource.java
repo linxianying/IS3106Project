@@ -187,11 +187,11 @@ public class TAResource {
                 TeachingAssistant ta= taController.retrieveTAById(assignModuleReq.getTaId());
      
     
-                module = taController.registerModule(ta, module);
+                taController.registerModule(ta, module);
                 
-                CreateModuleRsp assignModuleRsp = new CreateModuleRsp(module);
                 
-                return Response.status(Response.Status.OK).entity(assignModuleRsp).build();
+                
+                return Response.status(Response.Status.OK).build();
             }
             
             catch(TANotFoundException | ModuleExistException ex){

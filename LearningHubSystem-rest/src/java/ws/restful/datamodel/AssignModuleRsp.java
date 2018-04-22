@@ -18,6 +18,11 @@ import javax.xml.bind.annotation.XmlType;
 public class AssignModuleRsp {
     private Module module;
 
+    public AssignModuleRsp() {
+    }
+    
+    
+
     public AssignModuleRsp(Module module) {
         this.module = module;
     }

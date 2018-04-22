@@ -31,7 +31,6 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(ws.restful.AdminResource.class);
         resources.add(ws.restful.AnnouncementResource.class);
-        resources.add(ws.restful.FileResource.class);
         resources.add(ws.restful.LecturerResource.class);
         resources.add(ws.restful.Login_logoutResource.class);
         resources.add(ws.restful.ModuleResource.class);
