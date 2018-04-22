@@ -5,8 +5,12 @@
  */
 package jsf.managedBean;
 
+import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -20,6 +24,11 @@ public class indexManagedBean {
      * Creates a new instance of indexManagedBean
      */
     public indexManagedBean() {
+    }
+    
+    public void logout(ActionEvent event) throws IOException {
+        ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
     }
     
 }
