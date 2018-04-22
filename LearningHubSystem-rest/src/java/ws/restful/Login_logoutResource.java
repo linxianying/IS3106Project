@@ -34,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBElement;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.LecturerNotFoundException;
 import util.exception.ModuleExistException;
 import util.exception.ModuleNotFoundException;
 import util.exception.StudentNotFoundException;
@@ -66,7 +67,6 @@ public class Login_logoutResource {
     AdministratorControllerLocal adminController;
     LecturerControllerLocal lecturerController;
     TeachingAssistantControllerLocal taController;
-    
 
     @Context
     private UriInfo context;
@@ -90,12 +90,12 @@ public class Login_logoutResource {
 
             Student student = studentController.login(username, password);
             System.err.println("********** HERE");
-            if(student!=null&&student.getIsPremium()==true){
+            if (student != null && student.getIsPremium() == true) {
                 student.getModules().clear();
                 student.getTimeEntries().clear();
-                
+
                 System.err.println("*********** student: " + student.getUsername());
-               
+
                 StudentLoginRsp studentLoginRsp = new StudentLoginRsp(student);
                 return Response.status(Response.Status.OK).entity(studentLoginRsp).build();
             } else {
@@ -103,8 +103,7 @@ public class Login_logoutResource {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
 
             }
-        } 
-            catch (InvalidLoginCredentialException ex) {
+        } catch (InvalidLoginCredentialException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
@@ -175,66 +174,67 @@ public class Login_logoutResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     @Path("retrieveAllStudents")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveAllStudents()
-    {
-        try
-        {   
-             List<Student> students = studentController.retrieveAllStudents();
-            for(Student s:students){
+    public Response retrieveAllStudents() {
+        try {
+            List<Student> students = studentController.retrieveAllStudents();
+            for (Student s : students) {
                 s.getModules().clear();
                 s.getTimeEntries().clear();
-               
+
             }
-           
+
             RetrieveStudentsRsp retrieveStudentsRsp = new RetrieveStudentsRsp(students);
             return Response.status(Response.Status.OK).entity(retrieveStudentsRsp).build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     @Path("{studentId}")
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteStudent(@PathParam("studentId") Long studentId)
-    {
-        try
-        {
+    public Response deleteStudent(@PathParam("studentId") Long studentId) {
+        try {
             studentController.deleteStudent(studentController.retrieveStudentById(studentId));
-            
+
             return Response.status(Response.Status.OK).build();
-        }
-       catch (StudentNotFoundException ex) {
+        } catch (StudentNotFoundException ex) {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     @Path("lecturerLogin/{username}/{password}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response lecturerLogin(@PathParam("username") String username, @PathParam("password") String password) {
         try {
             Lecturer lecturer = lecturerController.login(username, password);
-            lecturer.getModules().clear();
-            lecturer.getTimeEntries().clear();
-            lecturer.getAnnouncements().clear();
+            System.err.println(lecturer);
+            if (lecturer != null && lecturer.getIsPremium() == true) {
+                lecturer.getModules().clear();
+                lecturer.getTimeEntries().clear();
+                lecturer.getAnnouncements().clear();
 
-            LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
-            System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
-            return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
-        } catch (Exception ex) {
+                LecturerLoginRsp lecturerLoginRsp = new LecturerLoginRsp(lecturer);
+                System.out.println(Response.status(Response.Status.OK).entity(lecturerLoginRsp).build());
+                return Response.status(Response.Status.OK).entity(lecturerLoginRsp).build();
+            } 
+            else {
+                ErrorRsp errorRsp = new ErrorRsp("not premium user");
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+
+            }
+        }catch(InvalidLoginCredentialException|LecturerNotFoundException ex){
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
@@ -246,7 +246,7 @@ public class Login_logoutResource {
         try {
 
             Administrator admin = adminController.login(username, password);
-            if (admin != null) {
+            if (admin != null&& admin.getIsPremium() == true) {
 
                 AdminLoginRsp adminLoginRsp = new AdminLoginRsp(admin);
                 System.out.println(Response.status(Response.Status.OK).entity(adminLoginRsp).build());
@@ -270,7 +270,7 @@ public class Login_logoutResource {
         try {
 
             TeachingAssistant ta = taController.login(username, password);
-            if (ta != null) {
+            if (ta != null&& ta.getIsPremium() == true) {
                 ta.getModules().clear();
                 TeachingAssistantLoginRsp taLoginRsp = new TeachingAssistantLoginRsp(ta);
                 System.out.println(Response.status(Response.Status.OK).entity(taLoginRsp).build());
@@ -286,73 +286,54 @@ public class Login_logoutResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
-    
+
     @Path("assignModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response assignModule(JAXBElement<AssignModuleStudentReq> jaxbAssignModuleStudentReq) throws ModuleNotFoundException
-    {
-        if((jaxbAssignModuleStudentReq != null) && (jaxbAssignModuleStudentReq.getValue() != null))
-        {
-            try
-            {
+    public Response assignModule(JAXBElement<AssignModuleStudentReq> jaxbAssignModuleStudentReq) throws ModuleNotFoundException {
+        if ((jaxbAssignModuleStudentReq != null) && (jaxbAssignModuleStudentReq.getValue() != null)) {
+            try {
                 AssignModuleStudentReq assignModuleReq = jaxbAssignModuleStudentReq.getValue();
                 Module module = moduleController.retrieveModuleById(assignModuleReq.getModuleId());
-                Student stu= studentController.retrieveStudentById(assignModuleReq.getStudentId());
-     
-    
+                Student stu = studentController.retrieveStudentById(assignModuleReq.getStudentId());
+
                 studentController.registerModule(stu, module);
-                
-                
-                
+
                 return Response.status(Response.Status.OK).build();
-            }
-            
-            catch(StudentNotFoundException | ModuleExistException ex){
+            } catch (StudentNotFoundException | ModuleExistException ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
             }
-        }
-        else
-        {
+        } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid assign module request");
-            
+
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
-    
+
     @Path("dropModule")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response dropModule(JAXBElement<DropModuleStudentReq> jaxbDropModuleStudentReq) throws ModuleNotFoundException
-    {
-        if((jaxbDropModuleStudentReq != null) && (jaxbDropModuleStudentReq.getValue() != null))
-        {
-            try
-            {
+    public Response dropModule(JAXBElement<DropModuleStudentReq> jaxbDropModuleStudentReq) throws ModuleNotFoundException {
+        if ((jaxbDropModuleStudentReq != null) && (jaxbDropModuleStudentReq.getValue() != null)) {
+            try {
                 DropModuleStudentReq dropModuleStudentReq = jaxbDropModuleStudentReq.getValue();
                 Module module = moduleController.retrieveModuleById(dropModuleStudentReq.getModuleId());
-                Student stu= studentController.retrieveStudentById(dropModuleStudentReq.getStudentId());
+                Student stu = studentController.retrieveStudentById(dropModuleStudentReq.getStudentId());
                 studentController.dropModule(stu, module);
-                
-         
-                
+
                 return Response.status(Response.Status.OK).build();
-            }
-            
-            catch(StudentNotFoundException ex){
+            } catch (StudentNotFoundException ex) {
                 ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
-            
+
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
-            } 
-        }
-        else
-        {
+            }
+        } else {
             ErrorRsp errorRsp = new ErrorRsp("Invalid remove lecturer request");
-            
+
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
