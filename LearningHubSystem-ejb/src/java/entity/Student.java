@@ -60,7 +60,7 @@ public class Student implements Serializable {
     private String photoName;
 
     @ManyToMany(cascade={CascadeType.PERSIST})
-    @JoinTable(name="Student_Module")
+    @JoinTable(name="STUDENT_MODULE")
     private List<Module> modules;
     
     @OneToMany(cascade={CascadeType.ALL})

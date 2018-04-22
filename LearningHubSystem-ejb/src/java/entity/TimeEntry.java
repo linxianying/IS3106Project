@@ -35,7 +35,7 @@ public class TimeEntry implements Serializable {
     private String toDate;
     //"yyyy-MM-dd HH:mm"
     
-    @Column(length = 512, nullable = false)
+    @Column(length = 512, nullable = true)
     private String details;
     
     public TimeEntry() {

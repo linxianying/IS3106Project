@@ -59,7 +59,7 @@ public class TeachingAssistant implements Serializable {
     private String photoName;
 
     @ManyToMany(cascade = {CascadeType.PERSIST})
-    @JoinTable(name = "TA_Module")
+    @JoinTable(name = "TA_MODULE")
     private List<Module> modules;
 
     public TeachingAssistant() {

@@ -75,7 +75,9 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     public TimeEntry retrieveTimeEntryById(Long id) throws TimeEntryNotFoundException{
         t = null;
         try{
+            System.out.println(id);
             t = em.find(TimeEntry.class, id);
+            
         }
         catch(NoResultException e){
             throw new TimeEntryNotFoundException("TimeEntry with specified ID not found");
@@ -158,11 +160,38 @@ public class TimeEntryController implements TimeEntryControllerLocal {
     }
     
     @Override
-    public void updateTimeEntry(TimeEntry timeEntry,String title, String from, String to, String details){
-        t.setTitle(title);
-        t.setFromDate(from);
-        t.setToDate(to);
-        t.setDetails(details);
+    public void updateTimeEntry(TimeEntry timeEntry, String title, String from, String to, String details){
+        if(timeEntry!=null){
+            if(title!=null){
+                timeEntry.setTitle(title);
+            }
+            if(from!=null){
+                timeEntry.setFromDate(from);
+            }
+            if(to!=null){
+                timeEntry.setToDate(to);
+            }
+            if(details!=null){
+                timeEntry.setDetails(details);
+            }
+            System.out.println("updateTimeEntry: "+title+"(title) " + from + "(from) "
+            + to + "(to) "+ details + "(details) ");
+        }
+        else{
+            System.out.println("TimeEntry is null! Updation failed");
+        }
+    }
+    
+    @Override
+    public void updateTimeEntry(TimeEntry timeEntry) throws TimeEntryNotFoundException{
+        t = null;
+        t = retrieveTimeEntryById(timeEntry.getId());
+        if(t!=null){
+            t.setDetails(timeEntry.getDetails());
+            t.setTitle(timeEntry.getTitle());
+            t.setToDate(timeEntry.getToDate());
+            t.setFromDate(timeEntry.getFromDate());
+        }
     }
     
     @Override

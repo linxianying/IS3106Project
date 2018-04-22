@@ -21,6 +21,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -34,6 +35,7 @@ import ws.restful.datamodel.CreateTimeEntryRsp;
 import ws.restful.datamodel.ErrorRsp;
 import ws.restful.datamodel.RetrieveTimeEntryByNameRsp;
 import ws.restful.datamodel.RetrieveTimeEntryRsp;
+import ws.restful.datamodel.UpdateTimeEntryReq;
 
 /**
  * REST Web Service
@@ -131,6 +133,36 @@ public class ScheduleResource {
             ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+        }
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateLecturer(JAXBElement<UpdateTimeEntryReq> jaxbUpdateTimeEntryReq)
+    {
+        if((jaxbUpdateTimeEntryReq != null) && (jaxbUpdateTimeEntryReq.getValue() != null))
+        {
+            try
+            {
+                UpdateTimeEntryReq updateTimeEntryReq= jaxbUpdateTimeEntryReq.getValue();
+                
+                timeEntryController.updateTimeEntry(updateTimeEntryReq.getTimeEntry());
+                
+                return Response.status(Response.Status.OK).build();
+            }
+            catch(Exception ex)
+            {
+                ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
+            }
+        }
+        else
+        {
+            ErrorRsp errorRsp = new ErrorRsp("Invalid update timeEntry request");
+            
+            return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
         }
     }
     

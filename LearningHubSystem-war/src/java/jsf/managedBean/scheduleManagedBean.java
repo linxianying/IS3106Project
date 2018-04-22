@@ -60,7 +60,8 @@ public class scheduleManagedBean {
     
  
     private ScheduleEvent event = new DefaultScheduleEvent();
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     @EJB
     TimeEntryControllerLocal tecl;
@@ -71,6 +72,10 @@ public class scheduleManagedBean {
  
     @PostConstruct
     public void init() {
+        refresh();
+    }
+    
+    public void refresh() {
         eventModel = new DefaultScheduleModel();
         context = FacesContext.getCurrentInstance();
         //session = (HttpSession) context.getExternalContext().getSession(true);
@@ -85,7 +90,7 @@ public class scheduleManagedBean {
             if(timeEntries!=null){
                 for (TimeEntry timeEntry : timeEntries) {
                     t = (TimeEntry) timeEntry;
-                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t);
                     dse.setDescription(t.getDetails());
                     //System.out.println(t.getDetails());
                     eventModel.addEvent(dse);
@@ -102,7 +107,7 @@ public class scheduleManagedBean {
             if(timeEntries!=null){
                 for (TimeEntry timeEntry : timeEntries) {
                     t = (TimeEntry) timeEntry;
-                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t);
+                    DefaultScheduleEvent dse = new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t);
                     dse.setDescription(t.getDetails());
                     //System.out.println(t.getDetails());
                     eventModel.addEvent(dse);
@@ -114,12 +119,47 @@ public class scheduleManagedBean {
         
     }
     
+    //Turn Date to yyyy-MM-dd HH:mm:ss
+    public String formatDF(Date date){
+        String result;
+        result = df1.format(date);
+        String replace = result.replace("T", " ");
+        String replace1 = result.replace("Z", "");
+        return replace1;
+    }
+    
+    //Turn Date to yyyy-MM-ddTHH:mm:ssZ
+    public String formatDF1(Date date){
+        String result;
+        result = df1.format(date);
+        String replace = result.replace(" ","T");
+        String replace1 = replace + "Z";
+        System.out.println("formatDF1: " + replace1);
+        return replace1;
+    }
+    
+    //turn yyyy-MM-dd HH:mm:ss to Date
     public Date toDate(String str){
         Date date = null;
         try {
-            date = df.parse(str);
+            System.out.println(str);
+            str = str.replace("T", " ").replace("Z", "");
+            date = df1.parse(str);
         } catch (ParseException ex) {
-            
+            System.err.println(ex);
+        }
+        return date;
+    }
+    
+    //turn yyyy-MM-dd'T'HH:mm:ss'Z' to Date
+    public Date toDate1(String str){
+        Date date = null;
+        try {
+            System.out.println(str);
+            str = str.replace("T", " ").replace("Z", "");
+            date = df1.parse(str);
+        } catch (ParseException ex) {
+            System.err.println(ex);
         }
         return date;
     }
@@ -162,7 +202,7 @@ public class scheduleManagedBean {
     public void addEvent(ActionEvent actionEvent) throws TimeEntryExistException, GeneralException {
         
         if (event.getId() == null) {
-            TimeEntry t = new TimeEntry(event.getTitle(), df.format(event.getStartDate()), df.format(event.getEndDate()), event.getDescription());
+            TimeEntry t = new TimeEntry(event.getTitle(), formatDF1(event.getStartDate()), formatDF1(event.getEndDate()), event.getDescription());
             if(userType.equals("student")){
                 tecl.createTimeEntry(t, student);
                
@@ -172,19 +212,35 @@ public class scheduleManagedBean {
             eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
         } else {
             TimeEntry t = (TimeEntry) event.getData();
-            tecl.updateTimeEntry(t,event.getTitle(),df.format(event.getStartDate()), df.format(event.getEndDate()), event.getDescription());
-            eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
+            
+            System.out.println("t: " + t.getId() + "/ " + t.getTitle());
+            
+            tecl.updateTimeEntry(t, event.getTitle(), formatDF1(event.getStartDate()), formatDF1(event.getEndDate()), event.getDescription());
+            eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t));
         }
         event = new DefaultScheduleEvent();
+        refresh();
     }
 
     public void deleteEvent(ActionEvent actionEvent) {
         TimeEntry t = (TimeEntry) event.getData();
-        if(userType.equals("student"))
-            tecl.deleteTimeEntry(t.getId(), student); 
-        else
-            tecl.deleteTimeEntry(t.getId(), lecturer); 
-        eventModel.deleteEvent(event);
+        if(t==null||t.getId()==null){
+            System.out.println("the entity cannot be get");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error occurs!", "TimeEntry is null! Error occurs");
+            addMessage(message);
+            eventModel.deleteEvent(event);
+            return;
+        }else{
+            if(userType.equals("student")){
+                tecl.deleteTimeEntry(t.getId(), student); 
+            }
+            else{
+                tecl.deleteTimeEntry(t.getId(), lecturer); 
+            }
+            eventModel.deleteEvent(event);
+        }
+        refresh();
+        
     }
      
     public void onEventSelect(SelectEvent selectEvent) {
