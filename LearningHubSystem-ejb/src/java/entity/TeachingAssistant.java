@@ -66,6 +66,9 @@ public class TeachingAssistant implements Serializable {
         this.isPremium = false;
         modules = new ArrayList<>();
         photoName = "nophoto";
+        password = "password";
+        email = "fake@123.com";
+        telephone = "123456";
     }
 
     public TeachingAssistant(String username, String password, String name,

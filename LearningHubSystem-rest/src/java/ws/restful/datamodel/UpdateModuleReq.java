@@ -15,27 +15,30 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement
 @XmlType(name = "updateModuleReq", propOrder = {
-    "moduleId"
+    "module"
 })
 public class UpdateModuleReq {
-    private Long moduleId;
+    private Module module;
 
-    public UpdateModuleReq() {
+    public UpdateModuleReq(){
+        
     }
 
-    public UpdateModuleReq(Long moduleId) {
-        this.moduleId = moduleId;
-    }
-    
-    
-
-    public Long getModuleId() {
-        return moduleId;
-    }
-
-    public void setModuleId(Long moduleId) {
-        this.moduleId = moduleId;
+    public UpdateModuleReq(Module module) {
+        this.module = module;
     }
     
+    
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+    
+
+   
     
 }

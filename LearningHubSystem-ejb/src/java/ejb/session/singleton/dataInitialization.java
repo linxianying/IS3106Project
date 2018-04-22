@@ -117,6 +117,7 @@ public class dataInitialization {
 
     private void loadAdminData() {
         Administrator newAdmin = new Administrator("administrator", "admin@soc.nus", "12345678", "admin", "password");
+        newAdmin.setIsPremium(true);
         em.persist(newAdmin);
     }
 
