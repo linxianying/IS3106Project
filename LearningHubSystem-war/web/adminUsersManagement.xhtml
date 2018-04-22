@@ -355,23 +355,23 @@
                     <h:message for="txtPassword"/>
 
                     <h:outputText value="Lecturer Name: " />
-                    <p:inputText id="txtName" value="#{accountManagement.newLecturer.name}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtName" value="#{accountManagement.newLecturer.name}" required="true" requiredMessage="Name is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtName" />
 
                     <h:outputText value="Lecturer Email: " />
-                    <h:outputText id="txtEmail" value="#{accountManagement.newLecturer.email}" />
-                    <h:message  for="txtEmail" />
+                    <p:inputText id="txtEmail" value="#{accountManagement.newLecturer.email}" required="true" requiredMessage="Email is required" />
+                    <h:message  for="txtEmail" errorClass="errorTexts" fatalClass="errorTexts" />
 
                     <h:outputText value="Lecturer Faculty: " />
-                    <p:inputText id="txtFaculty" value="#{accountManagement.newLecturer.faculty}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtFaculty" value="#{accountManagement.newLecturer.faculty}" required="true" requiredMessage="Faculty is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtFaculty" />
 
                     <h:outputText value="Lecturer Department: " />
-                    <p:inputText id="txtDepartment" value="#{accountManagement.newLecturer.department}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtDepartment" value="#{accountManagement.newLecturer.department}" required="true" requiredMessage="Department is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDepartment" />
 
                     <h:outputText value="Lecturer Telephone: " />
-                    <h:outputText id="txtTelephone" value="#{accountManagement.newLecturer.telephone}"  />
+                    <p:inputText id="txtTelephone" value="#{accountManagement.newLecturer.telephone}" required="true" requiredMessage="Telephone is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtTelephone" />
 
                 </h:panelGrid>    
@@ -402,24 +402,24 @@
 
 
                     <h:outputText value="TA Name: " />
-                    <p:inputText id="txtName" value="#{accountManagement.newTA.name}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtName" value="#{accountManagement.newTA.name}" required="true" requiredMessage="Name is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtName" />
 
                     <h:outputText value="TA Email: " />
-                    <h:outputText id="txtEmail" value="#{accountManagement.newTA.email}"  />
-                    <h:message for="txtEmail" />
+                    <p:inputText id="txtEmail" value="#{accountManagement.newTA.email}" required="true" requiredMessage="Email is required" />
+                    <h:message for="txtEmail" errorClass="errorTexts" fatalClass="errorTexts" />
 
                     <h:outputText value="TA Faculty: " />
-                    <p:inputText id="txtFaculty" value="#{accountManagement.newTA.faculty}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtFaculty" value="#{accountManagement.newTA.faculty}" required="true" requiredMessage="Faculty is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtFaculty" />
 
                     <h:outputText value="TA Department: " />
-                    <p:inputText id="txtDepartment" value="#{accountManagement.newTA.department}" required="true" requiredMessage="Username is required" />
+                    <p:inputText id="txtDepartment" value="#{accountManagement.newTA.department}" required="true" requiredMessage="Department is required" />
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtDepartment" />
 
                     <h:outputText value="TA Telephone: " />
-                    <h:outputText id="txtTelephone" value="#{accountManagement.newTA.telephone}" />
-                    <h:message for="txtTelephone" />
+                    <p:inputText id="txtTelephone" value="#{accountManagement.newTA.telephone}" required="true" requiredMessage="Telephone is required" />
+                    <h:message for="txtTelephone" errorClass="errorTexts" fatalClass="errorTexts" />
 
                 </h:panelGrid>    
 
