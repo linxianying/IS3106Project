@@ -1,43 +1,170 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"  
-      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Learning Hub System Index Page</title>
-        <h:outputStylesheet library="css" name="form.css" />
-    </h:head>
-    <h:form class="form-labels-on-top">
-        <h:panelGroup rendered="#{!sessionScope['isLogin']}">
-            <p:button value="LOGIN AS STUDENT" outcome="loginStudent"/>
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <h:outputStylesheet library="css" name="bootstrap-responsive.css" />
+        <h:outputStylesheet library="css" name="style2.css" />
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <h:outputStylesheet library="css" name="prettyPhoto.css" />
+        <h:outputStylesheet library="css" name="flexslider.css" />
+        <h:outputStylesheet library="css" name="default.css" />
+        <h:outputStylesheet library="css" name="animate.css" />
+        <h:outputStylesheet library="css" name="font-awesome.css" />
+        <h:outputStylesheet library="css" name="overwrite.css" />
+    </f:facet>
+    <title>LHS</title>
 
-            <br></br>
-            <p:button value="LOGIN AS LECTURER" outcome="loginLecturer"/>
+</h:head>
+<h:body>
+    <!-- navbar -->
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Responsive navbar -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                                        </a>
+                    <h1 class="brand"><a href="index.html" tppabs="#">Learning Hub</a></h1>
+                    <!-- navigation -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header area -->
+    <div id="header-wrapper" class="header-slider" style="background: url('https://i.imgur.com/Gm66vYU.jpg');background-repeat: no-repeat;
+        background-size: 100% 100%;">
+        <header class="clearfix">
 
-            <br></br>
-            <p:button value="LOGIN AS ADMINISTRATOR" outcome="loginAdmin"/>
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <h2>Choose Your Role</h2>
+                        <a href="loginStudent.xhtml" >
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
+                                transform: translateZ(0); margin-top: 200px;
+                                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                                -webkit-backface-visibility: hidden;
+                                backface-visibility: hidden;
+                                -moz-osx-font-smoothing: grayscale;
+                                position: relative; height: 80px;width:20%;
+                                background:none; margin-right: 25px;
+                                -webkit-transition-property: color;
+                                transition-property: color;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s; font-size: 22px;
+                                color: #fff;vertical-align: middle;">
+                                Student
+                            </button>
+                            
+                        </a>
+                        <a href="loginLecturer.xhtml" >
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
+                                transform: translateZ(0); margin-top: 200px;
+                                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                                -webkit-backface-visibility: hidden;
+                                backface-visibility: hidden;
+                                -moz-osx-font-smoothing: grayscale;
+                                position: relative; height: 80px;width:20%;
+                                background:none; margin-right: 25px;
+                                -webkit-transition-property: color;
+                                transition-property: color;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s; font-size: 22px;
+                                color: #fff;vertical-align: middle;">
+                                Lecturer
+                            </button>
+                            
+                        </a>
+                        <a href="loginTA.xhtml">
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
+                                transform: translateZ(0);  margin-top: 200px;
+                                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                                -webkit-backface-visibility: hidden;
+                                backface-visibility: hidden;
+                                -moz-osx-font-smoothing: grayscale;
+                                position: relative; height: 80px;width:20%;
+                                background:none; margin-left: 25px;
+                                -webkit-transition-property: color;
+                                transition-property: color;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s; font-size: 22px;
+                                color: #fff;vertical-align: middle;">
+                                Teaching Assistant
+                            </button>
+                        </a>
+                        <a href="loginAdmin.xhtml">
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
+                                transform: translateZ(0);  margin-top: 200px;
+                                box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+                                -webkit-backface-visibility: hidden;
+                                backface-visibility: hidden;
+                                -moz-osx-font-smoothing: grayscale;
+                                position: relative; height: 80px;width:20%;
+                                background:none; margin-left: 25px;
+                                -webkit-transition-property: color;
+                                transition-property: color;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s; font-size: 22px;
+                                color: #fff;vertical-align: middle;">
+                                Administrator
+                            </button>
+                        </a>
+                        <style>
+                            .hvr-rectangle-out:hover,.hvr-rectangle-out:focus,.hvr-rectangle-out:active {
+                                color: white;
+                            }
+                            .hvr-rectangle-out:hover:before,.hvr-rectangle-out:focus:before,.hvr-rectangle-out:active:before {
+                                -webkit-transform: scale(1);
+                                transform: scale(1);
+                            }
+                            .hvr-rectangle-out:before {
+                                content: "";
+                                position: absolute;
+                                z-index: -1;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                background:#0cbbc8;
+                                -webkit-transform: scale(0);
+                                transform: scale(0);
+                                -webkit-transition-property: transform;
+                                transition-property: transform;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s;
+                                -webkit-transition-timing-function: ease-out;
+                                transition-timing-function: ease-out;
+                            }
+                        </style>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- spacer section -->
+    <section id="work" class="spacer green">
+        <div class="container">
+            <div class="row">
+                <div class="span6 alignright flyLeft">
+                    <blockquote class="large">
+                        Sign Up Right Now And Enjoy The Learning Experiences <cite>Xianying, Lin</cite>
+                    </blockquote>
+                </div>
+                <div class="span6 aligncenter flyRight">
+                    <i class="icon-coffee icon-10x"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <br></br>
-            <p:button value="LOGIN AS TEACHING ASSISTANT" outcome="loginTA"/>
-
-
-            <br></br>
-        </h:panelGroup>
-        
-        <h:panelGroup rendered="#{sessionScope['isLogin']}" style="width:61%;">
-
-            <br></br><br></br><br></br><br></br>
-            <h:outputText value="You are login as #{sessionScope['role']}" />
-            <br></br>
-            <h:outputText value="You must logout before login again" />
-            <br></br><br></br><br></br><br></br>
-            <p:commandLink value="Click here to log out" actionListener="#{indexManagedBean.logout}"></p:commandLink>
-        </h:panelGroup>
-    </h:form>
     
-
+</h:body>
     
 </html>
-
