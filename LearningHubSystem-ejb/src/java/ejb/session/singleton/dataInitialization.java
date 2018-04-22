@@ -268,8 +268,23 @@ public class dataInitialization {
         TimeEntry t9 = new TimeEntry("avenger movie day", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "it's time to see avengers movie! woo hoo!");
         TimeEntry t10 = new TimeEntry("final 3106 class", "2018-04-20T14:00:00Z", "2018-04-22T16:00:00Z", "last class of IS3106, you can't imagine how happy i am!");
         TimeEntry t11 = new TimeEntry("pizza night", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "pizza night is tonight!!!");
-        TimeEntry t12 = new TimeEntry("internship interview", "2018-04-22T14:00:22Z", "2018-04-22T14:30:59Z", "phone interview with KPMG");
-
+        TimeEntry t12 = new TimeEntry("internship interview", "2018-04-29T14:00:22Z", "2018-04-29T14:30:59Z", "phone interview with KPMG");
+        TimeEntry t23 = new TimeEntry("Mother's birthday", "2018-04-27T14:00:22Z", "2018-04-27T14:30:59Z", "Prepare a surprise for mom.");
+        TimeEntry t24 = new TimeEntry("Prepare for new module", "2018-04-25T14:00:22Z", "2018-04-28T14:30:59Z", "Prepare a new module to teach in next SEM!");
+        TimeEntry t25 = new TimeEntry("Travelling", "2018-05-10T14:00:22Z", "2018-05-18T14:30:59Z", "Good days in China!");
+        TimeEntry t26 = new TimeEntry("Cooking day", "2018-04-30T14:00:22Z", "2018-04-30T14:30:59Z", "Cooing for family members");
+        TimeEntry t27 = new TimeEntry("Sleep", "2018-05-02T14:00:22Z", "2018-05-02T14:30:59Z", "Take a good rest! Sleep! Sleep!!!");
+        TimeEntry t28 = new TimeEntry("Travel", "2018-04-25T14:00:22Z", "2018-04-27T14:30:59Z", "Travel to HongKong! The most happy day!");
+        TimeEntry t29 = new TimeEntry("Coding day", "2018-05-14T14:00:22Z", "2018-05-14T14:30:59Z", "DEADLINE is tommorow! Hurry up! You are the best one!");
+        TimeEntry t30 = new TimeEntry("Son's birthday", "2018-04-25T14:00:26Z", "2018-04-26T14:30:59Z", "Prepare a big surprise for my honey!");
+        TimeEntry t31 = new TimeEntry("Internship interview", "2018-05-10T14:00:22Z", "2018-05-10T14:30:59Z", "phone interview with KPMG");
+        TimeEntry t32 = new TimeEntry("Reading", "2018-04-23T14:00:22Z", "2018-04-23T14:30:59Z", "Finish required reading in IS3106");
+        TimeEntry t33 = new TimeEntry("Shopping", "2018-04-25T14:00:22Z", "2018-04-25T18:30:59Z", "Shopping in vivo city with my girlfriend!");
+        TimeEntry t34 = new TimeEntry("Go back to China", "2018-05-10T14:00:22Z", "2018-05-11T14:30:59Z", "Happy!!! Finally can go back home!");
+        TimeEntry t35 = new TimeEntry("Apply for vacation stay", "2018-04-21T14:00:22Z", "2018-04-21T14:30:59Z", "Dont forget to apply for vacation stay in PGPR! Ver important");
+        TimeEntry t36 = new TimeEntry("ST2334 quiz", "2018-05-03T14:00:22Z", "2018-05-03T14:30:59Z", "ST2334 quiz ddl is today!!!");
+        TimeEntry t37 = new TimeEntry("GIC", "2018-05-19T14:00:22Z", "2018-05-19T14:30:59Z", "Face-to-face interview with GIC! Very important!");
+        
         try {
             Student student1 = studentControllerLocal.retrieveStudentByUsername("xuhong");
             Student student2 = studentControllerLocal.retrieveStudentByUsername("linxianying");
@@ -278,6 +293,10 @@ public class dataInitialization {
             Student student5 = studentControllerLocal.retrieveStudentByUsername("wangjingheng");
             Lecturer twk = lecturerControllerLocal.retrieveLecturerByUsername("lecturer1");
             Lecturer lhh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer2");
+            Lecturer oh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer3");
+            Lecturer tsc = lecturerControllerLocal.retrieveLecturerByUsername("lecturer4");
+            Lecturer ljy = lecturerControllerLocal.retrieveLecturerByUsername("lecturer5");
+            
             tecl.createTimeEntry(t1, student1);
             tecl.createTimeEntry(t2, student1);
             tecl.createTimeEntry(t3, student2);
@@ -285,11 +304,25 @@ public class dataInitialization {
             tecl.createTimeEntry(t5, student3);
             tecl.createTimeEntry(t6, student4);
             tecl.createTimeEntry(t12, student4);
-            tecl.createTimeEntry(t7, student5);
+            tecl.createTimeEntry(t7, student5);            
             tecl.createTimeEntry(t8, twk);
             tecl.createTimeEntry(t10, twk);
+            tecl.createTimeEntry(t26, twk);
+            tecl.createTimeEntry(t27, twk);
+            tecl.createTimeEntry(t28, twk);
             tecl.createTimeEntry(t9, lhh);
             tecl.createTimeEntry(t11, lhh);
+            tecl.createTimeEntry(t23, oh);
+            tecl.createTimeEntry(t24, ljy);
+            tecl.createTimeEntry(t29, twk);
+            tecl.createTimeEntry(t30, lhh);
+            tecl.createTimeEntry(t31, lhh);
+            tecl.createTimeEntry(t32, oh);
+            tecl.createTimeEntry(t33, oh);
+            tecl.createTimeEntry(t34, ljy);
+            tecl.createTimeEntry(t35, ljy);
+            tecl.createTimeEntry(t36, tsc);
+            tecl.createTimeEntry(t37, tsc);
         } catch (TimeEntryExistException | StudentNotFoundException | LecturerNotFoundException ex) {
             Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GeneralException ex) {
