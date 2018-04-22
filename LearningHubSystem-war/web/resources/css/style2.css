@@ -344,6 +344,7 @@ ul#menu-main > li > a:focus {
 	margin-top: -60px;
 	padding-top:160px;
 	text-align:center;
+        background: url("https://i.imgur.com/rWizZq5.jpg");
 }
 
 
@@ -369,7 +370,7 @@ header .logo {
 
 /* --- Header slider --- */
 #header-wrapper.header-slider {
-	background: #444 url("../img/bg/bg-1.jpg")/*tpa=http://iweb-studio.com/wrapbootstrap/maxim/img/bg/bg-1.jpg*/ no-repeat center center fixed;
+	background: url("https://i.imgur.com/rWizZq5.jpg")/*tpa=http://iweb-studio.com/wrapbootstrap/maxim/img/bg/bg-1.jpg*/ no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

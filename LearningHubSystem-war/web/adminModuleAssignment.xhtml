@@ -11,199 +11,288 @@
             <title>Learning Hub System Administrator Module Management Page</title>
         </h:head>
         <h1>Module Management:: Module Assignment</h1>  
-        <h:form id="modLecturers">
-            <p:menubar>                
-                <p:menuitem value="Add Lecturer" onclick="PF('dialogAddLecturer').show()" icon="ui-icon-plusthick" />                
-            </p:menubar>
-            
-            <p:dataTable  id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}"
-                          filteredValue="#{moduleAssignment.filteredLecturers}" 
-                            widgetVar="dataTableViewLecturers" 
-                            rowKey="#{lec.id}" rowIndexVar="row"
-                            rows="10" paginator="true" 
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
-                            {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
-                            rowsPerPageTemplate="10,20">
 
-                  <f:facet name="header">
-                      <h:outputText value="Lecturer" />
+        <h:form id="users">
+            <p:tabView id="tb" >
+                <p:tab title="Lecturer">
 
-                      <p:outputPanel style="text-align: center;">
+                    <p:menubar>                
+                        <p:menuitem value="Add Lecturer" onclick="PF('dialogAddLecturer').show()" icon="ui-icon-plusthick" />                
+                    </p:menubar>
 
-                          <h:outputText value="Search all fields:" />
-                          <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter Keyword"/>
-                      </p:outputPanel>
-                  </f:facet>
-                  <f:facet name="{Exporters}">
-                      <div style="float:right;">
-                          <h:commandLink>
-                              <p:graphicImage name="/demo/images/excel.png" width="24"/>
-                              <p:dataExporter type="xls" target="dataTableLecturers" fileName="Lecturer"  />
-                          </h:commandLink>
+                    <p:dataTable  id="dataTableLecturers" var="lec" value="#{moduleAssignment.lecturers}"
+                                  filteredValue="#{moduleAssignment.filteredLecturers}" 
+                                  widgetVar="dataTableViewLecturers" 
+                                  rowKey="#{lec.id}" rowIndexVar="row"
+                                  rows="10" paginator="true" 
+                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                  paginatorPosition="bottom"
+                                  rowsPerPageTemplate="10,20" reflow="true">
 
-                          <h:commandLink>
-                              <p:graphicImage name="/demo/images/pdf.png" width="24"/>
-                              <p:dataExporter type="pdf" target="dataTableLecturers" fileName="Lecturer" />
-                          </h:commandLink>
+                        <f:facet name="header">
 
-                          <h:commandLink>
-                              <p:graphicImage name="/demo/images/csv.png" width="24"/>
-                              <p:dataExporter type="csv" target="dataTableLecturers" fileName="Lecturer"  />
-                          </h:commandLink>
 
-                          <h:commandLink>
-                              <p:graphicImage name="/demo/images/xml.png" width="24"/>
-                              <p:dataExporter type="xml" target="dataTableLecturers" fileName="Lecturer"/>
-                          </h:commandLink>
-                      </div>
-                  </f:facet>
-                <p:column headerText="Id">
-                    <h:outputText value="#{lec.id}" />
-                </p:column>
+                            <p:outputPanel style="text-align: center;">
 
-                <p:column headerText="Name">
-                    <h:outputText value="#{lec.name}" />
-                </p:column>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter Keyword"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableLecturers" fileName="Lecturer"  />
+                                </h:commandLink>
 
-                <p:column headerText="Faculty">
-                    <h:outputText value="#{lec.faculty}" />
-                </p:column>
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableLecturers" fileName="Lecturer" />
+                                </h:commandLink>
 
-                <p:column headerText="Email">
-                    <h:outputText value="#{lec.email}" />
-                </p:column>
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableLecturers" fileName="Lecturer"  />
+                                </h:commandLink>
 
-                <p:column headerText="Telephone">
-                    <h:outputText value="#{lec.telephone}" />
-                </p:column>
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableLecturers" fileName="Lecturer"/>
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{lec.id}" />
+                        </p:column>
 
-                <p:column headerText="Action">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeLecturer}" update=":modLecturers:dataTableLecturers">
-                        <f:attribute name="lecturerToRemove" value="#{lec}" />
-                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{lec.id} ?" icon="ui-icon-alert" />
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                        <p:column headerText="Name">
+                            <h:outputText value="#{lec.name}" />
+                        </p:column>
 
-        
-        
-        <h:form id="modTAs">
-            <p:menubar>                
-                <p:menuitem value="Add Teaching Assistant" onclick="PF('dialogAddTA').show()" icon="ui-icon-plusthick" />                
-            </p:menubar>
-            
-            <p:dataTable id="dataTableTAs" var="ta" value="#{moduleAssignment.TAs}">
-                <p:column headerText="Id">
-                    <h:outputText value="#{ta.id}" />
-                </p:column>
+                        <p:column headerText="Faculty">
+                            <h:outputText value="#{lec.faculty}" />
+                        </p:column>
 
-                <p:column headerText="Name">
-                    <h:outputText value="#{ta.name}" />
-                </p:column>
+                        <p:column headerText="Email">
+                            <h:outputText value="#{lec.email}" />
+                        </p:column>
 
-                <p:column headerText="Faculty">
-                    <h:outputText value="#{ta.faculty}" />
-                </p:column>
+                        <p:column headerText="Telephone">
+                            <h:outputText value="#{lec.telephone}" />
+                        </p:column>
 
-                <p:column headerText="Email">
-                    <h:outputText value="#{ta.email}" />
-                </p:column>
+                        <p:column headerText="Action">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeLecturer}" update="@form">
+                                <f:attribute name="lecturerToRemove" value="#{lec}" />
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete #{lec.id} ?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
 
-                <p:column headerText="Telephone">
-                    <h:outputText value="#{ta.telephone}" />
-                </p:column>
+                </p:tab>
 
-                <p:column headerText="Action">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeTA}" update=":modTAs:dataTableTAs">
-                        <f:attribute name="taToRemove" value="#{ta}" />
-                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{ta.id} ?" icon="ui-icon-alert" />
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                <p:tab title="TA">
 
-        <h:form id="modStudents">
-            <p:menubar>                
-                <p:menuitem value="Add Student" onclick="PF('dialogAddStudent').show()" icon="ui-icon-plusthick" />                
-            </p:menubar>
-            <p:dataTable id="dataTableStudents" var="stu" value="#{moduleAssignment.students}" widgetVar="studentsTable"
-                         emptyMessage="No students found with given criteria" filteredValue="#{moduleAssignment.filteredStudents}">
+                    <p:menubar>                
+                        <p:menuitem value="Add Teaching Assistant" onclick="PF('dialogAddTA').show()" icon="ui-icon-plusthick" />                
+                    </p:menubar>
 
-                <f:facet name="header">
-                    <p:outputPanel style="text-align: right;">
-                        <h:outputText value="Search all fields:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-                    </p:outputPanel>
-                </f:facet>
+                    <p:dataTable id="dataTableTAs" var="ta" value="#{moduleAssignment.TAs}"  
+                                 widgetVar="dataTableViewLecturers" 
+                                 rowKey="#{ta.id}" rowIndexVar="row"
+                                 rows="10" paginator="true" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                 rowsPerPageTemplate="10,20" paginatorPosition="bottom" reflow="true">
 
-                <p:column filterBy="#{stu.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
-                    <h:outputText value="#{stu.id}" />
-                </p:column>
+                        <f:facet name="header">
 
-                <p:column filterBy="#{stu.name}" headerText="Name" footerText="contains" filterMatchMode="contains">
-                    <h:outputText value="#{stu.name}" />
-                </p:column>
 
-                <p:column filterBy="#{stu.faculty}" headerText="Faculty" footerText="contains" filterMatchMode="contains">
-                    <h:outputText value="#{stu.faculty}" />
-                </p:column>
+                            <p:outputPanel style="text-align: center;">
 
-                <p:column filterBy="#{stu.email}" headerText="Email" footerText="contains" filterMatchMode="contains">
-                    <h:outputText value="#{stu.email}" />
-                </p:column> 
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('dataTableViewLecturers').filter()" style="width:150px" placeholder="Enter Keyword"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableTAs" fileName="TA"  />
+                                </h:commandLink>
 
-                <p:column headerText="Action">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeStudent}" update=":modStudents:dataTableStudents">
-                        <f:attribute name="studentToRemove" value="#{stu}" />
-                        <p:confirm header="Confirmation" message="Are you sure you want to delete #{stu.id} ?" icon="ui-icon-alert" />
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-            
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableTAs" fileName="TA" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableTAs" fileName="TA"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableTAs" fileName="TA"/>
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{ta.id}" />
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{ta.name}" />
+                        </p:column>
+
+                        <p:column headerText="Faculty">
+                            <h:outputText value="#{ta.faculty}" />
+                        </p:column>
+
+                        <p:column headerText="Email">
+                            <h:outputText value="#{ta.email}" />
+                        </p:column>
+
+                        <p:column headerText="Telephone">
+                            <h:outputText value="#{ta.telephone}" />
+                        </p:column>
+
+                        <p:column headerText="Action">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeTA}" update="@form">
+                                <f:attribute name="taToRemove" value="#{ta}" />
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete #{ta.id} ?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:tab>   
+
+                <p:tab title="Student">
+                    <p:menubar>                
+                        <p:menuitem value="Add Student" onclick="PF('dialogAddStudent').show()" icon="ui-icon-plusthick" />                
+                    </p:menubar>
+                    <p:dataTable id="dataTableStudents" var="stu" value="#{moduleAssignment.students}" widgetVar="studentsTable"
+                                 emptyMessage="No students found with given criteria"  rowKey="#{stu.id}" rowIndexVar="row"
+                                 rows="10" paginator="true" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+                                 rowsPerPageTemplate="10,20" paginatorPosition="bottom" reflow="true">
+
+                        <f:facet name="header">
+                            <p:outputPanel style="text-align: center;">
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('studentsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <f:facet name="{Exporters}">
+                            <div style="float:right;">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="dataTableStudents" fileName="Student"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="dataTableStudents" fileName="Student" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="dataTableStudents" fileName="Student"  />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="dataTableStudents" fileName="Student"/>
+                                </h:commandLink>
+                            </div>
+                        </f:facet>
+
+                        <p:column filterBy="#{stu.id}" headerText="Id" filterMatchMode="contains">
+                            <h:outputText value="#{stu.id}" />
+                        </p:column>
+
+                        <p:column filterBy="#{stu.name}" headerText="Name" filterMatchMode="contains">
+                            <h:outputText value="#{stu.name}" />
+                        </p:column>
+
+                        <p:column filterBy="#{stu.faculty}" headerText="Faculty" filterMatchMode="contains">
+                            <h:outputText value="#{stu.faculty}" />
+                        </p:column>
+
+                        <p:column filterBy="#{stu.email}" headerText="Email" filterMatchMode="contains">
+                            <h:outputText value="#{stu.email}" />
+                        </p:column> 
+
+                        <p:column headerText="Action">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{moduleAssignment.removeStudent}" update="@form">
+                                <f:attribute name="studentToRemove" value="#{stu}" />
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete #{stu.id} ?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+
+                </p:tab>
+
+            </p:tabView>
+
         </h:form>
 
         <h:form id="addLecturer">  
-            <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true">        
-                
+            <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true"> 
                 <p:messages id="messagesLecturer"/>
-                <h:outputText value="Lecturer Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.lecturerIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:commandButton value="Add Lecturer" update=":modLecturers:dataTableLecturers @form:messagesLecturer" actionListener="#{moduleAssignment.enrollLecturer}"  >
-                </p:commandButton>
+                    <p:outputLabel for="selectLec" value="Select Lecturer:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectLec" value="#{moduleAssignment.lecturerIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allLecturers}" var="lec" itemLabel="#{lec.id} #{lec.name} #{lec.faculty}" itemValue="#{lec.id}" />
+
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Add Lecturer" update=":users:tb:dataTableLecturers @form:messagesLecturer" actionListener="#{moduleAssignment.enrollLecturer}" style="text-align: center;" />
 
             </p:dialog>
         </h:form>
 
         <h:form id="addTA">  
-            <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">        
-                
-                <p:messages id="messagesTA" />
-                <h:outputText value="TA Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.TAIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+            <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">   
+                <p:messages id="messagesTA"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:commandButton value="Add TA" update=":modTAs:dataTableTAs @form:messagesTA" actionListener="#{moduleAssignment.enrollTA}"  >
-                </p:commandButton>
+                    <p:outputLabel for="selectTA" value="Select TA:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectTA" value="#{moduleAssignment.TAIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allTAs}" var="ta" itemLabel="#{ta.id} #{ta.name} #{ta.faculty}" itemValue="#{ta.id}" />
+
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Add TA" update=":users:tb:dataTableTAs @form:messagesTA" actionListener="#{moduleAssignment.enrollTA}" style="text-align: center;" />
 
             </p:dialog>
         </h:form>
 
         <h:form id="addStudent">  
             <p:dialog id="dialogAddStudent" widgetVar="dialogAddStudent" header="Assign Student" closable="true">        
-                
-                <p:messages id="messagesStudent" />
-                <h:outputText value="Student Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.studentIdToRg}" required="true" requiredMessage="Student Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+                <p:messages id="messagesStudent"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:commandButton value="Add Student" update=":modStudents:dataTableStudents @form:messagesStudent" actionListener="#{moduleAssignment.enrollStudent}"  >
+                    <p:outputLabel for="selectStudent" value="Select Student:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectStudent" value="#{moduleAssignment.studentIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allStudents}" var="stu" itemLabel="#{stu.id} #{stu.name} #{stu.faculty}" itemValue="#{stu.id}" />
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Add Student" update=":users:tb:dataTableStudents @form:messagesStudent" actionListener="#{moduleAssignment.enrollStudent}"  >
                 </p:commandButton>
 
             </p:dialog>
