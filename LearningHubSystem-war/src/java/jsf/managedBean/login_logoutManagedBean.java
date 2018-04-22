@@ -47,7 +47,6 @@ public class login_logoutManagedBean {
     @EJB
     private LecturerControllerLocal lecturerControllerLocal;
     
-    
 
     private String username;
     private String password;

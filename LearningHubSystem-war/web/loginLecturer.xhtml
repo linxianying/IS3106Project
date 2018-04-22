@@ -9,8 +9,9 @@
         <title>Learning Hub System Lecturer Login Page</title>
         <h:outputStylesheet library="css" name="form.css" />
     </h:head>
-    <h:panelGroup rendered="#{!sessionScope['isLogin']}">
-        <h:form class="form-labels-on-top">
+    <h:form class="form-labels-on-top">
+        <h:panelGroup rendered="#{!sessionScope['isLogin']}">
+
             <p:messages showDetail="true" autoUpdate="true" closable="true" />
             <p:growl id="growl" showDetail="true" sticky="true" /> 
             <div class="form-row">
@@ -21,7 +22,7 @@
                                  required="true" requiredMessage="Please enter your username" 
                                  placeholder="Username"
                                  validatorMessage="Username must be between 3-12 letters/numbers.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9]{3,12}$" />
+                        <f:validateRegex pattern="^[a-zA-Z0-9]{3,12}$" />
                     </p:inputText>
                 </label>
             </div>
@@ -38,15 +39,19 @@
                 <p:commandButton icon="fa fa-home" value="LOGIN" style="width:70%;"
                                  actionListener="#{login_logoutManagedBean.loginLecturer}" update="growl"/>
             </div>
-        </h:form>
-    </h:panelGroup>
-    
-    <h:panelGroup rendered="#{sessionScope['isLogin']}">
 
-        <h:outputText value="You are login as #{sessionScope['role']}" />
-        <br></br>
-        <h:outputText value="You must logout before login again" />
+        </h:panelGroup>
 
-    </h:panelGroup>
+        <h:panelGroup rendered="#{sessionScope['isLogin']}">
+            <br></br><br></br><br></br><br></br>
+            <h:outputText value="You are login as #{sessionScope['role']}" />
+            <br></br>
+            <h:outputText value="You must logout before login again" />
+            <br></br><br></br><br></br><br></br>
+
+            <p:commandLink value="Click here to log out" actionListener="#{login_logoutManagedBean.logout}"></p:commandLink>
+        </h:panelGroup>
+
+    </h:form>
 </html>
 

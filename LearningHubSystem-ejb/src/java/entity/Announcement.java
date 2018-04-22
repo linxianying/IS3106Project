@@ -37,7 +37,7 @@ public class Announcement implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
            
-    @ManyToOne(cascade={CascadeType.PERSIST}, optional = false)
+    @ManyToOne(cascade={CascadeType.PERSIST})
     private Lecturer lecturer;
     
     @ManyToOne(cascade={CascadeType.PERSIST}, optional = false)
