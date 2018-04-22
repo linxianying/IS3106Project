@@ -47,7 +47,7 @@
                     <div class="span12">
                         <h2>Choose Your Role</h2>
                         <a href="loginStudent.xhtml" >
-                            <button style="display: inline-block; -webkit-transform: translateZ(0);
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
                                 transform: translateZ(0); margin-top: 200px;
                                 box-shadow: 0 0 1px rgba(0, 0, 0, 0);
                                 -webkit-backface-visibility: hidden;
@@ -65,7 +65,7 @@
                             
                         </a>
                         <a href="loginLecturer.xhtml" >
-                            <button style="display: inline-block; -webkit-transform: translateZ(0);
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
                                 transform: translateZ(0); margin-top: 200px;
                                 box-shadow: 0 0 1px rgba(0, 0, 0, 0);
                                 -webkit-backface-visibility: hidden;
@@ -83,7 +83,7 @@
                             
                         </a>
                         <a href="loginTA.xhtml">
-                            <button style="display: inline-block; -webkit-transform: translateZ(0);
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
                                 transform: translateZ(0);  margin-top: 200px;
                                 box-shadow: 0 0 1px rgba(0, 0, 0, 0);
                                 -webkit-backface-visibility: hidden;
@@ -100,7 +100,7 @@
                             </button>
                         </a>
                         <a href="loginAdmin.xhtml">
-                            <button style="display: inline-block; -webkit-transform: translateZ(0);
+                            <button class="hvr-rectangle-out" style="display: inline-block; -webkit-transform: translateZ(0);
                                 transform: translateZ(0);  margin-top: 200px;
                                 box-shadow: 0 0 1px rgba(0, 0, 0, 0);
                                 -webkit-backface-visibility: hidden;
@@ -116,7 +116,33 @@
                                 Administrator
                             </button>
                         </a>
-                        
+                        <style>
+                            .hvr-rectangle-out:hover,.hvr-rectangle-out:focus,.hvr-rectangle-out:active {
+                                color: white;
+                            }
+                            .hvr-rectangle-out:hover:before,.hvr-rectangle-out:focus:before,.hvr-rectangle-out:active:before {
+                                -webkit-transform: scale(1);
+                                transform: scale(1);
+                            }
+                            .hvr-rectangle-out:before {
+                                content: "";
+                                position: absolute;
+                                z-index: -1;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                background:#0cbbc8;
+                                -webkit-transform: scale(0);
+                                transform: scale(0);
+                                -webkit-transition-property: transform;
+                                transition-property: transform;
+                                -webkit-transition-duration: 0.3s;
+                                transition-duration: 0.3s;
+                                -webkit-transition-timing-function: ease-out;
+                                transition-timing-function: ease-out;
+                            }
+                        </style>
                     </div>
                 </div>
             </div>
