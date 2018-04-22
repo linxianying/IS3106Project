@@ -294,6 +294,7 @@ public class dataInitialization {
         TimeEntry t35 = new TimeEntry("Apply for vacation stay", "2018-04-21T14:00:22Z", "2018-04-21T14:30:59Z", "Dont forget to apply for vacation stay in PGPR! Ver important");
         TimeEntry t36 = new TimeEntry("ST2334 quiz", "2018-05-03T14:00:22Z", "2018-05-03T14:30:59Z", "ST2334 quiz ddl is today!!!");
         TimeEntry t37 = new TimeEntry("GIC", "2018-05-19T14:00:22Z", "2018-05-19T14:30:59Z", "Face-to-face interview with GIC! Very important!");
+        TimeEntry t38 = new TimeEntry("Travel to Beijing", "2018-04-23T14:00:22Z", "2018-04-26T14:30:59Z", "Good travel to Beijing with mom! Go to eat everything delicious in Beijing!");
 
         try {
             Student student1 = studentControllerLocal.retrieveStudentByUsername("xuhong");
@@ -301,6 +302,13 @@ public class dataInitialization {
             Student student3 = studentControllerLocal.retrieveStudentByUsername("wangyinhan");
             Student student4 = studentControllerLocal.retrieveStudentByUsername("gongzipeng");
             Student student5 = studentControllerLocal.retrieveStudentByUsername("wangjingheng");
+            Student student6 = studentControllerLocal.retrieveStudentByUsername("zouyutong");
+            Student student7 = studentControllerLocal.retrieveStudentByUsername("piggy");
+            Student student8 = studentControllerLocal.retrieveStudentByUsername("sussie");
+            Student student9 = studentControllerLocal.retrieveStudentByUsername("spongebob");
+            Student student10 = studentControllerLocal.retrieveStudentByUsername("garfield");
+            Student student11 = studentControllerLocal.retrieveStudentByUsername("snowwhite");
+
             Lecturer twk = lecturerControllerLocal.retrieveLecturerByUsername("lecturer1");
             Lecturer lhh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer2");
             Lecturer oh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer3");
@@ -312,18 +320,19 @@ public class dataInitialization {
             tecl.createTimeEntry(t14, student1);
             tecl.createTimeEntry(t15, student1);
             tecl.createTimeEntry(t16, student1);
+            tecl.createTimeEntry(t38, student1);
             tecl.createTimeEntry(t3, student2);
             tecl.createTimeEntry(t4, student2);
             tecl.createTimeEntry(t13, student2);
-            tecl.createTimeEntry(t17, student2);
-            tecl.createTimeEntry(t18, student2);
-            tecl.createTimeEntry(t19, student2);
+            tecl.createTimeEntry(t17, student7);
+            tecl.createTimeEntry(t18, student8);
+            tecl.createTimeEntry(t19, student9);
             tecl.createTimeEntry(t5, student3);
-            tecl.createTimeEntry(t21, student3);
+            tecl.createTimeEntry(t21, student10);
             tecl.createTimeEntry(t22, student3);
-            tecl.createTimeEntry(t6, student4);
+            tecl.createTimeEntry(t6, student6);
             tecl.createTimeEntry(t20, student4);
-            tecl.createTimeEntry(t12, student4);
+            tecl.createTimeEntry(t12, student11);
             tecl.createTimeEntry(t7, student5);
             tecl.createTimeEntry(t8, twk);
             tecl.createTimeEntry(t10, twk);
@@ -343,6 +352,7 @@ public class dataInitialization {
             tecl.createTimeEntry(t35, ljy);
             tecl.createTimeEntry(t36, tsc);
             tecl.createTimeEntry(t37, tsc);
+
         } catch (TimeEntryExistException | StudentNotFoundException | LecturerNotFoundException ex) {
             Logger.getLogger(dataInitialization.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GeneralException ex) {
