@@ -191,7 +191,7 @@
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtSize" />
 
                     <h:outputText value="Exam Date " />
-                    <p:calendar id="calendarExamDate" value="#{moduleManagementManagedBean.moduleToUpdate.examDate}" required="true" requiredMessage="Exam Date is required"/>
+                    <p:calendar id="calendarExamDate" value="#{moduleManagementManagedBean.moduleToUpdate.examDate}" pattern="MM/dd/yyyy HH:mm:ss" required="true" requiredMessage="Exam Date is required"/>
                     <h:message errorClass="errorTexts" fatalClass="errorTexts" for="calendarExamDate" />
 
                     <h:outputText value="Description: " />
