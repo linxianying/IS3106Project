@@ -28,7 +28,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.exception.AnnouncementNotFoundException;
@@ -107,9 +106,79 @@ public class dataInitialization {
             Module is3106 = moduleControllerLocal.retrieveModuleByModuleCode("IS3106");
             Announcement newAnnouncement1 = new Announcement("Final Set of Screencast Video Recordings", "Dear Students,The following screencast video recordings are ready for viewing", new Timestamp(118, 3, 28, 15, 0, 0, 0), twk, is3106);
             Announcement newAnnouncement2 = new Announcement("Group Project Written Report Requirements", "Dear Students,Good luck with your project submission :)\n don't miss the ddl!", new Timestamp(118, 4, 3, 13, 0, 0, 0), twk, is3106);
+            Announcement newAnnouncement3 = new Announcement("Open Consultation", "I am back in my office !", new Timestamp(118, 3, 20, 16, 56, 0, 0), twk, is3106);
+            Announcement newAnnouncement4 = new Announcement("Today’s Open Consultation", "Will commence from 9 am onwards instead of the original 8 am. Pls take note.", new Timestamp(118, 3, 17, 7, 33, 0, 0), twk, is3106);
+            Announcement newAnnouncement5 = new Announcement("Gentle Reminder - Good Friday Make-up Lecture", "Today, 29 Mar, 6:30 pm. Venue is Executive Classroom (COM2-04-02)", new Timestamp(118, 2, 29, 8, 56, 0, 0), twk, is3106);
+
             em.persist(newAnnouncement1);
             em.persist(newAnnouncement2);
+            em.persist(newAnnouncement3);
+            em.persist(newAnnouncement4);
+            em.persist(newAnnouncement5);
 
+            //tsc st3131
+            Lecturer tsc = lecturerControllerLocal.retrieveLecturerByUsername("lecturer4");
+            Module st3131 = moduleControllerLocal.retrieveModuleByModuleCode("ST3131");
+            Announcement newAnnouncement6 = new Announcement("Grade for midterm test", "Students can view their grades for the midterm test in the CA folder in the gradebook of the module website in the IVLE.Legend for the grades. A+ (45-50); A (40-44); B+ (35-39); B (30-34); C (25-29); D (20-24); F (0-19)", new Timestamp(118, 3, 18, 14, 2, 0, 0), tsc, st3131);
+            Announcement newAnnouncement7 = new Announcement("Review session", "There will be a review session held in Week 13 on 17 April 2018 (Tuesday) from 8:05 am to 9:40 am at LT32. ", new Timestamp(118, 3, 9, 9, 2, 0, 0), tsc, st3131);
+            Announcement newAnnouncement8 = new Announcement("Quiz 3", "Quiz 3 will be open between 12:00 am, 13 April 2018 (Friday) to 11:00 pm, 15 April 2018 (Sunday).You may need a scientific calculator. You are advised to revise the materials before attempting the quiz.", new Timestamp(118, 3, 18, 14, 2, 0, 0), tsc, st3131);
+            Announcement newAnnouncement9 = new Announcement("Project guidelines deadline", "The deadline for submission of the project report is 17 April 2018 (Tuesday). An amended version of the project guideline has been uploaded. ", new Timestamp(118, 3, 9, 9, 0, 0, 0), tsc, st3131);
+            Announcement newAnnouncement10 = new Announcement("Make-up Test", "For those who were absent from the midterm test on 13/3/18 with a valid reason, the make-up test will be held from 8:25 am to 9:25 am on 3/4/18 (Tuesday) at LT32. The details of the make-up test such as the scope of the test and the number of pieces of help sheet are the same as the midterm test.", new Timestamp(118, 2, 29, 14, 19, 0, 0), tsc, st3131);
+
+            em.persist(newAnnouncement6);
+            em.persist(newAnnouncement7);
+            em.persist(newAnnouncement8);
+            em.persist(newAnnouncement9);
+            em.persist(newAnnouncement10);
+
+            //ljy fin2004
+            Lecturer ljy = lecturerControllerLocal.retrieveLecturerByUsername("lecturer5");
+            Module fin2004 = moduleControllerLocal.retrieveModuleByModuleCode("FIN2004");
+            Announcement newAnnouncement11 = new Announcement("Presentation order today", "Hi all,Here's the presentatation order: Groups 3, 5, 2, 4, 1, 6. See you all soon", new Timestamp(118, 3, 16, 8, 32, 0, 0), ljy, fin2004);
+            Announcement newAnnouncement12 = new Announcement("exam paper on LHS", "Hi All, exam paper is available to access on the LHS. I have uploaded it in the folder. MCQ questions are not released by the department.", new Timestamp(118, 3, 11, 13, 54, 0, 0), ljy, fin2004);
+            Announcement newAnnouncement13 = new Announcement("[Lab 5] Step 2: Data provisioning", "Hi all, The Data Provisioning Agent has been fixed by SAP at QUT. Enjoy the work!", new Timestamp(118, 2, 28, 18, 31, 0, 0), ljy, fin2004);
+            Announcement newAnnouncement14 = new Announcement("[Lab 4] Procurement Configuration GBI Case Handbook", "Hi all,The old version of GBI Procurement Configuration (ver 2.23) was mistakenly uploaded on IVLE. The correct version (ver 3.1) is now available. Please use this.", new Timestamp(118, 2, 6, 18, 53, 0, 0), ljy, fin2004);
+
+            em.persist(newAnnouncement11);
+            em.persist(newAnnouncement12);
+            em.persist(newAnnouncement13);
+            em.persist(newAnnouncement14);
+
+            //ljy dsa2102
+            Module dsa2102 = moduleControllerLocal.retrieveModuleByModuleCode("DSA2102");
+            Announcement newAnnouncement15 = new Announcement("Quiz 2", "Quiz 2 will be open between 12:00 am, 23 March 2018 (Friday) to 11:00 pm, 25 March 2018 (Sunday). The quiz covers the materials in Chapters 4 to 7 of the lecture notes.", new Timestamp(118, 2, 21, 11, 8, 0, 0), ljy, dsa2102);
+            Announcement newAnnouncement16 = new Announcement("Quiz 1", "Quiz 1 will be open between 12:00 am, 23 February 2018 (Friday) to 11:00 pm, 25 February 2018 (Sunday). The quiz covers the materials in Chapters 1 to 3 of the lecture notes.", new Timestamp(118, 1, 23, 12, 2, 0, 0), ljy, dsa2102);
+            Announcement newAnnouncement17 = new Announcement("Two new tutorial groups are open", "For students who are unable to do the online tutorial registration (including exchange students), the following two new tutorial groups are open for you: Group 6 : Wednesday 5 pm - 6 pm and Group 7: Friday 12 noon - 1 pm", new Timestamp(118, 2, 1, 17, 9, 0, 0), ljy, dsa2102);
+            Announcement newAnnouncement18 = new Announcement("Lectures in Week 1", "The first lecture will be held in LT32 on 16/1/2018 (Tuesday) from 8:05 am to 9:35 am.", new Timestamp(118, 2, 21, 11, 8, 0, 0), ljy, dsa2102);
+
+            em.persist(newAnnouncement15);
+            em.persist(newAnnouncement16);
+            em.persist(newAnnouncement17);
+            em.persist(newAnnouncement18);
+
+            //lhh cs2102
+            Lecturer lhh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer2");
+            Module cs2102 = moduleControllerLocal.retrieveModuleByModuleCode("CS2102");
+            Announcement newAnnouncement19 = new Announcement("CS2102: Walk-in Consultation", "Hi,I will be available for walk-in consultation on Tuesday 24 April from 11:00 to 16:00 in my office COM1-03-20. ", new Timestamp(118, 3, 20, 12, 40, 0, 0), lhh, cs2102);
+            Announcement newAnnouncement20 = new Announcement("CS2102: Assignment 4 ", "Hi,the deadline for Assignment 4 is extended until 13 April 18:30. ", new Timestamp(118, 3, 6, 14, 7, 0, 0), lhh, cs2102);
+            Announcement newAnnouncement21 = new Announcement("New Files in Module CS2102", "Hi,new materials has been uploaded for cs2102, please go download. ", new Timestamp(118, 3, 3, 17, 28, 0, 0), lhh, cs2102);
+            Announcement newAnnouncement22 = new Announcement("Collection of midterm test scripts", "If you've not collected your midtest test scripts, you may do so from Prof. Lek Hsiang Hui after today's lecture at LT19.", new Timestamp(118, 2, 21, 12, 27, 0, 0), lhh, cs2102);
+
+            em.persist(newAnnouncement19);
+            em.persist(newAnnouncement20);
+            em.persist(newAnnouncement21);
+            em.persist(newAnnouncement22);
+
+            //oh cn1102
+            Lecturer oh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer3");
+            Module cn1102 = moduleControllerLocal.retrieveModuleByModuleCode("CN1102");
+            Announcement newAnnouncement23 = new Announcement("Reminder of Guest Lecture tomorrow", "As announced, we have Guest Lecture tomorrow at 10am followed by my exam review from 9am to 9:45am. Please be reminded that your participation during Q&A will be marked for your participation portion of grades.", new Timestamp(118, 3, 20, 6, 56, 0, 0), oh, cn1102);
+            Announcement newAnnouncement24 = new Announcement("Office hours for project consultation", "As announced in class, please email me to set up an appointment for group project consultation. Please try to meet me at least once. Here are time slots: Wednesday, March 7, 1pm-4pm, Friday, March 9, 2pm-4pm and Monday, March 12, 2pm-4pm.", new Timestamp(118, 2, 5, 18, 6, 0, 0), oh, cn1102);
+            Announcement newAnnouncement25 = new Announcement("In-class lab at the end of lecture", "I plan to cover last minute questions on Assignment 3 (FI-CO) and configuration exercises for Assignment 4 tomorrow. Please bring your laptops.", new Timestamp(118, 2, 4, 15, 11, 0, 0), oh, cn1102);
+
+            em.persist(newAnnouncement23);
+            em.persist(newAnnouncement25);
+            em.persist(newAnnouncement24);
         } catch (LecturerNotFoundException | ModuleNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -119,6 +188,10 @@ public class dataInitialization {
         Administrator newAdmin = new Administrator("administrator", "admin@soc.nus", "12345678", "admin", "password");
         newAdmin.setIsPremium(true);
         em.persist(newAdmin);
+        
+        Administrator newAdmin1 = new Administrator("administrator", "admin2@soc.nus", "23458723", "admin2", "password2");
+        newAdmin.setIsPremium(false);
+        em.persist(newAdmin1);
     }
 
     private void loadLecturerData() {
@@ -138,7 +211,7 @@ public class dataInitialization {
         newLecturer4.setPhotoName("tsc");
         em.persist(newLecturer4);
         Lecturer newLecturer5 = new Lecturer("lecturer5", "password5", "Lin Jo Yan", "ljy@sci.nus", "Business", "Finance", "45810671");
-        newLecturer4.setPhotoName("ljy");
+        newLecturer5.setPhotoName("ljy");
         em.persist(newLecturer5);
     }
 
@@ -488,6 +561,9 @@ public class dataInitialization {
 //            Module st3131 = moduleControllerLocal.retrieveModuleByModuleCode("ST3131");
                 Announcement announcement1 = announcementControllerLocal.retrieveAnnouncementByName("Final Set of Screencast Video Recordings");
                 Announcement announcement2 = announcementControllerLocal.retrieveAnnouncementByName("Group Project Written Report Requirements");
+                Announcement announcement3 = announcementControllerLocal.retrieveAnnouncementByName("Open Consultation");
+                Announcement announcement4 = announcementControllerLocal.retrieveAnnouncementByName("Today’s Open Consultation");
+                Announcement announcement5 = announcementControllerLocal.retrieveAnnouncementByName("Gentle Reminder - Good Friday Make-up Lecture");
 
                 twk.getModules().add(is3106);
                 ta1.getModules().add(is3106);
@@ -497,22 +573,77 @@ public class dataInitialization {
                 is3106.getTAs().add(ta6);
                 is3106.getAnnouncements().add(announcement1);
                 is3106.getAnnouncements().add(announcement2);
+                is3106.getAnnouncements().add(announcement3);
+                is3106.getAnnouncements().add(announcement4);
+                is3106.getAnnouncements().add(announcement5);
+//lhh cs2102
+                Announcement announcement6 = announcementControllerLocal.retrieveAnnouncementByName("CS2102: Walk-in Consultation");
+                Announcement announcement7 = announcementControllerLocal.retrieveAnnouncementByName("CS2102: Assignment 4");
+                Announcement announcement8 = announcementControllerLocal.retrieveAnnouncementByName("New Files in Module CS2102");
+                Announcement announcement9 = announcementControllerLocal.retrieveAnnouncementByName("Collection of midterm test scripts");
 
                 lhh.getModules().add(CS2102);
                 ta2.getModules().add(CS2102);
                 CS2102.getLecturers().add(lhh);
                 CS2102.getTAs().add(ta2);
+                CS2102.getAnnouncements().add(announcement9);
+                CS2102.getAnnouncements().add(announcement8);
+                CS2102.getAnnouncements().add(announcement7);
+                CS2102.getAnnouncements().add(announcement6);
+
+                //tsc st3131
+                Announcement announcement10 = announcementControllerLocal.retrieveAnnouncementByName("Grade for midterm test");
+                Announcement announcement11 = announcementControllerLocal.retrieveAnnouncementByName("Review session");
+                Announcement announcement12 = announcementControllerLocal.retrieveAnnouncementByName("Quiz 3");
+                Announcement announcement13 = announcementControllerLocal.retrieveAnnouncementByName("Project guidelines deadline");
+                Announcement announcement14 = announcementControllerLocal.retrieveAnnouncementByName("Make-up Test");
 
                 tsc.getModules().add(st3131);
                 ta3.getModules().add(st3131);
                 st3131.getLecturers().add(tsc);
                 st3131.getTAs().add(ta3);
+                st3131.getAnnouncements().add(announcement10);
+                st3131.getAnnouncements().add(announcement11);
+                st3131.getAnnouncements().add(announcement12);
+                st3131.getAnnouncements().add(announcement13);
+                st3131.getAnnouncements().add(announcement14);
+
+                //oh cn1102
+                Announcement announcement15 = announcementControllerLocal.retrieveAnnouncementByName("Reminder of Guest Lecture tomorrow");
+
+                Announcement announcement16 = announcementControllerLocal.retrieveAnnouncementByName("Office hours for project consultation");
+
+                Announcement announcement17 = announcementControllerLocal.retrieveAnnouncementByName("In-class lab at the end of lecture");
 
                 oh.getModules().add(cn1102);
                 ta4.getModules().add(cn1102);
                 cn1102.getLecturers().add(oh);
                 cn1102.getTAs().add(ta4);
+                cn1102.getAnnouncements().add(announcement15);
+                cn1102.getAnnouncements().add(announcement16);
+                cn1102.getAnnouncements().add(announcement17);
 
+                //ljy fin2004
+                Announcement announcement18 = announcementControllerLocal.retrieveAnnouncementByName("Presentation order today");
+                Announcement announcement19 = announcementControllerLocal.retrieveAnnouncementByName("exam paper on LHS");
+                Announcement announcement20 = announcementControllerLocal.retrieveAnnouncementByName("[Lab 5] Step 2: Data provisioning");
+                Announcement announcement21 = announcementControllerLocal.retrieveAnnouncementByName("[Lab 4] Procurement Configuration GBI Case Handbook");
+
+                fin2004.getAnnouncements().add(announcement18);
+                fin2004.getAnnouncements().add(announcement19);
+                fin2004.getAnnouncements().add(announcement20);
+                fin2004.getAnnouncements().add(announcement21);
+                
+                //ljy dsa2102
+                Announcement announcement22 = announcementControllerLocal.retrieveAnnouncementByName("Quiz 2");
+                Announcement announcement23 = announcementControllerLocal.retrieveAnnouncementByName("Quiz 1");
+                Announcement announcement24 = announcementControllerLocal.retrieveAnnouncementByName("Two new tutorial groups are open");
+                Announcement announcement25 = announcementControllerLocal.retrieveAnnouncementByName("Lectures in Week 1");
+
+                dsa2102.getAnnouncements().add(announcement22);
+                dsa2102.getAnnouncements().add(announcement23);
+                dsa2102.getAnnouncements().add(announcement24);
+                dsa2102.getAnnouncements().add(announcement25);
                 ljy.getModules().add(fin2004);
                 ljy.getModules().add(dsa2102);
                 ta5.getModules().add(fin2004);

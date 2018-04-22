@@ -28,8 +28,8 @@
 
             </h:panelGrid>
 
-            <p:dialog widgetVar="eventDialog" header="Time Entry Details" showEffect="clip" hideEffect="clip">
-                <h:panelGrid id="eventDetails" columns="2">
+            <p:dialog widgetVar="eventDialog" header="Time Entry Details" showEffect="clip" hideEffect="clip" >
+                <h:panelGrid id="eventDetails" columns="2" >
                     <p:outputLabel for="title" value="Titles:" />
                     <p:inputText id="title" value="#{scheduleManagedBean.event.title}" required="true" />
 
@@ -40,7 +40,7 @@
                     <p:calendar id="to" value="#{scheduleManagedBean.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
 
                     <p:outputLabel for="description" value="Description:" />
-                    <p:inputText id="description" value="#{scheduleManagedBean.event.description}" required="false"/>
+                    <p:inputTextarea id="description" value="#{scheduleManagedBean.event.description}" required="false"/>
 
                     <p:commandButton value="Delete" actionListener="#{scheduleManagedBean.deleteEvent}" update="messages"
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
