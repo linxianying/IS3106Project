@@ -49,7 +49,7 @@ public class Administrator implements Serializable {
     //default constructor
     public Administrator() {
         this.isPremium = false;
-        photoName = "nophoto";
+        photoName = "administrator";
     }
 
     public Administrator(String name, String email, String telephone, String username, String password) {
