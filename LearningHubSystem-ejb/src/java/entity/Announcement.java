@@ -31,7 +31,7 @@ public class Announcement implements Serializable {
     @Column(length = 64, nullable = false)
     private String name;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1024)
     private String description;
     
     @Temporal(TemporalType.TIMESTAMP)
