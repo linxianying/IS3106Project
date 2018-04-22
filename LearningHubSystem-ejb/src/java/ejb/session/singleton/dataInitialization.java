@@ -257,18 +257,28 @@ public class dataInitialization {
 
     private void loadTEData() {
 
-        TimeEntry t1 = new TimeEntry("go out", "2018-05-29T12:00:22Z", "2018-05-29T13:00:22Z", "details");
-        TimeEntry t2 = new TimeEntry("study", "2018-04-11T12:00:22Z", "2018-04-11T13:00:22Z", "details");
-        TimeEntry t3 = new TimeEntry("work", "2018-04-29T22:00:22Z", "2018-04-29T22:00:32Z", "details");
-        TimeEntry t4 = new TimeEntry("sport", "2018-04-29T18:00:22Z", "2018-04-29T20:00:32Z", "sports with friends");
+        TimeEntry t1 = new TimeEntry("Go out", "2018-05-29T12:00:22Z", "2018-05-29T13:00:22Z", "details");
+        TimeEntry t2 = new TimeEntry("Study", "2018-04-11T12:00:22Z", "2018-04-11T13:00:22Z", "details");
+        TimeEntry t3 = new TimeEntry("Work", "2018-04-29T22:00:22Z", "2018-04-29T22:00:32Z", "details");
+        TimeEntry t4 = new TimeEntry("Sport", "2018-04-29T18:00:22Z", "2018-04-29T20:00:32Z", "sports with friends");
         TimeEntry t5 = new TimeEntry("IS3106 final", "2018-04-30T13:00:00Z", "2018-04-30T15:00:00Z", "IS3106 final examination at COM2, don't forget to bring 2B pencil!");
         TimeEntry t6 = new TimeEntry("IS3106 project due", "2018-04-22T00:00:22Z", "2018-04-22T23:59:59Z", "IS3106 project deadline, don't forget to zip everything in one file!");
-        TimeEntry t7 = new TimeEntry("birthday", "2018-05-22T00:00:22Z", "2018-05-22T23:59:59Z", "it's my firends birthday today!!!don't forget!");
-        TimeEntry t8 = new TimeEntry("family stuff", "2018-05-05T00:00:22Z", "2018-05-05T23:59:59Z", "remember go home by 20:00 today!it's family time!");
-        TimeEntry t9 = new TimeEntry("avenger movie day", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "it's time to see avengers movie! woo hoo!");
-        TimeEntry t10 = new TimeEntry("final 3106 class", "2018-04-20T14:00:00Z", "2018-04-22T16:00:00Z", "last class of IS3106, you can't imagine how happy i am!");
-        TimeEntry t11 = new TimeEntry("pizza night", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "pizza night is tonight!!!");
-        TimeEntry t12 = new TimeEntry("internship interview", "2018-04-22T14:00:22Z", "2018-04-22T14:30:59Z", "phone interview with KPMG");
+        TimeEntry t7 = new TimeEntry("Birthday", "2018-05-22T00:00:22Z", "2018-05-22T23:59:59Z", "it's my firends birthday today!!!don't forget!");
+        TimeEntry t8 = new TimeEntry("Family stuff", "2018-05-05T00:00:22Z", "2018-05-05T23:59:59Z", "remember go home by 20:00 today!it's family time!");
+        TimeEntry t9 = new TimeEntry("Avenger movie day", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "it's time to see avengers movie! woo hoo!");
+        TimeEntry t10 = new TimeEntry("Final 4103 class", "2018-04-20T14:00:00Z", "2018-04-22T16:00:00Z", "last class of IS4103, you can't imagine how happy i am!");
+        TimeEntry t11 = new TimeEntry("Hotpot night", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "Hotpot night is tonight!!!");
+        TimeEntry t12 = new TimeEntry("IIP interview", "2018-05-22T14:00:22Z", "2018-05-22T14:30:59Z", "phone interview with KPMG");
+        TimeEntry t13 = new TimeEntry("Shopping with Cao Yu", "2018-05-11T12:00:22Z", "2018-05-11T13:00:22Z", "Orchard");
+        TimeEntry t14 = new TimeEntry("Drinking night", "2018-04-21T12:00:22Z", "2018-04-21T13:00:22Z", "Go out and drink with friends");
+        TimeEntry t15 = new TimeEntry("IS4103 project", "2018-04-12T13:00:00Z", "2018-04-12T15:00:00Z", "IS4103 final examination at COM2, don't forget to bring 2B pencil!");
+        TimeEntry t16 = new TimeEntry("IS4103 project due", "2018-03-22T00:00:22Z", "2018-03-22T23:59:59Z", "IS4103 project deadline, don't forget to zip everything in one file!");
+        TimeEntry t17 = new TimeEntry("WZY birthday", "2018-05-11T00:00:22Z", "2018-05-11T23:59:59Z", "it's WZY's firends birthday today!!!don't forget!");
+        TimeEntry t18 = new TimeEntry("Family stuff", "2018-05-05T00:00:22Z", "2018-05-05T23:59:59Z", "remember go home by 22:00 today!it's family time!");
+        TimeEntry t19 = new TimeEntry("A quite place movie day", "2018-05-01T00:00:22Z", "2018-05-01T23:59:59Z", "it's time to see A quite place movie! woo hoo!");
+        TimeEntry t20 = new TimeEntry("Final 3106 class", "2018-04-20T14:00:00Z", "2018-04-22T16:00:00Z", "last class of IS3106, you can't imagine how happy i am!");
+        TimeEntry t21 = new TimeEntry("Autodesk interview", "2018-04-01T10:00:00Z", "2018-04-01T12:59:59Z", "Autodesk interview is this morning!!!");
+        TimeEntry t22 = new TimeEntry("GIC interview", "2018-04-22T14:00:22Z", "2018-04-22T14:30:59Z", "phone interview with KPMG");
 
         try {
             Student student1 = studentControllerLocal.retrieveStudentByUsername("xuhong");
@@ -280,10 +290,20 @@ public class dataInitialization {
             Lecturer lhh = lecturerControllerLocal.retrieveLecturerByUsername("lecturer2");
             tecl.createTimeEntry(t1, student1);
             tecl.createTimeEntry(t2, student1);
+            tecl.createTimeEntry(t14, student1);
+            tecl.createTimeEntry(t15, student1);
+            tecl.createTimeEntry(t16, student1);
             tecl.createTimeEntry(t3, student2);
             tecl.createTimeEntry(t4, student2);
+            tecl.createTimeEntry(t13, student2);
+            tecl.createTimeEntry(t17, student2);
+            tecl.createTimeEntry(t18, student2);
+            tecl.createTimeEntry(t19, student2);
             tecl.createTimeEntry(t5, student3);
+            tecl.createTimeEntry(t21, student3);
+            tecl.createTimeEntry(t22, student3);
             tecl.createTimeEntry(t6, student4);
+            tecl.createTimeEntry(t20, student4);
             tecl.createTimeEntry(t12, student4);
             tecl.createTimeEntry(t7, student5);
             tecl.createTimeEntry(t8, twk);
