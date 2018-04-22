@@ -19,6 +19,7 @@ import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +28,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBElement;
+import util.exception.TimeEntryNotFoundException;
 import ws.restful.datamodel.CreateLecturerTimeEntryReq;
 import ws.restful.datamodel.CreateLecturerTimeEntryRsp;
 import ws.restful.datamodel.CreateTimeEntryReq;
@@ -216,6 +219,26 @@ public class ScheduleResource {
             ErrorRsp errorRsp = new ErrorRsp("Invalid create time entry request");
             
             return Response.status(Response.Status.BAD_REQUEST).entity(errorRsp).build();
+        }
+    }
+    
+    @Path("{timeEntryId}")
+    @DELETE
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteTimeEntry(@PathParam("timeEntryId") Long timeEntryId)
+    {
+        try
+        {
+            timeEntryController.deleteTimeEntry(timeEntryId);
+            
+            return Response.status(Response.Status.OK).build();
+        }
+        catch(Exception ex)
+        {
+            ErrorRsp errorRsp = new ErrorRsp(ex.getMessage());
+            
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorRsp).build();
         }
     }
     

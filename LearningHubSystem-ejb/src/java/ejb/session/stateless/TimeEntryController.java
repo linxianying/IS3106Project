@@ -12,6 +12,7 @@ import entity.TimeEntry;
 import java.util.List;
 import entity.Student;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Local;
@@ -229,4 +230,54 @@ public class TimeEntryController implements TimeEntryControllerLocal {
         return true;
     }
     
+    @Override
+    public boolean deleteTimeEntry(Long id){
+        t = null;
+        try {
+            t = retrieveTimeEntryById(id);
+            if(t!=null){
+                List<Lecturer> lecturers = retrieveAllLecturers();
+                Iterator itr = lecturers.iterator();
+                while(itr.hasNext()) {
+                    Lecturer lecturer = (Lecturer) itr.next();
+                    if(lecturer.getTimeEntries().contains(t)){
+                        lecturer.getTimeEntries().remove(t);
+                        em.merge(lecturer);
+                        em.remove(t);
+                        em.flush();
+                        return true;
+                    }
+                }      
+                List<Student> students = retrieveAllStudents();
+                Iterator itr1 = students.iterator();
+                while(itr1.hasNext()) {
+                    Student student = (Student) itr1.next();
+                    if(student.getTimeEntries().contains(t)){
+                        student.getTimeEntries().remove(t);
+                        em.merge(student);
+                        em.remove(t);
+                        em.flush();
+                        return true;
+                    }
+                }
+                System.out.println("Cannot find the time entry");
+                return false;
+            }
+            return false;
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+        return false;
+    }
+    
+    
+    public List<Student> retrieveAllStudents() {
+        Query query = em.createQuery("SELECT s FROM Student s");
+        return (List<Student>) query.getResultList();
+    }
+    
+    public List<Lecturer> retrieveAllLecturers() {
+        Query query = em.createQuery("SELECT s FROM Lecturer s");
+        return (List<Lecturer>) query.getResultList();
+    }
 }

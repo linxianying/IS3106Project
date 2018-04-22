@@ -42,4 +42,6 @@ public interface TimeEntryControllerLocal {
     public List<TimeEntry> retrieveTimeEntrysByLecturerName(String username);
 
     public void updateTimeEntry(TimeEntry timeEntry) throws TimeEntryNotFoundException;
+
+    public boolean deleteTimeEntry(Long id);
 }
