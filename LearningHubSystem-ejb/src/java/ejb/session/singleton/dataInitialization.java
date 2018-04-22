@@ -562,7 +562,7 @@ public class dataInitialization {
                 Announcement announcement1 = announcementControllerLocal.retrieveAnnouncementByName("Final Set of Screencast Video Recordings");
                 Announcement announcement2 = announcementControllerLocal.retrieveAnnouncementByName("Group Project Written Report Requirements");
                 Announcement announcement3 = announcementControllerLocal.retrieveAnnouncementByName("Open Consultation");
-                Announcement announcement4 = announcementControllerLocal.retrieveAnnouncementByName("Today’s Open Consultatio");
+                Announcement announcement4 = announcementControllerLocal.retrieveAnnouncementByName("Today’s Open Consultation");
                 Announcement announcement5 = announcementControllerLocal.retrieveAnnouncementByName("Gentle Reminder - Good Friday Make-up Lecture");
 
                 twk.getModules().add(is3106);
