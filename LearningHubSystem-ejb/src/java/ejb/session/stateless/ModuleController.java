@@ -285,14 +285,21 @@ public class ModuleController implements ModuleControllerLocal {
     public void updateModule(Module module) throws ModuleNotFoundException {
         if (module.getId() != null) {
             Module moduleToUpdate = retrieveModuleByModuleCode(module.getModuleCode());
+            moduleToUpdate.getStduents();
+            moduleToUpdate.getAnnouncements();
+            moduleToUpdate.getTAs();
+            moduleToUpdate.getLecturers();
+            moduleToUpdate.getLecturers();
             moduleToUpdate.setModuleName(module.getModuleName());
             moduleToUpdate.setModularCredit(module.getModularCredit());
             moduleToUpdate.setClassSize(module.getClassSize());
             moduleToUpdate.setExamDate(module.getExamDate());
+            moduleToUpdate.setDescription(module.getDescription());
             em.merge(moduleToUpdate);
         } else {
             throw new ModuleNotFoundException("Module doesn't exist.");
         }
     }
+   
 
 }
