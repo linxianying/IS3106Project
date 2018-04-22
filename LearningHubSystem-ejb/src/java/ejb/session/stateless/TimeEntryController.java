@@ -11,6 +11,7 @@ import entity.Lecturer;
 import entity.TimeEntry;
 import java.util.List;
 import entity.Student;
+import entity.TeachingAssistant;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Level;

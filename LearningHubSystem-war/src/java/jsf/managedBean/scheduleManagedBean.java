@@ -210,6 +210,9 @@ public class scheduleManagedBean {
                 tecl.createTimeEntry(t, lecturer);
             }
             eventModel.addEvent(new DefaultScheduleEvent(t.getTitle(), toDate(t.getFromDate()), toDate(t.getToDate()), t));
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Created", "Time Entry " + event.getTitle() + 
+                        " is created successfully");
+            addMessage(message);
         } else {
             TimeEntry t = (TimeEntry) event.getData();
             
@@ -217,6 +220,9 @@ public class scheduleManagedBean {
             
             tecl.updateTimeEntry(t, event.getTitle(), formatDF1(event.getStartDate()), formatDF1(event.getEndDate()), event.getDescription());
             eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t));
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Time Entry " + event.getTitle() + 
+                        " is updated successfully");
+            addMessage(message);
         }
         event = new DefaultScheduleEvent();
         refresh();
@@ -233,9 +239,15 @@ public class scheduleManagedBean {
         }else{
             if(userType.equals("student")){
                 tecl.deleteTimeEntry(t.getId(), student); 
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Deleted", "Time Entry " + event.getTitle() + 
+                        " is deleted successfully");
+                addMessage(message);
             }
             else{
                 tecl.deleteTimeEntry(t.getId(), lecturer); 
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Deleted", "Time Entry " + event.getTitle() + 
+                        " is deleted successfully");
+                addMessage(message);
             }
             eventModel.deleteEvent(event);
         }
@@ -252,13 +264,13 @@ public class scheduleManagedBean {
     }
      
     public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Date from:" + event.getScheduleEvent().getStartDate()+ ", Date to:" + event.getScheduleEvent().getEndDate());
          
         addMessage(message);
     }
      
     public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Date from:" + event.getScheduleEvent().getStartDate()+ ", Date to:" + event.getScheduleEvent().getEndDate());
          
         addMessage(message);
     }
