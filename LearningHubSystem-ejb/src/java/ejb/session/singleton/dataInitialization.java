@@ -188,6 +188,10 @@ public class dataInitialization {
         Administrator newAdmin = new Administrator("administrator", "admin@soc.nus", "12345678", "admin", "password");
         newAdmin.setIsPremium(true);
         em.persist(newAdmin);
+        
+        Administrator newAdmin1 = new Administrator("administrator", "admin@soc.nus", "23458723", "admin2", "password2");
+        newAdmin.setIsPremium(false);
+        em.persist(newAdmin1);
     }
 
     private void loadLecturerData() {
