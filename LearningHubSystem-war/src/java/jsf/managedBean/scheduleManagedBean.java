@@ -257,6 +257,13 @@ public class scheduleManagedBean {
      
     public void onEventSelect(SelectEvent selectEvent) {
         event = (ScheduleEvent) selectEvent.getObject();
+        TimeEntry t = (TimeEntry) event.getData();
+            
+        System.out.println("t: " + t.getId() + "/ " + t.getTitle());
+
+        tecl.updateTimeEntry(t, event.getTitle(), formatDF1(event.getStartDate()), formatDF1(event.getEndDate()), event.getDescription());
+        eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t));
+            
     }
      
     public void onDateSelect(SelectEvent selectEvent) {
@@ -264,13 +271,28 @@ public class scheduleManagedBean {
     }
      
     public void onEventMove(ScheduleEntryMoveEvent event) {
+        ScheduleEvent tempEvent = event.getScheduleEvent();
+        TimeEntry t = (TimeEntry) tempEvent.getData();
+            
+        System.out.println("t: " + t.getId() + "/ " + t.getTitle());
+
+        tecl.updateTimeEntry(t, tempEvent.getTitle(), formatDF1(tempEvent.getStartDate()), formatDF1(tempEvent.getEndDate()), tempEvent.getDescription());
+        eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t));
+            
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Date from:" + event.getScheduleEvent().getStartDate()+ ", Date to:" + event.getScheduleEvent().getEndDate());
          
         addMessage(message);
     }
      
-    public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Date from:" + event.getScheduleEvent().getStartDate()+ ", Date to:" + event.getScheduleEvent().getEndDate());
+    public void onEventResize(ScheduleEntryResizeEvent scheduleEntryResizeEvent) {
+        ScheduleEvent event = scheduleEntryResizeEvent.getScheduleEvent();
+        
+        TimeEntry t = (TimeEntry) event.getData();
+        tecl.updateTimeEntry(t, event.getTitle(), formatDF1(event.getStartDate()), formatDF1(event.getEndDate()), event.getDescription());
+        eventModel.updateEvent(new DefaultScheduleEvent(t.getTitle(), toDate1(t.getFromDate()), toDate1(t.getToDate()), t));
+         
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Time Entry Updated", "Date from:" +
+               t.getFromDate()+ ", Date to:" + t.getToDate());
          
         addMessage(message);
     }

@@ -28,7 +28,7 @@
                         <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
                             <p:commandLink update=":form:studentDetail" oncomplete="PF('studentDialog').show()">
                                 <f:setPropertyActionListener value="#{student}" target="#{classAndGroupManagedBean.selectedStudent}" />
-                                <p:graphicImage value="resources/images/#{student.photoName}.jpg" width="200"/> 
+                                <p:graphicImage value="resources/images/#{student.photoName}.jpg" style="width:200px;height:200px;" width="200"/> 
                             </p:commandLink>
                             
                             <p:outputPanel>
@@ -57,7 +57,7 @@
                     <p:panelGrid  columns="2" rendered="#{not empty classAndGroupManagedBean.selectedStudent}" columnClasses="label,value">
                         <f:facet name="header">
 
-                            <p:graphicImage value="resources/images/#{student.photoName}.jpg"/> 
+                            <p:graphicImage value="resources/images/#{student.photoName}.jpg" style="width:200px;height:200px;"/> 
 
                         </f:facet>
 
