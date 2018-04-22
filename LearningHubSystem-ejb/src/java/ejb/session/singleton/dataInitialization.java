@@ -189,7 +189,7 @@ public class dataInitialization {
         newAdmin.setIsPremium(true);
         em.persist(newAdmin);
         
-        Administrator newAdmin1 = new Administrator("administrator", "admin@soc.nus", "23458723", "admin2", "password2");
+        Administrator newAdmin1 = new Administrator("administrator", "admin2@soc.nus", "23458723", "admin2", "password2");
         newAdmin.setIsPremium(false);
         em.persist(newAdmin1);
     }
