@@ -173,7 +173,7 @@
                         <p:menuitem value="Add Student" onclick="PF('dialogAddStudent').show()" icon="ui-icon-plusthick" />                
                     </p:menubar>
                     <p:dataTable id="dataTableStudents" var="stu" value="#{moduleAssignment.students}" widgetVar="studentsTable"
-                                 emptyMessage="No students found with given criteria" filteredValue="#{moduleAssignment.filteredStudents}" rowKey="#{stu.id}" rowIndexVar="row"
+                                 emptyMessage="No students found with given criteria"  rowKey="#{stu.id}" rowIndexVar="row"
                                  rows="10" paginator="true" 
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
@@ -209,19 +209,19 @@
                             </div>
                         </f:facet>
 
-                        <p:column filterBy="#{stu.id}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                        <p:column filterBy="#{stu.id}" headerText="Id" filterMatchMode="contains">
                             <h:outputText value="#{stu.id}" />
                         </p:column>
 
-                        <p:column filterBy="#{stu.name}" headerText="Name" footerText="contains" filterMatchMode="contains">
+                        <p:column filterBy="#{stu.name}" headerText="Name" filterMatchMode="contains">
                             <h:outputText value="#{stu.name}" />
                         </p:column>
 
-                        <p:column filterBy="#{stu.faculty}" headerText="Faculty" footerText="contains" filterMatchMode="contains">
+                        <p:column filterBy="#{stu.faculty}" headerText="Faculty" filterMatchMode="contains">
                             <h:outputText value="#{stu.faculty}" />
                         </p:column>
 
-                        <p:column filterBy="#{stu.email}" headerText="Email" footerText="contains" filterMatchMode="contains">
+                        <p:column filterBy="#{stu.email}" headerText="Email" filterMatchMode="contains">
                             <h:outputText value="#{stu.email}" />
                         </p:column> 
 
@@ -245,40 +245,52 @@
         </h:form>
 
         <h:form id="addLecturer">  
-            <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true">        
-
+            <p:dialog id="dialogAddLecturer" widgetVar="dialogAddLecturer" header="Assign Lecturer" closable="true"> 
                 <p:messages id="messagesLecturer"/>
-                <h:outputText value="Lecturer Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.lecturerIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:commandButton value="Add Lecturer" update=":users:tb:dataTableLecturers @form:messagesLecturer" actionListener="#{moduleAssignment.enrollLecturer}"  >
-                </p:commandButton>
+                    <p:outputLabel for="selectLec" value="Select Lecturer:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectLec" value="#{moduleAssignment.lecturerIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allLecturers}" var="lec" itemLabel="#{lec.id} #{lec.name} #{lec.faculty}" itemValue="#{lec.id}" />
+
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Add Lecturer" update=":users:tb:dataTableLecturers @form:messagesLecturer" actionListener="#{moduleAssignment.enrollLecturer}" style="text-align: center;" />
 
             </p:dialog>
         </h:form>
 
         <h:form id="addTA">  
-            <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">        
+            <p:dialog id="dialogAddTA" widgetVar="dialogAddTA" header="Assign Teaching Assistant" closable="true">   
+                <p:messages id="messagesTA"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:messages id="messagesTA" />
-                <h:outputText value="TA Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.TAIdToRg}" required="true" requiredMessage="Lecturer Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+                    <p:outputLabel for="selectTA" value="Select TA:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectTA" value="#{moduleAssignment.TAIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allTAs}" var="ta" itemLabel="#{ta.id} #{ta.name} #{ta.faculty}" itemValue="#{ta.id}" />
 
-                <p:commandButton value="Add TA" update=":users:tb:dataTableTAs @form:messagesTA" actionListener="#{moduleAssignment.enrollTA}"  >
-                </p:commandButton>
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Add TA" update=":users:tb:dataTableTAs @form:messagesTA" actionListener="#{moduleAssignment.enrollTA}" style="text-align: center;" />
 
             </p:dialog>
         </h:form>
 
         <h:form id="addStudent">  
             <p:dialog id="dialogAddStudent" widgetVar="dialogAddStudent" header="Assign Student" closable="true">        
+                <p:messages id="messagesStudent"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
 
-                <p:messages id="messagesStudent" />
-                <h:outputText value="Student Id: " />
-                <p:inputText id="txtId" value="#{moduleAssignment.studentIdToRg}" required="true" requiredMessage="Student Id is required" />
-                <h:message errorClass="errorTexts" fatalClass="errorTexts" for="txtId" />
+                    <p:outputLabel for="selectStudent" value="Select Student:" style="vertical-align: top;"/>
+                    <p:selectOneListbox id="selectStudent" value="#{moduleAssignment.studentIdToRg}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{moduleAssignment.allStudents}" var="stu" itemLabel="#{stu.id} #{stu.name} #{stu.faculty}" itemValue="#{stu.id}" />
+                    </p:selectOneListbox>
+
+                </h:panelGrid>
 
                 <p:commandButton value="Add Student" update=":users:tb:dataTableStudents @form:messagesStudent" actionListener="#{moduleAssignment.enrollStudent}"  >
                 </p:commandButton>

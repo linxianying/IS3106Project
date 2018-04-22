@@ -45,6 +45,10 @@ public class moduleAssignment implements Serializable {
     private LecturerControllerLocal lecturerController;
     @EJB
     private ModuleControllerLocal moduleController;
+    
+    private List<Lecturer> allLecturers;
+    private List<Student> allStudents;
+    private List<TeachingAssistant> allTAs;
 
     private List<Student> students;
     private List<Student> filteredStudents;
@@ -72,20 +76,19 @@ public class moduleAssignment implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
         }
 
-        List<Student> allStudents = studentController.retrieveAllStudents();
+        allStudents = studentController.retrieveAllStudents();
         allStudents.stream().filter((st) -> (st.getModules().contains(moduleToAssign))).forEachOrdered((st) -> {
             students.add(st);
         });
 
-        List<Lecturer> allLecturers = lecturerController.retrieveAllLecturers();
+        allLecturers = lecturerController.retrieveAllLecturers();
         for (Lecturer lc : allLecturers) {
             if (lc.getModules().contains(moduleToAssign)) {
                 lecturers.add(lc);
             }
         }
 
-        List<TeachingAssistant> allTAs = taController.retrieveAllTAs();
-
+        allTAs = taController.retrieveAllTAs();
         allTAs.stream().filter((ta) -> (ta.getModules().contains(moduleToAssign))).forEachOrdered((ta) -> {
             TAs.add(ta);
         });
@@ -188,7 +191,7 @@ public class moduleAssignment implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "TA has been removed from module successfully", null));
         } catch (ModuleNotFoundException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
-        }
+        } 
     }
 
     public void removeStudent(ActionEvent event) throws StudentNotFoundException {
@@ -197,7 +200,7 @@ public class moduleAssignment implements Serializable {
             studentController.dropModule(studentToRemove, moduleToAssign);
 
             students.remove(studentToRemove);
-            filteredStudents.remove(studentToRemove);
+          
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Student has been removed from module successfully", null));
         } catch (ModuleNotFoundException ex) {
@@ -333,4 +336,29 @@ public class moduleAssignment implements Serializable {
         this.filteredLecturers = filteredLecturers;
     }
 
+    public List<Lecturer> getAllLecturers() {
+        return allLecturers;
+    }
+
+    public void setAllLecturers(List<Lecturer> allLecturers) {
+        this.allLecturers = allLecturers;
+    }
+
+    public List<Student> getAllStudents() {
+        return allStudents;
+    }
+
+    public void setAllStudents(List<Student> allStudents) {
+        this.allStudents = allStudents;
+    }
+
+    public List<TeachingAssistant> getAllTAs() {
+        return allTAs;
+    }
+
+    public void setAllTAs(List<TeachingAssistant> allTAs) {
+        this.allTAs = allTAs;
+    }
+
+    
 }
